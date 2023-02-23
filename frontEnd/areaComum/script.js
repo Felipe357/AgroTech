@@ -58,6 +58,54 @@ function checkManutencao(e) {
     }
 }
 
+var filtro1 = "n"
+var filtro2 = "n"
+
+function checkManutencaoGeral(e) {
+    var radio = document.querySelector("." + e.classList[1])
+    var radios = radio.parentNode.parentNode.querySelectorAll(".radio2")
+
+    if (radio.classList[2] !== undefined) {
+        radio.classList.remove("geral")
+        filtro1 = "n"
+    } else {
+        radios.forEach(r => {
+            if (r.classList[2] !== undefined) {
+                r.classList.remove("geral")
+                filtro1 = "n"
+            }
+        })
+        radio.classList.add("geral")
+        filtro1 = radio.getAttribute("data")
+    }
+    filtroManutencao()
+}
+
+function checkManutencaoGeral2(e) {
+    var radio = document.querySelector("." + e.classList[1])
+    var radios = radio.parentNode.parentNode.querySelectorAll(".radio2")
+
+    if (radio.classList[2] !== undefined) {
+        radio.classList.remove("geral")
+        filtro2 = "n"
+    } else {
+        radios.forEach(r => {
+            if (r.classList[2] !== undefined) {
+                r.classList.remove("geral")
+                filtro2 = "n"
+            }
+        })
+        radio.classList.add("geral")
+        filtro2 = radio.getAttribute("data")
+    }
+    
+    filtroManutencao()
+}
+
+function filtroManutencao() {
+    
+}
+
 function alterRe(e) {
     document.querySelector(".efect").classList.remove("efect")
     var re = document.getElementById(e.id)
