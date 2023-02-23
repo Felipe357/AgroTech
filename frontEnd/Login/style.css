@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #BDD3DE;
+    height: 100vh;
+    width: 100vw;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70%;
+    width: 45%;
+}
+
+.info {
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    border-radius: 40px 0px 0px 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info>span:first-child {
+    font-size: 60pt;
+    padding-bottom: 40px;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 2px;
+    color: #4e7d96;
+}
+
+.info>span:last-child {
+    color: #afc4d0;
+    letter-spacing: 3px;
+    font-size: 15pt;
+    font-family: 'Lucida Sans', Arial, sans-serif;
+}
+
+.inps {
+    background-color: #f1f6fa;
+    height: 100%;
+    width: 100%;
+    border-radius: 0px 40px 40px 0px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inps>input {
+    height: 45px;
+    width: 55%;
+    border: 2px solid #4e7d96;
+    margin: 20px;
+    border-radius: 10px;
+    padding-left: 15px;
+    letter-spacing: 1.5px;
+    color: #000;
+    outline: none;
+}
+
+.inps>span {
+    padding-bottom: 100px;
+    font-family: 'Lato', sans-serif;
+    font-size: 40pt;
+    letter-spacing: 8px;
+    color: #7d98a5;
+}
+
+.inps>button {
+    margin-top: 60px;
+    background-color: #7d98a5;
+    border: none;
+    border-radius: 20px;
+    height: 50px;
+    width: 160px;
+    color: #fff;
+    letter-spacing: 3px;
+    font-size: 15pt;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    transition: .5s;
+}
+
+.inps>button>span {
+    z-index: 2;
+}
+
+.inps>button::before {
+    height: 60px;
+    width: 170px;
+    background-color: #94acb87c;
+    position: absolute;
+    content: "";
+    top: 0px;
+    left: -200px;
+    transition: .5s;
+}
+
+.inps>button:hover::before {
+    left: -10px;
+}

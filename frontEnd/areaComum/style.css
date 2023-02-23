@@ -1,0 +1,396 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #c3d9e4;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+}
+
+.model {
+    visibility: hidden;
+    display: none !important;
+}
+
+.info {
+    background-color: #fff;
+    width: 75%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 40px;
+}
+
+.relatorios {
+    height: 100%;
+    width: 17%;
+    background-color: #f1f6fa;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+    border-radius: 40px 0px 0px 40px;
+}
+
+.relatorios>span {
+    font-size: 20pt;
+    font-family: 'Lato', sans-serif;
+    color: #165272;
+    letter-spacing: 4px;
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.relatorios>span::before {
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 120%;
+    background-color: #165272;
+    top: 40px;
+}
+
+.re-img {
+    color: #165272;
+    font-size: 15pt;
+    overflow: hidden;
+    margin: 20px 0px 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    padding: 10px 20px;
+    cursor: pointer;
+    height: 60px;
+}
+
+.re-img::before {
+    content: "";
+    position: absolute;
+    right: -100%;
+    height: 120%;
+    width: 100%;
+    z-index: -1;
+    transition: .2s ease-in-out;
+    background-image: linear-gradient(to right, #ffffff00, #fdb18e91);
+}
+
+.re-img:hover::before {
+    right: 0px;
+    border-right: 5px solid #ff844b;
+}
+
+.efect::before {
+    right: 0px;
+    border-right: 5px solid #ff844b;
+}
+
+.re-img>img {
+    width: 15%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.informacoes {
+    width: 83%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content,
+.content2,
+.content3,
+.content4 {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 60px 0px 60px;
+    font-size: 20pt;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    letter-spacing: 5px;
+    font-weight: 700;
+    border-bottom: 2px solid #165272;
+}
+
+.or {
+    display: flex;
+    justify-content: space-between;
+    width: 35%;
+    height: 90%;
+}
+
+.checkTipo,
+.checkEm {
+    font-size: 10pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 60%;
+    height: 100%;
+}
+
+.checkTipo {
+    padding-right: 20px;
+    width: 35% !important;
+    border-right: 2px solid black;
+}
+
+.div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.check {
+    font-size: 15pt;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 23%;
+}
+
+.radio {
+    background-color: #fff;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    border: 3px solid black;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    background-color: #ffffff00;
+    border-radius: 100%;
+    border: 2px solid #fff;
+}
+
+.radio2 {
+    background-color: #fff;
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    border: 2px solid black;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio2::before {
+    position: absolute;
+    top: 0;
+    content: "";
+    height: 7px;
+    width: 7px;
+    background-color: #ffffff00;
+    border-radius: 100%;
+    border: 2px solid #fff;
+}
+
+.contens {
+    height: 85%;
+    width: 100%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.ind {
+    border: 3px solid #ff844b;
+}
+
+.carro {
+    height: 150px;
+    width: 280px;
+    background-color: #c3d9e4;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+    transition: .2s linear;
+}
+
+.carro:hover {
+    /* height: 160px;
+    width: 290px; */
+    transform: scale(1.05);
+}
+
+.carro::before {
+    content: "";
+    position: absolute;
+    height: 90%;
+    width: 1%;
+    border-radius: 10px;
+    background-color: #000;
+    right: 100px;
+}
+
+.carro>img {
+    width: 30%;
+    object-fit: contain;
+}
+
+.carro-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 100%;
+    font-size: 11pt;
+    font-weight: 800;
+    font-family: 'Lato', sans-serif;
+}
+
+#tipo,
+#placa,
+#modelo,
+#marca,
+#placa2,
+#inicio,
+#fim,
+#valor,
+#descricao,
+#descricao2,
+#retorno,
+#saida,
+#veiculo,
+#motorista {
+    font-size: 10pt;
+    font-weight: lighter;
+    color: #252525;
+}
+
+.modalOp {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: #3f9cca71;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+}
+
+.infoOp {
+    background-color: #fff;
+    height: 60%;
+    width: 45%;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+#nomeOp, #cpfOp, #placaOp, #modeloOp, #saidaOp, #retornoOp, #descricaoOp {
+    font-size: 15pt;
+    font-weight: 500;
+
+}
+
+.motoristaOp, .veiculoOp, .op {
+    border-bottom: 3px solid black;
+    height: 25%;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0px 20px 0px;
+    font-size: 25pt;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: rgb(34, 34, 34);
+}
+
+.motoristaOp>div, .veiculoOp>div, .op>div {
+    font-size: 18pt;
+    font-weight: 600;
+    letter-spacing: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.op {
+    border-bottom: none!important;
+    height: 35%;
+}
+
+.op>div {
+    padding-top: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.infoOp>button:first-child {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background: none;
+    border: none;
+    font-size: 20pt;
+    cursor: pointer;
+    color: #ff2525;
+}
+
+.infoOp>button:last-child {
+    position: absolute;
+    bottom: 40px;
+    background-color: #ff844b;
+    border: 2px solid black;
+    font-size: 15pt;
+    font-weight: bold;
+    width: 140px;
+    height: 40px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.infoOp>button:hover:last-child {
+    background-color: #fc6824;
+    width: 155px;
+    height: 45px;
+    bottom: 37.5px;
+    font-size: 16pt;
+}
