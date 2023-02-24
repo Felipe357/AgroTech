@@ -23,7 +23,11 @@ function logar() {
         .then(response => response.json())
         .then(response => {
             if (response !== undefined) {
-                window.location.href = "../areaComum/index.html"
+                if (response.tipo !== "funcionario") {
+                    window.location.href = "../areaGerencial/index.html"
+                } else {
+                    window.location.href = "../areaComum/index.html"
+                }
             }
         })
 }
