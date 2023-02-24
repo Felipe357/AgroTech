@@ -14,7 +14,7 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.model {
+.model, .model2 {
     visibility: hidden;
     display: none !important;
 }
@@ -296,7 +296,7 @@ body {
     color: #252525;
 }
 
-.modalOp {
+.modalOp, .modalMa {
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -306,7 +306,7 @@ body {
     z-index: 2;
 }
 
-.infoOp {
+.infoOp, .infoMa {
     background-color: #fff;
     height: 60%;
     width: 45%;
@@ -317,6 +317,10 @@ body {
     align-items: center;
     justify-content: flex-start;
     position: relative;
+}
+
+.infoMa{
+    height: 40%;
 }
 
 #nomeOp, #cpfOp, #placaOp, #modeloOp, #saidaOp, #retornoOp, #descricaoOp {
@@ -338,6 +342,23 @@ body {
     letter-spacing: 4px;
     font-weight: 700;
     color: rgb(34, 34, 34);
+}
+
+.maGeral {
+    height: 90%;
+    width: 100%;
+    font-size: 30pt;
+    font-weight: 700;
+    letter-spacing: 4px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.maGeral>div {
+    font-size: 15pt;
+    font-weight: 600;
 }
 
 .motoristaOp>div, .veiculoOp>div, .op>div {
@@ -362,7 +383,7 @@ body {
     height: 100%;
 }
 
-.infoOp>button:first-child {
+.infoOp>button:first-child, .infoMa>button:first-child {
     position: absolute;
     top: 20px;
     right: 40px;
@@ -371,28 +392,6 @@ body {
     font-size: 20pt;
     cursor: pointer;
     color: #ff2525;
-}
-
-.infoOp>button:last-child {
-    position: absolute;
-    bottom: 40px;
-    background-color: #ff844b;
-    border: 2px solid black;
-    font-size: 15pt;
-    font-weight: bold;
-    width: 140px;
-    height: 40px;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: .2s ease;
-}
-
-.infoOp>button:hover:last-child {
-    background-color: #fc6824;
-    width: 155px;
-    height: 45px;
-    bottom: 37.5px;
-    font-size: 16pt;
 }
 
 .geral {

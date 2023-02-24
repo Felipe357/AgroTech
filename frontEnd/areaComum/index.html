@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 
-<body>
+<body onload="carregarOp(), carregarVe(), carregarMa(), carregarMaGeral()">
 
     <div class="info">
         <div class="relatorios">
@@ -41,17 +41,7 @@
                     </div>
                 </div>
                 <div class="contens disponibilidade">
-                    <div class="carro" >
-                        <div class="carro-info">
-                            <span>Tipo: <span id="tipo">Visita</span></span>
-                            <span>Placa: <span id="placa">123-abc</span></span>
-                            <span>Modelo: <span id="modelo">renio</span></span>
-                            <span>Marca: <span id="marca">sambelo</span></span>
-                        </div>
-                        <img src="./imgs/visita.png" alt="visita">
-                    </div>
-
-                    <div class="carro ind ">
+                    <div class="carro model2" >
                         <div class="carro-info">
                             <span>Tipo: <span id="tipo">Visita</span></span>
                             <span>Placa: <span id="placa">123-abc</span></span>
@@ -72,21 +62,13 @@
                     </div>
                 </div>
                 <div class="contens manutencao">
-                    <div class="carro ind">
+                    <div class="carro model2">
                         <div class="carro-info">
                             <span>Placa: <span id="placa2">123 abc</span></span>
                             <span>Início: <span id="inicio">14/02/2023</span></span>
                             <span>Fim: <span id="fim">Não Retornou</span></span>
                         </div>
                         <img src="./imgs/carga.png" alt="carga">
-                    </div>
-                    <div class="carro">
-                        <div class="carro-info">
-                            <span>Placa: <span id="placa2">123 abc</span></span>
-                            <span>Início: <span id="inicio">12/02/2023</span></span>
-                            <span>Fim: <span id="fim">21/02/2023</span></span>
-                        </div>
-                        <img src="./imgs//venda.png" alt="venda">
                     </div>
                 </div>
             </div>
@@ -97,15 +79,15 @@
                     <div class="or">
                         <div class="checkTipo">
                             <div class="div">
-                                <div class="radio2 r1" data="v" onclick="checkManutencaoGeral(this)"></div>
+                                <div class="radio2 r1" data="visita" onclick="checkManutencaoGeral(this)"></div>
                                 <span>Visita</span>
                             </div>
                             <div class="div">
-                                <div class="radio2 r2" data="c" onclick="checkManutencaoGeral(this)"></div>
+                                <div class="radio2 r2" data="carga" onclick="checkManutencaoGeral(this)"></div>
                                 <span>Carga</span>
                             </div>
                             <div class="div">
-                                <div class="radio2 r3" data="ve" onclick="checkManutencaoGeral(this)"></div>
+                                <div class="radio2 r3" data="venda" onclick="checkManutencaoGeral(this)"></div>
                                 <span>Venda</span>
                             </div>
                         </div>
@@ -122,8 +104,8 @@
                     </div>
 
                 </div>
-                <div class="contens disponibilidade">
-                    <div class="carro ind">
+                <div class="contens manutencaoGeral">
+                    <div class="carro model2" data="carga" dis="ma" onclick="showModalMaGeral(this)">
                         <div class="carro-info">
                             <span>Placa: <span id="placa2">123 abc</span></span>
                             <span>Início: <span id="inicio">14/02/2023</span></span>
@@ -132,16 +114,6 @@
                             <span>Descrição: <span id="descricao">mais</span></span>
                         </div>
                         <img src="./imgs/carga.png" alt="carga">
-                    </div>
-                    <div class="carro">
-                        <div class="carro-info">
-                            <span>Placa: <span id="placa2">123 abc</span></span>
-                            <span>Início: <span id="inicio">12/02/2023</span></span>
-                            <span>Fim: <span id="fim">21/02/2023</span></span>
-                            <span>Valor: <span id="valor">139,88</span></span>
-                            <span>Descrição: <span id="descricao">mais</span></span>
-                        </div>
-                        <img src="./imgs//venda.png" alt="venda">
                     </div>
                 </div>
             </div>
@@ -155,7 +127,7 @@
                     </div>
                 </div>
                 <div class="contens alocacao">
-                    <div class="carro ind">
+                    <div class="carro model2" onclick="showModalOp(this)">
                         <div class="carro-info">
                             <span>Motorista: <span id="motorista">Felipe</span></span>
                             <span>Veículo: <span id="veiculo">123-abc</span></span>
@@ -164,16 +136,6 @@
                             <span>Descrição: <span id="descricao2">mais</span></span>
                         </div>
                         <img src="./imgs/carga.png" alt="carga">
-                    </div>
-                    <div class="carro">
-                        <div class="carro-info">
-                            <span>Motorista: <span id="motorista">Felipe</span></span>
-                            <span>Veiculo: <span id="veiculo">123-abc</span></span>
-                            <span>Saída: <span id="saida">21/02/2033</span></span>
-                            <span>Retorno: <span id="retorno">Em Trânsito</span></span>
-                            <span>Descrição: <span id="descricao2">mais</span></span>
-                        </div>
-                        <img src="./imgs//venda.png" alt="venda">
                     </div>
                 </div>
             </div>
@@ -187,28 +149,39 @@
             <div class="motoristaOp">
                 <span>Motorista</span>
                 <div>
-                    <span>Nome: <span id="nomeOp">Felipe</span></span>
-                    <span>CPF: <span id="cpfOp">111.222.333-45</span></span>
+                    <span>Nome: <span id="nomeOp"></span></span>
+                    <span>CPF: <span id="cpfOp"></span></span>
                 </div>
             </div>
             <div class="veiculoOp">
                 <span>Veículo</span>
                 <div>
-                    <span>Placa: <span id="placaOp">123-ABC</span></span>
-                    <span>Modelo: <span id="modeloOp">Renooon</span></span>
+                    <span>Placa: <span id="placaOp"></span></span>
+                    <span>Modelo: <span id="modeloOp"></span></span>
                 </div>
             </div>
             <div class="op">
                 <span>Operação</span>
                 <div>
                     <div>
-                        <span>Saída: <span id="saidaOp">12/02/2023</span></span>
-                        <span>Retorno: <span id="retornoOp">14/02/2023</span></span>
+                        <span>Saída: <span id="saidaOp"></span></span>
+                        <span>Retorno: <span id="retornoOp"></span></span>
                     </div>
-                    <span>Descrição: <span id="descricaoOp">Troca de pneu, limpeza no reservatório de água</span>.</span>
+                    <span>Descrição: <span id="descricaoOp"></span>.</span>
                 </div>
             </div>
-            <button id="btnOp" onclick="retornouOp(this)"><span>Retornou</span></button>
+        </div>
+    </div>
+
+    <div class="modalMa model">
+        <div class="infoMa">
+            <button id="closeMa" onclick="closeModal(this)"><span>X</span></button>
+            <div class="maGeral">
+                <span>Descrição</span>
+                <div>
+                    <span id="descricaoMaGeral"></span>.
+                </div>
+            </div>
         </div>
     </div>
 

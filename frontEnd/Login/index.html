@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <span id="salve" class="model"></span>
     <div class="card">
         <div class="info">
             <span>AgroTech</span>
@@ -17,11 +18,12 @@
         </div>
         <div class="inps">
             <span>Login</span>
-            <input type="text" placeholder="E-mail">
-            <input type="password" placeholder="Senha">
-            <button><span>Entrar</span></button>
+            <input type="text" placeholder="E-mail" id="email">
+            <input type="password" placeholder="Senha" id="senha">
+            <button onclick="logar()"><span>Entrar</span></button>
         </div>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 <script src="./script.js"></script>
 </html>

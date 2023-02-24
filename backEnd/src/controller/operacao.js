@@ -10,7 +10,16 @@ const create = async (req, res) => {
 }
 
 const read = async (req, res) => {
-    const operacaos = await prisma.Operacao.findMany()
+    const operacaos = await prisma.Operacao.findMany({
+        select: {
+            motorista: true,
+            veiculo: true,
+            data_retorno: true,
+            data_saida: true,
+            descricao: true,
+            id: true
+        }
+    })
     res.status(200).json(operacaos).end()
 }
 
@@ -18,6 +27,14 @@ const readOp = async (req, res) => {
     const operacao = await prisma.Operacao.findUnique({
         "where": {
             "id": Number(req.params.id)
+        },
+        select: {
+            motorista: true,
+            veiculo: true,
+            data_retorno: true,
+            data_saida: true,
+            descricao: true,
+            id: true
         }
     })
 

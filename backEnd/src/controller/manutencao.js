@@ -10,7 +10,16 @@ const create = async (req, res) => {
 }
 
 const read = async (req, res) => {
-    const manutencaos = await prisma.Manutencao.findMany()
+    const manutencaos = await prisma.Manutencao.findMany({
+        select : {
+            veiculo: true,
+            descricao: true,
+            valor: true,
+            data_inicio: true,
+            data_fim: true,
+            id: true
+        }
+    })
     res.status(200).json(manutencaos).end()
 }
 
@@ -39,6 +48,13 @@ const readMa = async (req, res) => {
     const manutencao = await prisma.Manutencao.findUnique({
         "where": {
             "id": Number(req.params.id)
+        },
+        select : {
+            veiculo: true,
+            descricao: true,
+            valor: true,
+            data_inicio: true,
+            data_fim: true
         }
     })
 
