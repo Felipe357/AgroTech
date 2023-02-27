@@ -118,7 +118,8 @@ body {
 .content,
 .content2,
 .content3,
-.content4 {
+.content4,
+.content5 {
     height: 100%;
     width: 100%;
     display: flex;
@@ -173,8 +174,35 @@ body {
     letter-spacing: 2px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    width: 70%;
+}
+
+.img {
+    display: flex;
     justify-content: space-between;
-    width: 23%;
+    align-items: center;
+    font-size: 10pt;
+    height: 100%;
+    width: 30px;
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: .3s linear;
+}
+
+
+.img:hover {
+    width: 150px;
+}
+
+.img:hover>span {
+    right: 0;
+}
+
+.img>img {
+    width:  30px;
+    object-fit: contain;
 }
 
 .radio {

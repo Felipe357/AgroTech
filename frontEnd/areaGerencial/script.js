@@ -140,26 +140,18 @@ function alterRe(e) {
     var re = document.getElementById(e.id)
     re.classList.add("efect")
 
+    document.querySelectorAll(".page").forEach(a => a.classList.add('model'))
+
     if (e.id == "r1") {
-        document.querySelector(".content2").classList.add("model")
-        document.querySelector(".content3").classList.add("model")
-        document.querySelector(".content4").classList.add("model")
         document.querySelector(".content").classList.remove("model")
     } else if (e.id == "r4") {
-        document.querySelector(".content2").classList.remove("model")
-        document.querySelector(".content3").classList.add("model")
-        document.querySelector(".content4").classList.add("model")
-        document.querySelector(".content").classList.add("model")
-    } else if (e.id == "r3") {
-        document.querySelector(".content2").classList.add("model")
-        document.querySelector(".content3").classList.remove("model")
-        document.querySelector(".content4").classList.add("model")
-        document.querySelector(".content").classList.add("model")
-    } else if (e.id == "r2") {
-        document.querySelector(".content2").classList.add("model")
-        document.querySelector(".content3").classList.add("model")
         document.querySelector(".content4").classList.remove("model")
-        document.querySelector(".content").classList.add("model")
+    } else if (e.id == "r3") {
+        document.querySelector(".content3").classList.remove("model")
+    } else if (e.id == "r2") {
+        document.querySelector(".content2").classList.remove("model")
+    } else if (e.id == "r5") {
+        document.querySelector(".content5").classList.remove("model")
     }
 
 }
@@ -200,7 +192,7 @@ function showModalMaGeral(e) {
 
     const options = { method: 'GET' };
 
-    fetch('http://localhost:3000/readAllManutencao/'+ e.id, options)
+    fetch('http://localhost:3000/readAllManutencao/' + e.id, options)
         .then(response => response.json())
         .then(response => {
             document.querySelector("#descricaoMaGeral").innerHTML = response.descricao
