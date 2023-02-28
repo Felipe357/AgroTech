@@ -9,11 +9,11 @@
     <title>Document</title>
 </head>
 
-<body onload="carregarOp(), carregarVe(), carregarMa(), carregarMaGeral()">
+<body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes()">
 
     <div class="info">
         <div class="relatorios">
-            <span>Relatórios</span>
+            <span>Gráficos</span>
             <div class="re-img efect" id="r1" onclick="alterRe(this)">
                 <img src="./imgs/disponibilidade.png" alt="disponibilidade">
                 <span>Disponibilidade</span>
@@ -36,23 +36,30 @@
             </div>
         </div>
         <div class="informacoes">
-            <div class="content page ">
+            <div class="content page">
                 <div class="header">
                     <span>Disponibilidade</span>
-                    <div class="check">
-                        <div class="radio" id="radioDi" onclick="checkDisponibilidade(this)"></div>
-                        <span>Em uso</span>
-                    </div>
+
                 </div>
                 <div class="contens disponibilidade">
-                    <div class="carro model2">
-                        <div class="carro-info">
-                            <span>Tipo: <span id="tipo">Visita</span></span>
-                            <span>Placa: <span id="placa">123-abc</span></span>
-                            <span>Modelo: <span id="modelo">renio</span></span>
-                            <span>Marca: <span id="marca">sambelo</span></span>
+                    <canvas id="graficoDis" class="grafico"></canvas>
+                    <div class="results">
+                        <div class="veiculos">
+                            <div class="veiculo model">
+                                <div>
+                                    <div>
+                                        <span>Tipo: <span id="tipo">Visita</span></span>
+                                        <span>Placa: <span id="placa">123-abc</span></span>
+                                        <span>Modelo: <span id="modelo">renio</span></span>
+                                        <span>Marca: <span id="marca">sambelo</span></span>
+                                    </div>
+                                    <div class="veiculo-img">
+                                        <img src="./imgs/carga.png" alt="">
+                                    </div>
+                                </div>
+                                <span id="disponivel">Em uso</span>
+                            </div>
                         </div>
-                        <img src="./imgs/visita.png" alt="visita">
                     </div>
                 </div>
             </div>
@@ -60,19 +67,22 @@
             <div class="content2 page model">
                 <div class="header">
                     <span>Manutenção</span>
-                    <div class="check">
-                        <div class="radio" id="radioM" onclick="checkManutencao(this)"></div>
-                        <span>Em manutenção</span>
-                    </div>
                 </div>
-                <div class="contens manutencao">
-                    <div class="carro model2">
-                        <div class="carro-info">
-                            <span>Placa: <span id="placa2">123 abc</span></span>
-                            <span>Início: <span id="inicio">14/02/2023</span></span>
-                            <span>Fim: <span id="fim">Não Retornou</span></span>
+                <div class="contens">
+                    <canvas id="grafico-manutencao" class="grafico-manutencao"></canvas>
+                    <div class="results">
+                        <div class="manutencoes">
+                            <div class="manutencao model">
+                                <div>
+                                    <span>Placa: <span id="placa"></span></span>
+                                    <span>Início: <span id="data-inicio"></span></span>
+                                    <span>Fim: <span id="data-fim"></span></span>
+                                    <span>Valor: <span id="valor"></span></span>
+                                </div>
+                                <span>ver descrição</span>
+                            </div>
+
                         </div>
-                        <img src="./imgs/carga.png" alt="carga">
                     </div>
                 </div>
             </div>
@@ -80,33 +90,6 @@
             <div class="content3 page model">
                 <div class="header">
                     <span>Manutenção Geral</span>
-                    <div class="or">
-                        <div class="checkTipo">
-                            <div class="div">
-                                <div class="radio2 r1" data="visita" onclick="checkManutencaoGeral(this)"></div>
-                                <span>Visita</span>
-                            </div>
-                            <div class="div">
-                                <div class="radio2 r2" data="carga" onclick="checkManutencaoGeral(this)"></div>
-                                <span>Carga</span>
-                            </div>
-                            <div class="div">
-                                <div class="radio2 r3" data="venda" onclick="checkManutencaoGeral(this)"></div>
-                                <span>Venda</span>
-                            </div>
-                        </div>
-                        <div class="checkEm">
-                            <div class="div">
-                                <div class="radio2 r4" data="ma" onclick="checkManutencaoGeral2(this)"></div>
-                                <span>Em manutenção</span>
-                            </div>
-                            <div class="div">
-                                <div class="radio2 r5" data="di" onclick="checkManutencaoGeral2(this)"></div>
-                                <span>Disponível</span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="contens manutencaoGeral">
                     <div class="carro model2" data="carga" dis="ma" onclick="showModalMaGeral(this)">
@@ -125,21 +108,27 @@
             <div class="content4 page model">
                 <div class="header">
                     <span>Operação</span>
-                    <div class="check">
-                        <div class="radio" id="radioOp" onclick="checkOp(this)"></div>
-                        <span>Em operação</span>
-                    </div>
+
                 </div>
-                <div class="contens alocacao">
-                    <div class="carro model2" onclick="showModalOp(this)">
-                        <div class="carro-info">
-                            <span>Motorista: <span id="motorista">Felipe</span></span>
-                            <span>Veículo: <span id="veiculo">123-abc</span></span>
-                            <span>Saída: <span id="saida">12/02/2023</span></span>
-                            <span>Retorno: <span id="retorno">14/02/2023</span></span>
-                            <span>Descrição: <span id="descricao2">mais</span></span>
+                <div class="contens">
+                    <canvas id="grafico-alocacao" class="grafico-alocacao"></canvas>
+                    <div class="results">
+                        <div class="alocacoes">
+                            <div class="alocacao model">
+                                <div>
+                                    <div>
+                                        <span>Motorista: <span id="motorista">Felipe</span></span>
+                                        <span>Veículo: <span id="veiculo">123-abc</span></span>
+                                        <span>Saída: <span id="saida">12/02/2023</span></span>
+                                        <span>Retorno: <span id="retorno">14/02/2023</span></span>
+                                    </div>
+                                    <div class="veiculo-img">
+                                        <img src="./imgs/carga.png" alt="">
+                                    </div>
+                                </div>
+                                <span>ver descrição</span>
+                            </div>
                         </div>
-                        <img src="./imgs/carga.png" alt="carga">
                     </div>
                 </div>
             </div>
@@ -168,64 +157,15 @@
                     </div>
                 </div>
                 <div class="contens dashboard">
-                    <div class="carro model2">
-                        <div class="carro-info">
-                            <span>Tipo: <span id="tipo">Visita</span></span>
-                            <span>Placa: <span id="placa">123-abc</span></span>
-                            <span>Modelo: <span id="modelo">renio</span></span>
-                            <span>Marca: <span id="marca">sambelo</span></span>
-                        </div>
-                        <img src="./imgs/visita.png" alt="visita">
-                    </div>
+
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <div class="modalOp model">
-        <div class="infoOp">
-            <button id="closeOp" onclick="closeModal(this)"><span>X</span></button>
-            <div class="motoristaOp">
-                <span>Motorista</span>
-                <div>
-                    <span>Nome: <span id="nomeOp"></span></span>
-                    <span>CPF: <span id="cpfOp"></span></span>
-                </div>
-            </div>
-            <div class="veiculoOp">
-                <span>Veículo</span>
-                <div>
-                    <span>Placa: <span id="placaOp"></span></span>
-                    <span>Modelo: <span id="modeloOp"></span></span>
-                </div>
-            </div>
-            <div class="op">
-                <span>Operação</span>
-                <div>
-                    <div>
-                        <span>Saída: <span id="saidaOp"></span></span>
-                        <span>Retorno: <span id="retornoOp"></span></span>
-                    </div>
-                    <span>Descrição: <span id="descricaoOp"></span>.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modalMa model">
-        <div class="infoMa">
-            <button id="closeMa" onclick="closeModal(this)"><span>X</span></button>
-            <div class="maGeral">
-                <span>Descrição</span>
-                <div>
-                    <span id="descricaoMaGeral"></span>.
-                </div>
-            </div>
         </div>
     </div>
 
 </body>
+
 <script src="./script.js"></script>
 
 </html>
