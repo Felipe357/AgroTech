@@ -28,6 +28,7 @@ body {
     justify-content: space-between;
     align-items: center;
     border-radius: 40px;
+    transition: filter .5s ease-in;
 }
 
 .relatorios {
@@ -190,6 +191,7 @@ body {
     position: relative;
     overflow: hidden;
     transition: .3s linear;
+    cursor: pointer;
 }
 
 
@@ -236,7 +238,8 @@ body {
     background-image: linear-gradient(to bottom, #f1f6fa00, #0287c4b9);
 }
 
-.results {
+.results,
+.results2 {
     height: 62%;
     width: 100%;
     padding: 15px;
@@ -244,7 +247,8 @@ body {
 
 .veiculos,
 .manutencoes,
-.alocacoes {
+.alocacoes,
+.motoristas {
     height: 100%;
     width: 100%;
     overflow-y: scroll;
@@ -252,13 +256,15 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 30px;
+    padding: 10px;
 }
 
 .veiculo,
 .manutencao,
-.alocacao {
-    height: 160px;
-    width: 350px;
+.alocacao,
+.motorista {
+    height: 150px;
+    width: 340px;
     border: 1px solid #000;
     border-radius: 10px;
     display: flex;
@@ -267,10 +273,13 @@ body {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    box-shadow: 8px 8px 20px 0px rgb(126, 126, 126);
 }
 
 .veiculo>div,
-.alocacao>div {
+.alocacao>div,
+.manutencao>div,
+.motorista>div {
     width: 100%;
     height: 85%;
     display: flex;
@@ -279,7 +288,9 @@ body {
 }
 
 .veiculo>div>div,
-.alocacao>div>div {
+.alocacao>div>div,
+.manutencao>div>div,
+.motorista>div>div {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -288,32 +299,33 @@ body {
     font-weight: bold;
 }
 
-.veiculo-img {
+.veiculo-img,
+.motorista-img {
     width: 30%;
 }
 
-.veiculo-img>img {
+.veiculo-img>img,
+.motorista-img>img {
     width: 100%;
     object-fit: contain;
 }
 
-.manutencao>div {
-    height: 90%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    font-size: 12pt;
-    font-weight: bold;
-}
-
 .manutencao>span:last-child,
 .alocacao>span:last-child {
-    color: rgb(86, 122, 175);
+    color: rgb(3, 72, 175);
     font-size: 12pt;
     font-weight: 700;
     position: absolute;
     right: 10px;
+    bottom: 10px;
+}
+
+#disponivel {
+    color: rgb(165, 0, 0);
+    font-size: 12pt;
+    font-weight: 700;
+    position: absolute;
+    right: 30px;
     bottom: 10px;
 }
 
@@ -324,7 +336,6 @@ body {
 .indisponivel {
     background-image: linear-gradient(to left bottom, #fdcccc, #ffb5b5, #ff9e9d, #fe8685, #fb6d6d);
 }
-
 
 ::-webkit-scrollbar {
     width: 5px
@@ -337,4 +348,111 @@ body {
 ::-webkit-scrollbar-thumb {
     background: #db7500;
     border-radius: 10px
+}
+
+.bluer {
+    filter: blur(5px);
+}
+
+.modal-disponivel {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-veiculo {
+    height: 350px;
+    width: 500px;
+    background-color: #bcd7ee;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.info-veiculo {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px 0px 40px;
+    align-items: flex-start;
+    width: 100%;
+    height: 60%;
+    justify-content: space-between;
+    font-size: 15pt;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding-top: 30px;
+}
+
+.info-veiculo>span {
+    position: relative;
+    width: 85%;
+}
+
+.info-veiculo>span>input {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #000000;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    height: 100%;
+    padding: 0px 0px 0px 10px;
+    outline: none;
+}
+
+#close-modal {
+    position: absolute;
+    right: 20px;
+    font-size: 15pt;
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: #000000;
+}
+
+#atualizar-btn {
+    width: 140px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 45px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#atualizar-btn:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#atualizar-btn:focus {
+    outline: none;
+}
+
+#atualizar-btn.bn26 {
+    background-image: linear-gradient(to right,
+            #25aae1,
+            #4481eb,
+            #04befe,
+            #3f86ed);
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
 }

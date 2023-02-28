@@ -28,6 +28,7 @@ function carregarVeiculos() {
             carros.forEach((c) => {
                 var veiculo = document.querySelector(".veiculo").cloneNode(true)
                 veiculo.classList.remove("model")
+                veiculo.id = c.id
 
                 veiculo.querySelector("#tipo").innerHTML = c.tipo
                 veiculo.querySelector("#placa").innerHTML = c.placa
@@ -114,6 +115,14 @@ function carregarManutencao() {
                     manutencao.classList.add("indisponivel")
                 }
 
+                if (m.veiculo.tipo === "visita") {
+                    manutencao.querySelector("img").src = "./imgs/visita.png"
+                } else if (op.veiculo.tipo === "carga") {
+                    manutencao.querySelector("img").src = "./imgs/carga.png"
+                } else {
+                    manutencao.querySelector("img").src = "./imgs/venda.png"
+                }
+
                 document.querySelector(".manutencoes").appendChild(manutencao)
             })
         })
@@ -158,4 +167,78 @@ function carregarMaGeral() {
                 document.querySelector(".manutencaoGeral").appendChild(carro)
             })
         })
+}
+
+function carregarMotoristas() {
+    const options = { method: 'GET' };
+
+    fetch('http://localhost:3000/readMotorista', options)
+        .then(response => response.json())
+        .then(carros => {
+            carros.forEach((c) => {
+                var motorista = document.querySelector(".motorista").cloneNode(true)
+                motorista.classList.remove("model")
+
+                motorista.querySelector("#cpf").innerHTML = c.cpf
+                motorista.querySelector("#cnh").innerHTML = c.cnh
+                motorista.querySelector("#nome").innerHTML = c.nome
+
+                if (c.disponivel !== true) {
+                    motorista.classList.add("indisponivel")
+                } else {
+                    motorista.classList.add("disponivel")
+                    motorista.getElementById("disponivel").style.color = "rgb(54, 226, 2)"
+                    motorista.getElementById("disponivel").innerHTML = "Disponivel"
+                }
+
+                document.querySelector(".motoristas").appendChild(motorista)
+            })
+        })
+}
+
+function alterResult(e) {
+    if (e.id === "motorista-btn") {
+        document.querySelector(".disponibilidade").querySelector(".results").classList.remove("model")
+        document.querySelector(".disponibilidade").querySelector(".results2").classList.add("model")
+    } else {
+        document.querySelector(".disponibilidade").querySelector(".results").classList.add("model")
+        document.querySelector(".disponibilidade").querySelector(".results2").classList.remove("model")
+    }
+}
+
+function showModal(e) {
+    document.querySelector(".info").classList.toggle("bluer")
+    document.querySelector("#" + e.id).parentNode.parentNode.classList.toggle("model")
+}
+
+var idVeiculo
+
+function showVeiculo(e) {
+
+    idVeiculo = e.id
+
+    document.querySelector(".info").classList.toggle("bluer")
+    document.querySelector(".modal-disponivel").classList.remove("model")
+
+    const options = { method: 'GET' };
+
+    fetch('http://localhost:3000/readAllVeiculo/'+e.id, options)
+        .then(response => response.json())
+        .then(vei => {
+            var veiculo = document.querySelector(".info-veiculo")
+            veiculo.querySelector("#placa").value = vei.placa
+            veiculo.querySelector("#tipo").value = vei.tipo
+            veiculo.querySelector("#modelo").value = vei.modelo
+            veiculo.querySelector("#marca").value = vei.marca
+        })
+
+}
+
+function atualizarVeiculo() {
+    var placa = document.querySelector("#placa").value
+    var tipo = document.querySelector("#placa").value
+    var modelo = document.querySelector("#placa").value
+    var marca = document.querySelector("#placa").value
+    var dis = document.querySelector("#disponibilidade")
+    console.log(dis);
 }

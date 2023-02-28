@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 
-<body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes()">
+<body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes(), carregarMotoristas()">
 
     <div class="info">
         <div class="relatorios">
@@ -39,13 +39,22 @@
             <div class="content page">
                 <div class="header">
                     <span>Disponibilidade</span>
-
+                    <div class="check">
+                        <div class="img" id="motorista-btn" onclick="alterResult(this)">
+                            <img src="./imgs/dashboard/carteira-de-motorista.png" alt="Motoristas">
+                            <span>Motoristas</span>
+                        </div>
+                        <div class="img" id="frota-btn" onclick="alterResult(this)">
+                            <img src="./imgs/dashboard/frota.png" alt="Motoristas">
+                            <span>Frota</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="contens disponibilidade">
                     <canvas id="graficoDis" class="grafico"></canvas>
-                    <div class="results">
+                    <div class="results ">
                         <div class="veiculos">
-                            <div class="veiculo model">
+                            <div class="veiculo model" onclick="showVeiculo(this)">
                                 <div>
                                     <div>
                                         <span>Tipo: <span id="tipo">Visita</span></span>
@@ -55,6 +64,23 @@
                                     </div>
                                     <div class="veiculo-img">
                                         <img src="./imgs/carga.png" alt="">
+                                    </div>
+                                </div>
+                                <span id="disponivel">Em uso</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results2 model">
+                        <div class="motoristas">
+                            <div class="motorista model disponivel">
+                                <div>
+                                    <div>
+                                        <span>CPF: <span id="cpf"></span></span>
+                                        <span>CNH: <span id="cnh"></span></span>
+                                        <span>Nome: <span id="nome"></span></span>
+                                    </div>
+                                    <div class="motorista-img">
+                                        <img src="./imgs/user.png" alt="">
                                     </div>
                                 </div>
                                 <span id="disponivel">Em uso</span>
@@ -74,10 +100,15 @@
                         <div class="manutencoes">
                             <div class="manutencao model">
                                 <div>
-                                    <span>Placa: <span id="placa"></span></span>
-                                    <span>Início: <span id="data-inicio"></span></span>
-                                    <span>Fim: <span id="data-fim"></span></span>
-                                    <span>Valor: <span id="valor"></span></span>
+                                    <div>
+                                        <span>Placa: <span id="placa"></span></span>
+                                        <span>Início: <span id="data-inicio"></span></span>
+                                        <span>Fim: <span id="data-fim"></span></span>
+                                        <span>Valor: <span id="valor"></span></span>
+                                    </div>
+                                    <div class="veiculo-img">
+                                        <img src="./imgs/carga.png" alt="">
+                                    </div>
                                 </div>
                                 <span>ver descrição</span>
                             </div>
@@ -164,8 +195,18 @@
         </div>
     </div>
 
-    <div class="madal-disponivel">
-        <div class="modal-veiculo"></div>
+    <div class="modal-disponivel model">
+        <div class="modal-veiculo">
+            <div class="info-veiculo">
+                <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
+                <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
+            </div>
+            <span>Em Uso: <input type="checkbox" id="disponibilidade" value="s"></span>
+            <button id="close-modal" onclick="showModal(this)"><span>X</span></button>
+            <button id="atualizar-btn" class="bn26" onclick="atualizarVeiculo()">Atualizar<span></span></button>
+        </div>
     </div>
 
 </body>
