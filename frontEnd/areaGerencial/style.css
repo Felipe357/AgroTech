@@ -354,7 +354,7 @@ body {
     filter: blur(5px);
 }
 
-.modal-disponivel {
+.modal-disponivel, .modal-cadastrar-veiculo {
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -376,7 +376,7 @@ body {
     position: relative;
 }
 
-.info-veiculo {
+.info-veiculo, .info-cadastrar-veiculo {
     display: flex;
     flex-direction: column;
     padding: 10px 0px 0px 40px;
@@ -390,12 +390,12 @@ body {
     padding-top: 30px;
 }
 
-.info-veiculo>span {
+.info-veiculo>span, .info-cadastrar-veiculo>span {
     position: relative;
     width: 85%;
 }
 
-.info-veiculo>span>input {
+.info-veiculo>span>input, .info-cadastrar-veiculo>span>input {
     background: none;
     border: none;
     border-bottom: 2px solid #000000;
@@ -408,7 +408,7 @@ body {
     outline: none;
 }
 
-#close-modal {
+#close-modal, #close-modal2 {
     position: absolute;
     right: 20px;
     font-size: 15pt;
@@ -455,4 +455,41 @@ body {
             #04befe,
             #3f86ed);
     box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+
+#AlertTipo {
+    position: absolute;
+    top: 10px;
+    right: -50px;
+    font-size: 10pt;
+    color: #f00;
+    font-weight: 500;
+    width: 85%;
+    overflow: hidden;
+}
+
+.add {
+    background-color: #04befe;
+    width: 0px;
+    position: relative;
+}
+
+.add>span {
+    font-size: 50pt;
+    color: rgb(255, 255, 255);
+    background-color: #25aae1;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: -110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: .3s ease-in;
+    cursor: pointer;
+}
+
+.add>span:hover {
+    transform: scale(1.1);
 }

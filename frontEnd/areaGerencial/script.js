@@ -39,7 +39,8 @@ function carregarVeiculos() {
                     veiculo.classList.add("indisponivel")
                 } else {
                     veiculo.classList.add("disponivel")
-                    veiculo.getElementById("disponivel").innerHTML = "Disponivel"
+                    veiculo.querySelector("#disponivel").innerHTML = "Disponivel"
+                    veiculo.querySelector("#disponivel").style.color = "#00f"
                 }
 
                 if (c.tipo === "visita") {
@@ -198,11 +199,11 @@ function carregarMotoristas() {
 
 function alterResult(e) {
     if (e.id === "motorista-btn") {
-        document.querySelector(".disponibilidade").querySelector(".results").classList.remove("model")
-        document.querySelector(".disponibilidade").querySelector(".results2").classList.add("model")
-    } else {
-        document.querySelector(".disponibilidade").querySelector(".results").classList.add("model")
         document.querySelector(".disponibilidade").querySelector(".results2").classList.remove("model")
+        document.querySelector(".disponibilidade").querySelector(".results").classList.add("model")
+    } else {
+        document.querySelector(".disponibilidade").querySelector(".results2").classList.add("model")
+        document.querySelector(".disponibilidade").querySelector(".results").classList.remove("model")
     }
 }
 
@@ -216,13 +217,13 @@ var idVeiculo
 function showVeiculo(e) {
 
     idVeiculo = e.id
-
+    console.log(idVeiculo);
     document.querySelector(".info").classList.toggle("bluer")
     document.querySelector(".modal-disponivel").classList.remove("model")
 
     const options = { method: 'GET' };
 
-    fetch('http://localhost:3000/readAllVeiculo/'+e.id, options)
+    fetch('http://localhost:3000/readAllVeiculo/' + e.id, options)
         .then(response => response.json())
         .then(vei => {
             var veiculo = document.querySelector(".info-veiculo")
@@ -234,11 +235,91 @@ function showVeiculo(e) {
 
 }
 
+function checkDisponivel(e) {
+    var check = document.getElementById(e.id)
+    check.classList.toggle("s")
+    if (check.classList[0] == "s") {
+        document.querySelector("#dis-alter").innerHTML = "Disponível"
+    } else {
+        document.querySelector("#dis-alter").innerHTML = "Indisponível"
+    }
+}
+
 function atualizarVeiculo() {
-    var placa = document.querySelector("#placa").value
-    var tipo = document.querySelector("#placa").value
-    var modelo = document.querySelector("#placa").value
-    var marca = document.querySelector("#placa").value
-    var dis = document.querySelector("#disponibilidade")
-    console.log(dis);
+    var placa = document.querySelector(".info-veiculo").querySelector("#placa").value
+    var tipo = document.querySelector(".info-veiculo").querySelector("#tipo").value
+    var modelo = document.querySelector(".info-veiculo").querySelector("#modelo").value
+    var marca = document.querySelector(".info-veiculo").querySelector("#marca").value
+
+    var veiculo = {
+        "placa": placa,
+        "tipo": tipo,
+        "modelo": modelo,
+        "marca": marca
+    }
+
+    if (tipo == "venda" || tipo == "carga" || tipo == "visita") {
+        const options = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(veiculo)
+        };
+
+        fetch('http://localhost:3000/updateVeiculo/' + idVeiculo, options)
+            .then(response => response.json())
+            .then(response => {
+                if (response !== undefined) {
+                    window.location.reload()
+                }
+            })
+
+    } else {
+        document.querySelector("#AlertTipo").classList.toggle("model")
+    }
+
+}
+
+function cadastrar(e) {
+    document.querySelector(".info").classList.toggle("bluer")
+    if (e.id = "veiculoDisponivel") {
+        document.querySelector(".modal-cadastrar-veiculo").classList.toggle("model")
+    }
+
+}
+
+function cadastrarVeiculo() {
+    var placa = document.querySelector(".info-cadastrar-veiculo").querySelector("#placa").value
+    var tipo = document.querySelector(".info-cadastrar-veiculo").querySelector("#tipo").value
+    var modelo = document.querySelector(".info-cadastrar-veiculo").querySelector("#modelo").value
+    var marca = document.querySelector(".info-cadastrar-veiculo").querySelector("#marca").value
+
+    var veiculo = {
+        "placa": placa,
+        "tipo": tipo,
+        "modelo": modelo,
+        "marca": marca
+    }
+
+    if (placa == "" || modelo == "" || marca == "") {
+        document.querySelector(".info-cadastrar-veiculo").querySelector("#AlertTipo").classList.toggle("model")
+        document.querySelector(".info-cadastrar-veiculo").querySelector("#AlertTipo").innerHTML = "Favor inserir todos os dados!"
+    } else {
+        if (tipo == "venda" || tipo == "carga" || tipo == "visita") {
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(veiculo)
+            };
+
+            fetch('http://localhost:3000/cadVeiculo', options)
+                .then(response => response.json())
+                .then(response => {
+                    if (response !== undefined) {
+                        window.location.reload()
+                    }
+                })
+        } else {
+            document.querySelector(".info-cadastrar-veiculo").querySelector("#AlertTipo").classList.toggle("model")
+        }
+    }
 }

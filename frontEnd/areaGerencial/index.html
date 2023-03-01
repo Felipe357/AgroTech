@@ -10,7 +10,7 @@
 </head>
 
 <body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes(), carregarMotoristas()">
-
+    
     <div class="info">
         <div class="relatorios">
             <span>Gráficos</span>
@@ -195,17 +195,33 @@
         </div>
     </div>
 
+    <div class="add" id="veiculoDisponivel" onclick="cadastrar(this)"><span>+</span></div>
+
     <div class="modal-disponivel model">
         <div class="modal-veiculo">
             <div class="info-veiculo">
+                <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
                 <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
                 <span>Placa: <input type="text" id="placa" placeholder="Placa"></span>
                 <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
                 <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
             </div>
-            <span>Em Uso: <input type="checkbox" id="disponibilidade" value="s"></span>
             <button id="close-modal" onclick="showModal(this)"><span>X</span></button>
             <button id="atualizar-btn" class="bn26" onclick="atualizarVeiculo()">Atualizar<span></span></button>
+        </div>
+    </div>
+
+    <div class="modal-cadastrar-veiculo model">
+        <div class="modal-veiculo">
+            <div class="info-cadastrar-veiculo">
+                <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
+                <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
+                <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
+            </div>
+            <button id="close-modal2" onclick="showModal(this)"><span>X</span></button>
+            <button id="atualizar-btn" class="bn26" onclick="cadastrarVeiculo()">Cadastrar<span></span></button>
         </div>
     </div>
 
