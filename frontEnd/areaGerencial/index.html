@@ -72,7 +72,7 @@
                     </div>
                     <div class="results2 model">
                         <div class="motoristas">
-                            <div class="motorista model disponivel">
+                            <div class="motorista model" onclick="showMotorista(this)">
                                 <div>
                                     <div>
                                         <span>CPF: <span id="cpf"></span></span>
@@ -145,7 +145,7 @@
                     <canvas id="grafico-alocacao" class="grafico-alocacao"></canvas>
                     <div class="results">
                         <div class="alocacoes">
-                            <div class="alocacao model">
+                            <div class="alocacao model" onclick="showOperacao(this)">
                                 <div>
                                     <div>
                                         <span>Motorista: <span id="motorista">Felipe</span></span>
@@ -195,7 +195,7 @@
         </div>
     </div>
 
-    <div class="add" id="veiculoDisponivel" onclick="cadastrar(this)"><span>+</span></div>
+    <div class="add" onclick="cadastrar()"><span>+</span></div>
 
     <div class="modal-disponivel model">
         <div class="modal-veiculo">
@@ -222,6 +222,42 @@
             </div>
             <button id="close-modal2" onclick="showModal(this)"><span>X</span></button>
             <button id="atualizar-btn" class="bn26" onclick="cadastrarVeiculo()">Cadastrar<span></span></button>
+        </div>
+    </div>
+
+    <div class="modal-cadastrar-motorista model">
+        <div class="modal-motorista">
+            <div class="info-cadastrar-motorista">
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF"></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH"></span>
+                <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
+            </div>
+            <button id="close-modal3" onclick="showModal(this)"><span>X</span></button>
+            <button id="atualizar-btn" class="bn26" onclick="cadastrarMotorista()">Cadastrar<span></span></button>
+        </div>
+    </div>
+
+    <div class="modal-atualizar-motorista model">
+        <div class="modal-motorista">
+            <div class="info-motorista">
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF"></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH"></span>
+                <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
+            </div>
+            <button id="close-modal4" onclick="showModal(this)"><span>X</span></button>
+            <button id="atualizar-btn" class="bn26" onclick="atualizarMotorista()">Atualizar<span></span></button>
+        </div>
+    </div>
+
+    <div class="modal-cadastrar-alocacao model">
+        <div class="modal-alocacao">
+            <div class="info-alocacao">
+                <span>Motorista: <input type="text" id="motorista" placeholder="CPF"></span>
+                <span>Veiculo (placa): <input type="text" id="veiculo" placeholder="CNH"></span>
+                <span>Descrição: <input type="text" id="nome" placeholder="Nome"></span>
+            </div>
+            <button id="close-modal5" onclick="showModal(this)"><span>X</span></button>
+            <button id="atualizar-btn" class="bn26" onclick="cadastrarAlocacao()">Cadastrar<span></span></button>
         </div>
     </div>
 

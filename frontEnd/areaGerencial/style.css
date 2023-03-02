@@ -330,11 +330,13 @@ body {
 }
 
 .disponivel {
-    background-image: linear-gradient(to left bottom, #cce0fd, #b4d1fd, #9dc3fd, #86b4fc, #6da5fb);
+    /* background-image: linear-gradient(to left bottom, #cce0fd, #b4d1fd, #9dc3fd, #86b4fc, #6da5fb); */
+    background-color: #cdf3ff;
 }
 
 .indisponivel {
-    background-image: linear-gradient(to left bottom, #fdcccc, #ffb5b5, #ff9e9d, #fe8685, #fb6d6d);
+    /* background-image: linear-gradient(to left bottom, #fdcccc, #ffb5b5, #ff9e9d, #fe8685, #fb6d6d); */
+    background-color: #ffd3d3;
 }
 
 ::-webkit-scrollbar {
@@ -354,7 +356,7 @@ body {
     filter: blur(5px);
 }
 
-.modal-disponivel, .modal-cadastrar-veiculo {
+.modal-cadastrar-alocacao, .modal-disponivel, .modal-cadastrar-veiculo, .modal-cadastrar-motorista, .modal-atualizar-motorista {
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -363,7 +365,7 @@ body {
     align-items: center;
 }
 
-.modal-veiculo {
+.modal-alocacao, .modal-veiculo, .modal-motorista {
     height: 350px;
     width: 500px;
     background-color: #bcd7ee;
@@ -376,7 +378,7 @@ body {
     position: relative;
 }
 
-.info-veiculo, .info-cadastrar-veiculo {
+.info-alocacao, .info-veiculo, .info-cadastrar-veiculo, .info-cadastrar-motorista, .info-motorista {
     display: flex;
     flex-direction: column;
     padding: 10px 0px 0px 40px;
@@ -390,12 +392,16 @@ body {
     padding-top: 30px;
 }
 
-.info-veiculo>span, .info-cadastrar-veiculo>span {
+.info-alocacao {
+    font-size: 12pt!important;
+}
+
+.info-alocacao>span, .info-veiculo>span, .info-cadastrar-veiculo>span, .info-cadastrar-motorista>span, .info-motorista>span {
     position: relative;
     width: 85%;
 }
 
-.info-veiculo>span>input, .info-cadastrar-veiculo>span>input {
+.info-alocacao>span>input, .info-veiculo>span>input, .info-cadastrar-veiculo>span>input, .info-cadastrar-motorista>span>input, .info-motorista>span>input {
     background: none;
     border: none;
     border-bottom: 2px solid #000000;
@@ -408,7 +414,11 @@ body {
     outline: none;
 }
 
-#close-modal, #close-modal2 {
+.info-alocacao>span>input {
+    width: 50%;
+}
+
+#close-modal, #close-modal2, #close-modal3, #close-modal4, #close-modal5 {
     position: absolute;
     right: 20px;
     font-size: 15pt;
