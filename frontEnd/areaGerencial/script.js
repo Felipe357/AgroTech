@@ -35,7 +35,7 @@ function carregarVeiculos() {
             carros.forEach((c) => {
                 var veiculo = document.querySelector(".veiculo").cloneNode(true)
                 veiculo.classList.remove("model")
-                veiculo.id = "V" + c.id 
+                veiculo.id = "V" + c.id
 
                 veiculo.querySelector("#tipo").innerHTML = c.tipo
                 veiculo.querySelector("#placa").innerHTML = c.placa
@@ -73,7 +73,7 @@ function carregarAlocacoes() {
                 var alocacao = document.querySelector(".alocacao").cloneNode(true)
                 alocacao.classList.remove("model")
 
-                alocacao.id = "O"+op.id
+                alocacao.id = "O" + op.id
 
                 alocacao.querySelector("#motorista").innerHTML = op.motorista.nome
                 alocacao.querySelector("#veiculo").innerHTML = op.veiculo.placa
@@ -294,7 +294,7 @@ function atualizarVeiculo() {
 
 }
 
-function cadastrar() { 
+function cadastrar() {
     document.querySelector(".info").classList.toggle("bluer")
     document.querySelector(".add").classList.toggle("bluer")
     console.log(add)
@@ -359,15 +359,15 @@ function cadastrarMotorista() {
     }
 
     if (cpf == "" || cnh == "" || nome == "") {
-        
+
     } else {
         const options = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(motorista)
-          };
-          
-          fetch('http://localhost:3000/cadMotorista', options)
+        };
+
+        fetch('http://localhost:3000/cadMotorista', options)
             .then(response => response.json())
             .then(response => {
                 if (response !== undefined) {
@@ -376,7 +376,7 @@ function cadastrarMotorista() {
             })
     }
 
-    
+
 }
 
 var idMotorista
@@ -400,7 +400,7 @@ function showMotorista(e) {
             veiculo.querySelector("#nome").value = mot.nome
         })
 
-        console.log(idMotorista)
+    console.log(idMotorista)
 
 }
 
@@ -416,15 +416,15 @@ function atualizarMotorista() {
     }
 
     if (cpf == "" || cnh == "" || nome == "") {
-        
+
     } else {
         const options = {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(motorista)
-          };
-          
-          fetch('http://localhost:3000/updateMotorista/'+ idMotorista, options)
+        };
+
+        fetch('http://localhost:3000/updateMotorista/' + idMotorista, options)
             .then(response => response.json())
             .then(response => {
                 if (response !== undefined) {
@@ -436,20 +436,137 @@ function atualizarMotorista() {
 
 var idOperacao
 
-// function showOperacao(e) {
-//     idOperacao = e.id.slice(1)
+function showOperacao(e) {
+    idOperacao = e.id.slice(1)
 
-//     document.querySelector(".info").classList.toggle("bluer")
-//     document.querySelector(".modal-cadastrar-").classList.remove("model")
+    document.querySelector(".info").classList.toggle("bluer")
+    document.querySelector(".modal-atualizar-alocacao").classList.remove("model")
 
-//     const options = { method: 'GET' };
+    const options = { method: 'GET' };
 
-//     fetch('http://localhost:3000/readAllMotorista/' + idMotorista, options)
-//         .then(response => response.json())
-//         .then(mot => {
-//             var veiculo = document.querySelector(".info-motorista")
-//             veiculo.querySelector("#cpf").value = mot.cpf
-//             veiculo.querySelector("#cnh").value = mot.cnh
-//             veiculo.querySelector("#nome").value = mot.nome
-//         })
-// }
+    fetch('http://localhost:3000/readAllOperacao/' + idOperacao, options)
+        .then(response => response.json())
+        .then(al => {
+            var alocacao = document.querySelector(".info-alocacao")
+            alocacao.querySelector("#nome").value = al.motorista.nome
+            alocacao.querySelector("#placa").value = al.veiculo.placa
+            alocacao.querySelector("#descricao").value = al.descricao
+
+            if (al.data_retorno === null) {
+                alocacao.parentNode.querySelector(".opa").classList.remove("model")
+            } else {
+                alocacao.parentNode.querySelector(".opa").classList.add("model")
+            }
+        })
+}
+
+function atualizarAlocacao() {
+    var descricao = document.querySelector(".info-alocacao").querySelector("#descricao").value
+
+    var des = {
+        "descricao": descricao
+    }
+
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(des)
+    };
+
+    fetch('http://localhost:3000/updateOperacao/' + idOperacao, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response !== undefined) {
+                window.location.reload()
+            }
+        })
+}
+
+function atualizarDataAlocacao() {
+
+    var date = new Date(Date.now())
+
+    console.log(date);
+    var data = {
+        "data_retorno": date
+    }
+
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+
+    fetch('http://localhost:3000/updateOperacao/' + idOperacao, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response !== undefined) {
+                window.location.reload()
+            }
+        })
+}
+
+function cadastrarAlocacao() {
+    var cadastrar = document.querySelector(".info-cadastrar-alocacao")
+
+    var motorista = {
+        "nome": cadastrar.querySelector("#nome").value
+    }
+    console.log(motorista);
+    var veiculo = {
+        "placa": cadastrar.querySelector("#placa").value
+    }
+    console.log(veiculo);
+    var descricao = cadastrar.querySelector("#descricao").value
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(motorista)
+    };
+
+    fetch('http://localhost:3000/readAllMotorista', options)
+        .then(response => response.json())
+        .then(motorista => {
+            if (motorista[0].id !== undefined) {
+                const options2 = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(veiculo)
+                };
+
+                fetch('http://localhost:3000/readAllVeiculo', options2)
+                    .then(response => response.json())
+                    .then(veiculo => {
+                        console.log(veiculo);
+                        if (veiculo.id !== undefined) {
+                            console.log("veiculo ok");
+
+                            var alocacao = {
+                                "motorista_id": parseInt(motorista[0].id),
+                                "veiculo_id": parseInt(veiculo.id),
+                                "descricao": descricao
+                            }
+
+                            console.log(alocacao);
+
+                            const options3 = {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(alocacao)
+                            };
+
+                            fetch('http://localhost:3000/cadOperacao', options3)
+                                .then(response => response.json())
+                                .then(response => {
+                                    window.location.reload()
+                                })
+                        } else {
+                            cadastrar.querySelector("#AlertTipo").classList.toggle("model")
+                        }
+                    })
+            } else {
+                cadastrar.querySelector("#AlertTipo").classList.toggle("model")
+            }
+        })
+}

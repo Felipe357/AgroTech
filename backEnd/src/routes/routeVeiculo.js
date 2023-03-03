@@ -10,7 +10,7 @@ router.delete('/deleteVeiculo/:id', Veiculo.remove);
 router.put('/updateVeiculo/:id', Veiculo.update);
 router.get('/readVeiculo', Veiculo.read);
 router.get('/readAllVeiculo/:id', Veiculo.readVe);
-router.get('/readAllVeiculo', Veiculo.readVeiculo);
+router.post('/readAllVeiculo', Veiculo.readVeiculo);
 
 
 module.exports = router;

@@ -274,6 +274,7 @@ body {
     justify-content: space-between;
     position: relative;
     box-shadow: 8px 8px 20px 0px rgb(126, 126, 126);
+    cursor: pointer;
 }
 
 .veiculo>div,
@@ -356,7 +357,7 @@ body {
     filter: blur(5px);
 }
 
-.modal-cadastrar-alocacao, .modal-disponivel, .modal-cadastrar-veiculo, .modal-cadastrar-motorista, .modal-atualizar-motorista {
+.modal-atualizar-alocacao, .modal-disponivel, .modal-cadastrar-veiculo, .modal-cadastrar-motorista, .modal-atualizar-motorista, .modal-cadastrar-alocacao {
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -378,7 +379,7 @@ body {
     position: relative;
 }
 
-.info-alocacao, .info-veiculo, .info-cadastrar-veiculo, .info-cadastrar-motorista, .info-motorista {
+.info-cadastrar-alocacao, .info-alocacao, .info-veiculo, .info-cadastrar-veiculo, .info-cadastrar-motorista, .info-motorista {
     display: flex;
     flex-direction: column;
     padding: 10px 0px 0px 40px;
@@ -392,16 +393,16 @@ body {
     padding-top: 30px;
 }
 
-.info-alocacao {
+.info-cadastrar-alocacao, .info-alocacao {
     font-size: 12pt!important;
 }
 
-.info-alocacao>span, .info-veiculo>span, .info-cadastrar-veiculo>span, .info-cadastrar-motorista>span, .info-motorista>span {
+.info-cadastrar-alocacao>span, .info-alocacao>span, .info-veiculo>span, .info-cadastrar-veiculo>span, .info-cadastrar-motorista>span, .info-motorista>span {
     position: relative;
     width: 85%;
 }
 
-.info-alocacao>span>input, .info-veiculo>span>input, .info-cadastrar-veiculo>span>input, .info-cadastrar-motorista>span>input, .info-motorista>span>input {
+.info-cadastrar-alocacao>span>input, .info-alocacao>span>input, .info-veiculo>span>input, .info-cadastrar-veiculo>span>input, .info-cadastrar-motorista>span>input, .info-motorista>span>input {
     background: none;
     border: none;
     border-bottom: 2px solid #000000;
@@ -414,11 +415,25 @@ body {
     outline: none;
 }
 
-.info-alocacao>span>input {
+.info-alocacao>span>textarea, .info-cadastrar-alocacao>span>textarea {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #000000;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 200%;
+    padding: 0px 0px 0px 10px;
+    outline: none;
+    resize: none;
+}
+
+.info-alocacao>span>input, .info-cadastrar-alocacao>span>input {
     width: 50%;
 }
 
-#close-modal, #close-modal2, #close-modal3, #close-modal4, #close-modal5 {
+#close-modal, #close-modal2, #close-modal3, #close-modal4, #close-modal5, #close-modal6 {
     position: absolute;
     right: 20px;
     font-size: 15pt;
@@ -428,7 +443,7 @@ body {
     color: #000000;
 }
 
-#atualizar-btn {
+#atualizar-btn, #atualizar-data-btn {
     width: 140px;
     font-size: 16px;
     font-weight: 600;
@@ -446,7 +461,7 @@ body {
     transition: all .4s ease-in-out;
 }
 
-#atualizar-btn:hover {
+#atualizar-btn:hover, #atualizar-data-btn:hover {
     background-position: 100% 0;
     moz-transition: all .4s ease-in-out;
     -o-transition: all .4s ease-in-out;
@@ -454,7 +469,7 @@ body {
     transition: all .4s ease-in-out;
 }
 
-#atualizar-btn:focus {
+#atualizar-btn:focus, #atualizar-data-btn:focus {
     outline: none;
 }
 

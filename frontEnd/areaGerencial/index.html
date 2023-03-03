@@ -249,15 +249,33 @@
         </div>
     </div>
 
-    <div class="modal-cadastrar-alocacao model">
+    <div class="modal-atualizar-alocacao model">
         <div class="modal-alocacao">
             <div class="info-alocacao">
-                <span>Motorista: <input type="text" id="motorista" placeholder="CPF"></span>
-                <span>Veiculo (placa): <input type="text" id="veiculo" placeholder="CNH"></span>
-                <span>Descrição: <input type="text" id="nome" placeholder="Nome"></span>
+                <span>Motorista: <input type="text" id="nome" placeholder="Motorista" disabled></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" disabled></span>
+                <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
             </div>
             <button id="close-modal5" onclick="showModal(this)"><span>X</span></button>
-            <button id="atualizar-btn" class="bn26" onclick="cadastrarAlocacao()">Cadastrar<span></span></button>
+            <div class="btn-atualizar">
+                <button id="atualizar-btn" class="bn26" onclick="atualizarAlocacao()">Atualizar<span></span></button>
+                <button id="atualizar-btn" class="bn26 opa model" onclick="atualizarDataAlocacao()">Chegou<span></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-cadastrar-alocacao model">
+        <div class="modal-alocacao">
+            <div class="info-cadastrar-alocacao">
+                <span id="AlertTipo" class="model">Veiculo ou Motorista não encontrado!</span>
+                <span>Motorista: <input type="text" id="nome" placeholder="Motorista"></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
+            </div>
+            <button id="close-modal6" onclick="showModal(this)"><span>X</span></button>
+            <div class="btn-atualizar">
+                <button id="atualizar-btn" class="bn26" onclick="cadastrarAlocacao()">Cadastrar<span></span></button>
+            </div>
         </div>
     </div>
 

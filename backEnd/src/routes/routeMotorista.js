@@ -10,7 +10,7 @@ router.delete('/deleteMotorista/:id', Motorista.remove);
 router.put('/updateMotorista/:id', Motorista.update);
 router.get('/readMotorista', Motorista.read);
 router.get('/readAllMotorista/:id', Motorista.readMoto);
-router.get('/readAllMotorista', Motorista.readMotorista);
+router.post('/readAllMotorista', Motorista.readMotorista);
 
 
 module.exports = router;

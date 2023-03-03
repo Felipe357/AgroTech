@@ -43,12 +43,18 @@ const readOp = async (req, res) => {
 
 const update = async (req,res) => {
     var info = req.body
-    info.data_retorno = new Date(req.body.data_retorno)
+
+    console.log(info.data_retorno);
+    
+    if (info.data_retorno !== undefined) {
+        info.data_retorno = new Date(req.body.data_retorno)
+    }
+
     const operacao = await prisma.Operacao.update({
         where: {
             id: Number(req.params.id)
         },
-        data: req.body
+        data: info
     })
 
     res.status(200).json(operacao).end()
