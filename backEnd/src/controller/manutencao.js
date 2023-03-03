@@ -63,12 +63,15 @@ const readMa = async (req, res) => {
 
 const update = async (req, res) => {
     var info = req.body
-    info.data_fim = new Date(req.body.data_fim)
+
+    if (info.data_fim !== undefined) {
+        info.data_fim = new Date(req.body.data_fim)
+    }
     const manutencao = await prisma.Manutencao.update({
         where: {
             id: Number(req.params.id)
         },
-        data: req.body
+        data: info
     })
 
     res.status(200).json(manutencao).end()

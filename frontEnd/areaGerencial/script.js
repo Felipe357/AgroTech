@@ -111,6 +111,8 @@ function carregarManutencao() {
                 var manutencao = document.querySelector(".manutencao").cloneNode(true)
                 manutencao.classList.remove("model")
 
+                manutencao.id = "M" + m.id
+
                 manutencao.querySelector("#placa").innerHTML = m.veiculo.placa
                 manutencao.querySelector("#data-inicio").innerHTML = new Date(m.data_inicio).toLocaleDateString('pt-br', { timeZone: 'UTC' })
                 manutencao.querySelector("#valor").innerHTML = "R$ " + m.valor + ",00"
@@ -120,8 +122,11 @@ function carregarManutencao() {
                     manutencao.classList.add("disponivel")
                 } else {
                     manutencao.querySelector("#data-fim").innerHTML = "Não Retornou"
-                    manutencao.classList.add("indisponivel")
+                    manutencao.classList.add("indisponivel");
+                    ([...manutencao.querySelectorAll('span')]).at(-1).style.color = "#A50000"
                 }
+
+
 
                 if (m.veiculo.tipo === "visita") {
                     manutencao.querySelector("img").src = "./imgs/visita.png"
@@ -250,15 +255,15 @@ function showVeiculo(e) {
 
 }
 
-function checkDisponivel(e) {
-    var check = document.getElementById(e.id)
-    check.classList.toggle("s")
-    if (check.classList[0] == "s") {
-        document.querySelector("#dis-alter").innerHTML = "Disponível"
-    } else {
-        document.querySelector("#dis-alter").innerHTML = "Indisponível"
-    }
-}
+// function checkDisponivel(e) {
+//     var check = document.getElementById(e.id)
+//     check.classList.toggle("s")
+//     if (check.classList[0] == "s") {
+//         document.querySelector("#dis-alter").innerHTML = "Disponível"
+//     } else {
+//         document.querySelector("#dis-alter").innerHTML = "Indisponível"
+//     }
+// }
 
 function atualizarVeiculo() {
     var placa = document.querySelector(".info-veiculo").querySelector("#placa").value
@@ -304,6 +309,8 @@ function cadastrar() {
         document.querySelector(".modal-cadastrar-motorista").classList.toggle("model")
     } else if (add == "alocacao") {
         document.querySelector(".modal-cadastrar-alocacao").classList.toggle("model")
+    } else if (add == "manutencao") {
+        document.querySelector(".modal-cadastrar-manutencao").classList.toggle("model")
     } else {
         console.log(add)
     }
@@ -440,6 +447,7 @@ function showOperacao(e) {
     idOperacao = e.id.slice(1)
 
     document.querySelector(".info").classList.toggle("bluer")
+    document.querySelector(".add").classList.toggle("bluer")
     document.querySelector(".modal-atualizar-alocacao").classList.remove("model")
 
     const options = { method: 'GET' };
@@ -529,44 +537,199 @@ function cadastrarAlocacao() {
         .then(response => response.json())
         .then(motorista => {
             if (motorista[0].id !== undefined) {
-                const options2 = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(veiculo)
-                };
+                if (motorista.disponivel === false) {
+                    cadastrar.querySelector(".tipo2").classList.remove("model")
+                    cadastrar.querySelector(".tipo2").innerHTML = "Motorista já está operação!"
+                } else {
+                    const options2 = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(veiculo)
+                    };
 
-                fetch('http://localhost:3000/readAllVeiculo', options2)
-                    .then(response => response.json())
-                    .then(veiculo => {
-                        console.log(veiculo);
-                        if (veiculo.id !== undefined) {
-                            console.log("veiculo ok");
+                    fetch('http://localhost:3000/readAllVeiculo', options2)
+                        .then(response => response.json())
+                        .then(veiculo => {
+                            console.log(veiculo);
+                            if (veiculo.id !== undefined) {
+                                console.log("veiculo ok");
 
-                            var alocacao = {
-                                "motorista_id": parseInt(motorista[0].id),
-                                "veiculo_id": parseInt(veiculo.id),
-                                "descricao": descricao
+                                if (veiculo.disponivel === false) {
+                                    cadastrar.querySelector(".tipo3").classList.remove("model")
+                                    cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
+                                } else {
+                                    var alocacao = {
+                                        "motorista_id": parseInt(motorista[0].id),
+                                        "veiculo_id": parseInt(veiculo.id),
+                                        "descricao": descricao
+                                    }
+
+                                    console.log(alocacao);
+
+                                    const options3 = {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(alocacao)
+                                    };
+
+                                    fetch('http://localhost:3000/cadOperacao', options3)
+                                        .then(response => response.json())
+                                        .then(response => {
+                                            const options4 = {
+                                                method: 'PUT',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: `{"disponivel":${false}}`
+                                            };
+                
+                                            fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options4)
+                                                .then(response => response.json())
+                                                .then(response => {
+                                                    window.location.reload()
+                                                })
+                                        })
+                                }
+                            } else {
+                                cadastrar.querySelector("#AlertTipo").classList.toggle("model")
                             }
+                        })
+                }
+            } else {
+                cadastrar.querySelector("#AlertTipo").classList.toggle("model")
+            }
+        })
+}
 
-                            console.log(alocacao);
+var idManutencao
 
-                            const options3 = {
-                                method: 'POST',
+function showManutencao(e) {
+
+    idManutencao = e.id.slice(1)
+
+    document.querySelector(".info").classList.toggle("bluer")
+    document.querySelector(".add").classList.toggle("bluer")
+    document.querySelector(".modal-atualizar-manutencao").classList.remove("model")
+
+    const options = { method: 'GET' };
+
+    fetch('http://localhost:3000/readAllManutencao/' + idManutencao, options)
+        .then(response => response.json())
+        .then(ma => {
+            var manutencao = document.querySelector(".info-manutencao")
+            manutencao.querySelector("#placa").value = ma.veiculo.placa
+            manutencao.querySelector("#valor").value = ma.valor
+            manutencao.querySelector("#descricao").value = ma.descricao
+
+            if (ma.data_fim === null) {
+                manutencao.parentNode.querySelector(".opa").classList.remove("model")
+            } else {
+                manutencao.parentNode.querySelector(".opa").classList.add("model")
+            }
+        })
+
+}
+
+function atualizarManutencao() {
+    var descricao = document.querySelector(".info-manutencao").querySelector("#descricao").value
+
+    var des = {
+        "descricao": descricao
+    }
+
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(des)
+    };
+
+    fetch('http://localhost:3000/updateManutencao/' + idManutencao, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response !== undefined) {
+                window.location.reload()
+            }
+        })
+}
+
+function cadastrarManutencao() {
+    var cadastrar = document.querySelector(".info-cadastrar-manutencao")
+    var veiculo = {
+        "placa": cadastrar.querySelector("#placa").value
+    }
+    var descricao = cadastrar.querySelector("#descricao").value
+    var valor = cadastrar.querySelector("#valor").value
+
+    const options2 = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(veiculo)
+    };
+
+    fetch('http://localhost:3000/readAllVeiculo', options2)
+        .then(response => response.json())
+        .then(veiculo => {
+            console.log(veiculo)
+            if (veiculo !== null) {
+                console.log("veiculo ok")
+
+                if (veiculo.disponivel === false) {
+                    cadastrar.querySelector(".tipo2").classList.remove("model")
+                    cadastrar.querySelector(".tipo2").innerHTML = "Veiculo já está em uso!"
+                } else {
+                    var alocacao = {
+                        "valor": parseFloat(valor),
+                        "veiculo_id": parseInt(veiculo.id),
+                        "descricao": descricao
+                    }
+
+                    const options3 = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(alocacao)
+                    };
+
+                    fetch('http://localhost:3000/cadManutencao', options3)
+                        .then(response => response.json())
+                        .then(response => {
+                            const options = {
+                                method: 'PUT',
                                 headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(alocacao)
+                                body: `{"disponivel":${false}}`
                             };
 
-                            fetch('http://localhost:3000/cadOperacao', options3)
+                            fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options)
                                 .then(response => response.json())
                                 .then(response => {
                                     window.location.reload()
                                 })
-                        } else {
-                            cadastrar.querySelector("#AlertTipo").classList.toggle("model")
-                        }
-                    })
+                        })
+                }
             } else {
                 cadastrar.querySelector("#AlertTipo").classList.toggle("model")
+            }
+        })
+
+
+}
+
+function atualizarDataManutencao() {
+
+    var date = new Date(Date.now())
+
+    var data = {
+        "data_fim": date
+    }
+
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+
+    fetch('http://localhost:3000/updateManutencao/' + idManutencao, options)
+        .then(response => response.json())
+        .then(response => {
+            if (response !== undefined) {
+                window.location.reload()
             }
         })
 }

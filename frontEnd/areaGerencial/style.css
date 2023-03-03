@@ -357,7 +357,7 @@ body {
     filter: blur(5px);
 }
 
-.modal-atualizar-alocacao, .modal-disponivel, .modal-cadastrar-veiculo, .modal-cadastrar-motorista, .modal-atualizar-motorista, .modal-cadastrar-alocacao {
+.modal-atualizar-manutencao, .modal-cadastrar-manutencao, .modal-atualizar-alocacao, .modal-disponivel, .modal-cadastrar-veiculo, .modal-cadastrar-motorista, .modal-atualizar-motorista, .modal-cadastrar-alocacao {
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -366,7 +366,7 @@ body {
     align-items: center;
 }
 
-.modal-alocacao, .modal-veiculo, .modal-motorista {
+.modal-manutencao, .modal-alocacao, .modal-veiculo, .modal-motorista {
     height: 350px;
     width: 500px;
     background-color: #bcd7ee;
@@ -379,7 +379,7 @@ body {
     position: relative;
 }
 
-.info-cadastrar-alocacao, .info-alocacao, .info-veiculo, .info-cadastrar-veiculo, .info-cadastrar-motorista, .info-motorista {
+.info-manutencao, .info-cadastrar-manutencao, .info-cadastrar-alocacao, .info-alocacao, .info-veiculo, .info-cadastrar-veiculo, .info-cadastrar-motorista, .info-motorista {
     display: flex;
     flex-direction: column;
     padding: 10px 0px 0px 40px;
@@ -393,16 +393,16 @@ body {
     padding-top: 30px;
 }
 
-.info-cadastrar-alocacao, .info-alocacao {
+.info-cadastrar-alocacao, .info-alocacao, .info-manutencao, .info-cadastrar-manutencao {
     font-size: 12pt!important;
 }
 
-.info-cadastrar-alocacao>span, .info-alocacao>span, .info-veiculo>span, .info-cadastrar-veiculo>span, .info-cadastrar-motorista>span, .info-motorista>span {
+.info-manutencao>span, .info-cadastrar-manutencao>span, .info-cadastrar-alocacao>span, .info-alocacao>span, .info-veiculo>span, .info-cadastrar-veiculo>span, .info-cadastrar-motorista>span, .info-motorista>span {
     position: relative;
     width: 85%;
 }
 
-.info-cadastrar-alocacao>span>input, .info-alocacao>span>input, .info-veiculo>span>input, .info-cadastrar-veiculo>span>input, .info-cadastrar-motorista>span>input, .info-motorista>span>input {
+.info-manutencao>span>input, .info-cadastrar-manutencao>span>input, .info-cadastrar-alocacao>span>input, .info-alocacao>span>input, .info-veiculo>span>input, .info-cadastrar-veiculo>span>input, .info-cadastrar-motorista>span>input, .info-motorista>span>input {
     background: none;
     border: none;
     border-bottom: 2px solid #000000;
@@ -415,7 +415,7 @@ body {
     outline: none;
 }
 
-.info-alocacao>span>textarea, .info-cadastrar-alocacao>span>textarea {
+.info-cadastrar-manutencao>span>textarea, .info-manutencao>span>textarea,.info-alocacao>span>textarea, .info-cadastrar-alocacao>span>textarea {
     background: none;
     border: none;
     border-bottom: 2px solid #000000;
@@ -429,11 +429,11 @@ body {
     resize: none;
 }
 
-.info-alocacao>span>input, .info-cadastrar-alocacao>span>input {
+.info-cadastrar-manutencao>span>input, .info-manutencao>span>input, .info-cadastrar-manutencao>span>textarea, .info-alocacao>span>input, .info-cadastrar-alocacao>span>input {
     width: 50%;
 }
 
-#close-modal, #close-modal2, #close-modal3, #close-modal4, #close-modal5, #close-modal6 {
+#close-modal, #close-modal2, #close-modal3, #close-modal4, #close-modal5, #close-modal6, #close-modal7, #close-modal8 {
     position: absolute;
     right: 20px;
     font-size: 15pt;

@@ -98,7 +98,7 @@
                     <canvas id="grafico-manutencao" class="grafico-manutencao"></canvas>
                     <div class="results">
                         <div class="manutencoes">
-                            <div class="manutencao model">
+                            <div class="manutencao model" onclick="showManutencao(this)">
                                 <div>
                                     <div>
                                         <span>Placa: <span id="placa"></span></span>
@@ -259,7 +259,7 @@
             <button id="close-modal5" onclick="showModal(this)"><span>X</span></button>
             <div class="btn-atualizar">
                 <button id="atualizar-btn" class="bn26" onclick="atualizarAlocacao()">Atualizar<span></span></button>
-                <button id="atualizar-btn" class="bn26 opa model" onclick="atualizarDataAlocacao()">Chegou<span></span></button>
+                <button id="atualizar-btn" class="bn26 opa model" onclick="atualizarDataAlocacao()">Finalizar<span></span></button>
             </div>
         </div>
     </div>
@@ -268,6 +268,8 @@
         <div class="modal-alocacao">
             <div class="info-cadastrar-alocacao">
                 <span id="AlertTipo" class="model">Veiculo ou Motorista não encontrado!</span>
+                <span id="AlertTipo" class="model tipo2">Veiculo não encontrado!</span>
+                <span id="AlertTipo" class="model tipo3">Veiculo não encontrado!</span>
                 <span>Motorista: <input type="text" id="nome" placeholder="Motorista"></span>
                 <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"></span>
                 <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
@@ -275,6 +277,37 @@
             <button id="close-modal6" onclick="showModal(this)"><span>X</span></button>
             <div class="btn-atualizar">
                 <button id="atualizar-btn" class="bn26" onclick="cadastrarAlocacao()">Cadastrar<span></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-atualizar-manutencao model">
+        <div class="modal-manutencao">
+            <div class="info-manutencao">
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" disabled></span>
+                <span>Valor: <input type="text" id="valor" placeholder="Valor" disabled></span>
+                <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
+            </div>
+            <button id="close-modal7" onclick="showModal(this)"><span>X</span></button>
+            <div class="btn-atualizar">
+                <button id="atualizar-btn" class="bn26" onclick="atualizarManutencao()">Atualizar<span></span></button>
+                <button id="atualizar-btn" class="bn26 opa model" onclick="atualizarDataManutencao()">Finalizar<span></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-cadastrar-manutencao model">
+        <div class="modal-manutencao">
+            <div class="info-cadastrar-manutencao">
+                <span id="AlertTipo" class="model">Veiculo não encontrado!</span>
+                <span id="AlertTipo" class="model tipo2">Veiculo não encontrado!</span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Valor: <input type="text" id="valor" placeholder="Valor"></span>
+                <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
+            </div>
+            <button id="close-modal8" onclick="showModal(this)"><span>X</span></button>
+            <div class="btn-atualizar">
+                <button id="atualizar-btn" class="bn26" onclick="cadastrarManutencao()">Cadastrar<span></span></button>
             </div>
         </div>
     </div>
