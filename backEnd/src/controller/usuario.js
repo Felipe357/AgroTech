@@ -6,7 +6,7 @@ require('dotenv').config()
 const prisma = new PrismaClient();
 
 const create = async (req, res) => {
-    let funcionario = await prisma.Usuario.create({
+    let funcionario = await prisma.Usuario.createMany({
         data: req.body
     })
     res.status(200).json("Funcionario Cadastrado " + funcionario).end();

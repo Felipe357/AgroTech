@@ -1,5 +1,22 @@
 var add = "veiculoDisponivel"
 
+function formatarCPF(e) {
+  let cpf = e.querySelector("#cpf").value;
+  cpf = cpf.replace(/\D/g, ''); // remove todos os caracteres não numéricos
+  cpf = cpf.replace(/^(\d{3})(\d)/g, '$1.$2'); // coloca um ponto após os primeiros 3 dígitos
+  cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3'); // coloca um ponto após os próximos 3 dígitos
+  cpf = cpf.replace(/\.(\d{3})(\d)/g, '.$1-$2'); // coloca um traço após os últimos 2 dígitos
+  e.querySelector("#cpf").value = cpf;
+}
+
+function formatarPlaca(e) {
+  let placa = e.querySelector("#placa").value;
+  placa = placa.replace(/\W/g, ''); // remove todos os caracteres não alfanuméricos
+  placa = placa.replace(/(\w{3})(\w)/, '$1-$2'); // adiciona traço após os primeiros 3 caracteres
+  e.querySelector("#placa").value = placa.toUpperCase(); // transforma tudo em maiúsculo e atualiza o valor do input
+};
+
+
 function alterRe(e) {
     document.querySelector(".efect").classList.remove("efect")
     var re = document.getElementById(e.id)

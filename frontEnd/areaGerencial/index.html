@@ -202,7 +202,7 @@
             <div class="info-veiculo">
                 <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
                 <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
-                <span>Placa: <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
                 <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
             </div>
@@ -216,7 +216,7 @@
             <div class="info-cadastrar-veiculo">
                 <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
                 <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
-                <span>Placa: <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
                 <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
             </div>
@@ -228,7 +228,7 @@
     <div class="modal-cadastrar-motorista model">
         <div class="modal-motorista">
             <div class="info-cadastrar-motorista">
-                <span>CPF: <input type="text" id="cpf" placeholder="CPF"></span>
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14" onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
                 <span>CNH: <input type="text" id="cnh" placeholder="CNH"></span>
                 <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
             </div>
@@ -240,7 +240,7 @@
     <div class="modal-atualizar-motorista model">
         <div class="modal-motorista">
             <div class="info-motorista">
-                <span>CPF: <input type="text" id="cpf" placeholder="CPF"></span>
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14" onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
                 <span>CNH: <input type="text" id="cnh" placeholder="CNH"></span>
                 <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
             </div>
@@ -271,7 +271,7 @@
                 <span id="AlertTipo" class="model tipo2">Veiculo não encontrado!</span>
                 <span id="AlertTipo" class="model tipo3">Veiculo não encontrado!</span>
                 <span>Motorista: <input type="text" id="nome" placeholder="Motorista"></span>
-                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
             </div>
             <button id="close-modal6" onclick="showModal(this)"><span>X</span></button>
@@ -301,7 +301,7 @@
             <div class="info-cadastrar-manutencao">
                 <span id="AlertTipo" class="model">Veiculo não encontrado!</span>
                 <span id="AlertTipo" class="model tipo2">Veiculo não encontrado!</span>
-                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Valor: <input type="text" id="valor" placeholder="Valor"></span>
                 <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
             </div>

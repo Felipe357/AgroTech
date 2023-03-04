@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const create = async (req, res) => {
-    const veiculo = await prisma.Veiculo.create({
+    const veiculo = await prisma.Veiculo.createMany({
         data: req.body
     })
     res.status(200).json("Veiculo Cadastrado " + veiculo).end();

@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const create = async (req, res) => {
-    const manutencao = await prisma.Manutencao.create({
+    const manutencao = await prisma.Manutencao.createMany({
         data: req.body
     })
     res.status(200).json("manutencao Cadastrado " + manutencao).end();
