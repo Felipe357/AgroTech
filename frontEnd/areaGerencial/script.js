@@ -62,6 +62,99 @@ function gerarGraficoVeiculo2(visita, venda, carga) {
     });
 }
 
+function gerarGraficoMotorista(disponivel, uso) {
+    const data = {
+        labels: ["Disponível", "Em Uso"],
+        datasets: [
+            {
+                label: "Motoristas disponível",
+                data: [disponivel, uso],
+                backgroundColor: "rgba(000, 255, 000, 0.2)",
+                borderColor: "rgba(000, 255, 000, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    // Opções do gráfico
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Criação do gráfico de barras
+    const myChart = new Chart(document.querySelector("#graficoMotorista"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
+}
+
+function gerarGraficoManutencao(uso, dis) {
+    const data = {
+        labels: ["Em manutenção", "Concluidas"],
+        datasets: [
+            {
+                label: "Manutenção",
+                data: [uso, dis],
+                backgroundColor: "rgba(235, 250, 32, 0.2)",
+                borderColor: "rgba(235, 250, 32, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    // Opções do gráfico
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Criação do gráfico de barras
+    const myChart = new Chart(document.querySelector("#graficoManutencao"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
+}
+
+function gerarGraficoOperacao(uso, dis) {
+    const data = {
+        labels: ["Em uso", "Finalizadas"],
+        datasets: [
+            {
+                label: "Operação",
+                data: [uso, dis],
+                backgroundColor: "rgba(48, 242, 152, 0.2)",
+                borderColor: "rgba(48, 242, 152, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    // Opções do gráfico
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Criação do gráfico de barras
+    const myChart = new Chart(document.querySelector("#graficoOperacao"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
+}
+
 function formatarCPF(e) {
     let cpf = e.querySelector("#cpf").value;
     cpf = cpf.replace(/\D/g, ''); // remove todos os caracteres não numéricos
@@ -120,6 +213,15 @@ function alterRe(e) {
     }
 
 }
+
+function alterarDashboard(e) {
+    console.log(e);
+    document.querySelectorAll(".dash").forEach(a => a.classList.add('model'))
+    document.querySelector(".graficos").querySelector("." + e.classList[1]).classList.remove("model")
+}
+
+var arrayMotoristaAlocacao = []
+var arrayMotoristaNomeAlocacao = []
 
 function carregarVeiculos() {
 
@@ -188,6 +290,8 @@ function carregarVeiculos() {
 }
 
 function carregarAlocacoes() {
+    var al = 0
+    var al2 = 0
     const options = { method: 'GET' };
 
     fetch('http://localhost:3000/readOperacao', options)
@@ -207,9 +311,11 @@ function carregarAlocacoes() {
                 if (op.data_retorno !== null) {
                     alocacao.querySelector("#retorno").innerHTML = new Date(op.data_retorno).toLocaleDateString('pt-br', { timeZone: 'UTC' })
                     alocacao.classList.add("disponivel")
+                    al2++
                 } else {
                     alocacao.querySelector("#retorno").innerHTML = "Em uso"
                     alocacao.classList.add("indisponivel")
+                    al++
                 }
 
                 if (op.veiculo.tipo === "visita") {
@@ -222,10 +328,13 @@ function carregarAlocacoes() {
 
                 document.querySelector(".alocacoes").appendChild(alocacao)
             })
+            gerarGraficoOperacao(al, al2)
         })
 }
 
 function carregarManutencao() {
+    var ma = 0
+    var ma2 = 0
     const options = { method: 'GET' };
 
     fetch('http://localhost:3000/readManutencao', options)
@@ -244,9 +353,11 @@ function carregarManutencao() {
                 if (m.data_fim !== null) {
                     manutencao.querySelector("#data-fim").innerHTML = new Date(m.data_fim).toLocaleDateString('pt-br', { timeZone: 'UTC' })
                     manutencao.classList.add("disponivel")
+                    ma2++
                 } else {
                     manutencao.querySelector("#data-fim").innerHTML = "Não Retornou"
                     manutencao.classList.add("indisponivel");
+                    ma++
                     ([...manutencao.querySelectorAll('span')]).at(-1).style.color = "#A50000"
                 }
 
@@ -262,6 +373,7 @@ function carregarManutencao() {
 
                 document.querySelector(".manutencoes").appendChild(manutencao)
             })
+            gerarGraficoManutencao(ma, ma2)
         })
 }
 
@@ -307,23 +419,32 @@ function carregarMaGeral() {
 }
 
 function carregarMotoristas() {
+
+    var uso = 0
+    var dis = 0
     const options = { method: 'GET' };
 
     fetch('http://localhost:3000/readMotorista', options)
         .then(response => response.json())
-        .then(carros => {
-            carros.forEach((c) => {
+        .then(motorista => {
+            motorista.forEach((m) => {
                 var motorista = document.querySelector(".motorista").cloneNode(true)
                 motorista.classList.remove("model")
-                motorista.id = "M" + c.id
+                motorista.id = "M" + m.id
 
-                motorista.querySelector("#cpf").innerHTML = c.cpf
-                motorista.querySelector("#cnh").innerHTML = c.cnh
-                motorista.querySelector("#nome").innerHTML = c.nome
+                arrayMotoristaAlocacao.push(m.operacao.length)
+                arrayMotoristaNomeAlocacao.push(m.nome)
 
-                if (c.disponivel !== true) {
+                motorista.querySelector("#cpf").innerHTML = m.cpf
+                motorista.querySelector("#cnh").innerHTML = m.cnh
+                motorista.querySelector("#nome").innerHTML = m.nome
+
+                if (m.disponivel !== true) {
                     motorista.classList.add("indisponivel")
+                    uso++
                 } else {
+                    dis++
+                    console.log(dis);
                     motorista.classList.add("disponivel")
                     motorista.querySelector("#disponivel").style.color = "#2dc200"
                     motorista.querySelector("#disponivel").innerHTML = "Disponivel"
@@ -331,6 +452,7 @@ function carregarMotoristas() {
 
                 document.querySelector(".motoristas").appendChild(motorista)
             })
+            gerarGraficoMotorista(dis, uso)
         })
 }
 
@@ -382,16 +504,6 @@ function showVeiculo(e) {
         })
 
 }
-
-// function checkDisponivel(e) {
-//     var check = document.getElementById(e.id)
-//     check.classList.toggle("s")
-//     if (check.classList[0] == "s") {
-//         document.querySelector("#dis-alter").innerHTML = "Disponível"
-//     } else {
-//         document.querySelector("#dis-alter").innerHTML = "Indisponível"
-//     }
-// }
 
 function atualizarVeiculo() {
     var placa = document.querySelector(".info-veiculo").querySelector("#placa").value
@@ -645,8 +757,8 @@ function atualizarDataAlocacao() {
 
                 fetch('http://localhost:3000/updateVeiculo/' + response.veiculo_id, options2)
                     .then(response => response.json())
-                    .then(response => {
-                        if (response.id !== undefined) {
+                    .then(response2 => {
+                        if (response2.id !== undefined) {
                             const options3 = {
                                 method: 'PUT',
                                 headers: { 'Content-Type': 'application/json' },
@@ -702,59 +814,60 @@ function cadastrarAlocacao() {
                     fetch('http://localhost:3000/updateMotorista/' + motorista[0].id, options3)
                         .then(response => response.json())
                         .then(response => {
-                            console.log(response)
+                            if (response.id !== undefined) {
+                                const options2 = {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(veiculo)
+                                };
+
+                                fetch('http://localhost:3000/readAllVeiculo', options2)
+                                    .then(response => response.json())
+                                    .then(veiculo => {
+                                        console.log(veiculo)
+                                        if (veiculo.id !== undefined) {
+                                            console.log("veiculo ok");
+
+                                            if (veiculo.disponivel === false) {
+                                                cadastrar.querySelector(".tipo3").classList.remove("model")
+                                                cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
+                                            } else {
+                                                var alocacao = {
+                                                    "motorista_id": parseInt(motorista[0].id),
+                                                    "veiculo_id": parseInt(veiculo.id),
+                                                    "descricao": descricao
+                                                }
+
+                                                console.log(alocacao);
+
+                                                const options3 = {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify(alocacao)
+                                                };
+
+                                                fetch('http://localhost:3000/cadOperacao', options3)
+                                                    .then(response => response.json())
+                                                    .then(response => {
+                                                        const options4 = {
+                                                            method: 'PUT',
+                                                            headers: { 'Content-Type': 'application/json' },
+                                                            body: `{"disponivel":${false}}`
+                                                        };
+
+                                                        fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options4)
+                                                            .then(response => response.json())
+                                                            .then(response => {
+                                                                window.location.reload()
+                                                            })
+                                                    })
+                                            }
+                                        } else {
+                                            cadastrar.querySelector("#AlertTipo").classList.toggle("model")
+                                        }
+                                    })
+                            }
                         })
-                    // const options2 = {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify(veiculo)
-                    // };
-
-                    // fetch('http://localhost:3000/readAllVeiculo', options2)
-                    //     .then(response => response.json())
-                    //     .then(veiculo => {
-                    //         console.log(veiculo)
-                    //         if (veiculo.id !== undefined) {
-                    //             console.log("veiculo ok");
-
-                    //             if (veiculo.disponivel === false) {
-                    //                 cadastrar.querySelector(".tipo3").classList.remove("model")
-                    //                 cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
-                    //             } else {
-                    //                 var alocacao = {
-                    //                     "motorista_id": parseInt(motorista[0].id),
-                    //                     "veiculo_id": parseInt(veiculo.id),
-                    //                     "descricao": descricao
-                    //                 }
-
-                    //                 console.log(alocacao);
-
-                    //                 const options3 = {
-                    //                     method: 'POST',
-                    //                     headers: { 'Content-Type': 'application/json' },
-                    //                     body: JSON.stringify(alocacao)
-                    //                 };
-
-                    //                 fetch('http://localhost:3000/cadOperacao', options3)
-                    //                     .then(response => response.json())
-                    //                     .then(response => {
-                    //                         const options4 = {
-                    //                             method: 'PUT',
-                    //                             headers: { 'Content-Type': 'application/json' },
-                    //                             body: `{"disponivel":${false}}`
-                    //                         };
-
-                    //                         fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options4)
-                    //                             .then(response => response.json())
-                    //                             .then(response => {
-                    //                                 window.location.reload()
-                    //                             })
-                    //                     })
-                    //             }
-                    //         } else {
-                    //             cadastrar.querySelector("#AlertTipo").classList.toggle("model")
-                    //         }
-                    //     })
                 }
             } else {
                 cadastrar.querySelector("#AlertTipo").classList.toggle("model")
@@ -892,6 +1005,7 @@ function atualizarDataManutencao() {
         .then(response => response.json())
         .then(response => {
             if (response.id !== undefined) {
+                console.log(response);
                 const options2 = {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
@@ -902,21 +1016,90 @@ function atualizarDataManutencao() {
                     .then(response => response.json())
                     .then(response2 => {
                         if (response2.id !== undefined) {
-                            const options3 = {
-                                method: 'PUT',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: '{"disponivel":true}'
-                            };
-
-                            fetch('http://localhost:3000/updateMotorista/' + response.motorista_id, options3)
-                                .then(response => response.json())
-                                .then(response => {
-                                    if (response.id !== undefined) {
-                                        window.location.reload()
-                                    }
-                                })
+                            window.location.reload()
                         }
                     })
             }
         })
+}
+
+setTimeout(() => {
+    dashboardMotorista()
+    dashboardMotorista2()
+}, 1000)
+
+function dashboardMotorista() {
+    var ctx = document.getElementById('motoristaU').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        
+        data: {
+            labels: arrayMotoristaNomeAlocacao,
+            datasets: [{
+                
+                data:arrayMotoristaAlocacao,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins : {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function dashboardMotorista2() {
+    const data = {
+        labels: arrayMotoristaNomeAlocacao,
+        datasets: [
+            {
+                label: "Vendas",
+                data: [],
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
+            },
+            {
+                label: "Visitas",
+                data: [],
+                backgroundColor: "rgba(235, 87, 87, 0.2)",
+                borderColor: "rgba(235, 87, 87, 1)",
+                borderWidth: 1
+            },
+            {
+                label: "Cargas",
+                data: [],
+                backgroundColor: "RGBA(255, 235, 59, 0.2)",
+                borderColor: "RGBA(255, 235, 59, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    const options = {
+        
+    };
+
+    const myChart = new Chart(document.querySelector("#motoristaA"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
 }

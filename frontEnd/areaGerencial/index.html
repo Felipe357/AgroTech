@@ -14,12 +14,12 @@
             const options = {
                 method: 'POST',
                 headers: {
-                Authorization: `${ifuser.token}`,
-                'Content-Type': 'application/json'
+                    Authorization: `${ifuser.token}`,
+                    'Content-Type': 'application/json'
                 },
                 body: `{"id":${ifuser.id}}`
             };
-            
+
             fetch('http://localhost:3000/validarUser', options)
                 .then(response => response.json())
                 .then(response => {
@@ -30,14 +30,14 @@
                     }
                 })
                 .catch(err => console.error(err));
-        } else{
+        } else {
             window.location.href = "../login"
         }
     </script>
 </head>
 
 <body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes(), carregarMotoristas()">
-    
+
     <div class="info">
         <div class="relatorios">
             <span>Gráficos</span>
@@ -79,12 +79,11 @@
                 </div>
                 <div class="contens disponibilidade">
                     <div id="graficoDis" class="grafico">
-                        <canvas id="graficoVeiculo"></canvas>
-                        <canvas id="graficoVeiculo2"></canvas>
+                        <canvas id="graficoVeiculo" class="gWidth"></canvas>
+                        <canvas id="graficoVeiculo2" class="gWidth"></canvas>
                     </div>
                     <div id="graficoDis2" class="grafico model">
-                        <canvas id="graficoVeiculo"></canvas>
-                        <canvas id="graficoVeiculo2"></canvas>
+                        <canvas id="graficoMotorista"></canvas>
                     </div>
                     <div id="graficoDis" class="grafico2 model"></div>
                     <div class="results ">
@@ -130,7 +129,9 @@
                     <span>Manutenção</span>
                 </div>
                 <div class="contens">
-                    <canvas id="grafico-manutencao" class="grafico-manutencao"></canvas>
+                    <div id="grafico-manutencao" class="grafico-manutencao">
+                        <canvas id="graficoManutencao" class="gWidth"></canvas>
+                    </div>
                     <div class="results">
                         <div class="manutencoes">
                             <div class="manutencao model" onclick="showManutencao(this)">
@@ -177,7 +178,9 @@
 
                 </div>
                 <div class="contens">
-                    <canvas id="grafico-alocacao" class="grafico-alocacao"></canvas>
+                    <div id="grafico-alocacao" class="grafico-alocacao">
+                        <canvas id="graficoOperacao" class="gWidth"></canvas>
+                    </div>
                     <div class="results">
                         <div class="alocacoes">
                             <div class="alocacao model" onclick="showOperacao(this)">
@@ -203,27 +206,64 @@
                 <div class="header">
                     <span>Dashboard</span>
                     <div class="check">
-                        <div class="img">
-                            <!-- <div class="radio" id="radioOp" onclick="checkOp(this)"></div> -->
+                        <div class="img dh1" onclick="alterarDashboard(this)">
                             <img src="./imgs/dashboard/carteira-de-motorista.png" alt="Motoristas">
                             <span>Motoristas</span>
                         </div>
-                        <div class="img">
+                        <div class="img dh2" onclick="alterarDashboard(this)">
                             <img src="./imgs/dashboard/frota.png" alt="Motoristas">
                             <span>Frota</span>
                         </div>
-                        <div class="img">
+                        <div class="img dh3" onclick="alterarDashboard(this)">
                             <img src="./imgs/dashboard/manutencao.png" alt="Motoristas">
                             <span>Manutenção</span>
                         </div>
-                        <div class="img">
+                        <div class="img dh4" onclick="alterarDashboard(this)">
                             <img src="./imgs/dashboard/pin-de-localizacao.png" alt="Motoristas">
                             <span>Alocação</span>
                         </div>
                     </div>
                 </div>
                 <div class="contens dashboard">
+                    <div class="graficos">
+                        <div class="dh1 dash dashboard-motorista">
+                            <div class="header-dashboard">
+                                <span>Motoristas</span>
+                            </div>
+                            <div class="main-motorista">
 
+                                <div class="div1">
+                                    <canvas id="motoristaA"></canvas>
+                                </div>
+                                <div class="div2">
+                                    <canvas id="motoristaU"></canvas>
+                                    <span id="titulo">Motoristas mais suados</span>
+                                </div>
+                                <div class="div3">
+                                    <canvas id="motorista"></canvas>
+                                </div>
+                                <div class="div4">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="dh2 dash dashboard-manutencao model">
+                            <div class="header-dashboard">
+                                <span>Manutenção</span>
+                            </div>
+                        </div>
+                        <div class="dh3 dash dashboard-frota model">
+                            <div class="header-dashboard">
+                                <span>Frota</span>
+                            </div>
+                        </div>
+                        <div class="dh4 dash dashboard-alocacao model">
+                            <div class="header-dashboard">
+                                <span>Alocação</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -237,7 +277,8 @@
             <div class="info-veiculo">
                 <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
                 <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
-                <span>Placa: <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa"
+                        onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
                 <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
             </div>
@@ -251,7 +292,8 @@
             <div class="info-cadastrar-veiculo">
                 <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
                 <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga"></span>
-                <span>Placa: <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa"
+                        onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Modelo: <input type="text" id="modelo" placeholder="Modelo"></span>
                 <span>Marca: <input type="text" id="marca" placeholder="Marca"></span>
             </div>
@@ -263,8 +305,10 @@
     <div class="modal-cadastrar-motorista model">
         <div class="modal-motorista">
             <div class="info-cadastrar-motorista">
-                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14" onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
-                <span>CNH: <input type="text" id="cnh" placeholder="CNH" onkeyup="formatarCNH(this.parentNode.parentNode)"></span>
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14"
+                        onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH"
+                        onkeyup="formatarCNH(this.parentNode.parentNode)"></span>
                 <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
             </div>
             <button id="close-modal3" onclick="showModal(this)"><span>X</span></button>
@@ -275,8 +319,10 @@
     <div class="modal-atualizar-motorista model">
         <div class="modal-motorista">
             <div class="info-motorista">
-                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14" onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
-                <span>CNH: <input type="text" id="cnh" placeholder="CNH" onkeyup="formatarCNH(this.parentNode.parentNode)"></span>
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14"
+                        onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH"
+                        onkeyup="formatarCNH(this.parentNode.parentNode)"></span>
                 <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
             </div>
             <button id="close-modal4" onclick="showModal(this)"><span>X</span></button>
@@ -294,7 +340,8 @@
             <button id="close-modal5" onclick="showModal(this)"><span>X</span></button>
             <div class="btn-atualizar">
                 <button id="atualizar-btn" class="bn26" onclick="atualizarAlocacao()">Atualizar<span></span></button>
-                <button id="atualizar-btn" class="bn26 opa model" onclick="atualizarDataAlocacao()">Finalizar<span></span></button>
+                <button id="atualizar-btn" class="bn26 opa model"
+                    onclick="atualizarDataAlocacao()">Finalizar<span></span></button>
             </div>
         </div>
     </div>
@@ -306,7 +353,8 @@
                 <span id="AlertTipo" class="model tipo2">Veiculo não encontrado!</span>
                 <span id="AlertTipo" class="model tipo3">Veiculo não encontrado!</span>
                 <span>Motorista: <input type="text" id="nome" placeholder="Motorista"></span>
-                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"
+                        onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
             </div>
             <button id="close-modal6" onclick="showModal(this)"><span>X</span></button>
@@ -326,7 +374,8 @@
             <button id="close-modal7" onclick="showModal(this)"><span>X</span></button>
             <div class="btn-atualizar">
                 <button id="atualizar-btn" class="bn26" onclick="atualizarManutencao()">Atualizar<span></span></button>
-                <button id="atualizar-btn" class="bn26 opa model" onclick="atualizarDataManutencao()">Finalizar<span></span></button>
+                <button id="atualizar-btn" class="bn26 opa model"
+                    onclick="atualizarDataManutencao()">Finalizar<span></span></button>
             </div>
         </div>
     </div>
@@ -336,7 +385,8 @@
             <div class="info-cadastrar-manutencao">
                 <span id="AlertTipo" class="model">Veiculo não encontrado!</span>
                 <span id="AlertTipo" class="model tipo2">Veiculo não encontrado!</span>
-                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa"
+                        onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8"></span>
                 <span>Valor: <input type="text" id="valor" placeholder="Valor"></span>
                 <span>Descrição: <Textarea placeholder="Descrição" id="descricao"></Textarea></span>
             </div>
