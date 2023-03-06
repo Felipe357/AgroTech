@@ -7,6 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Document</title>
+    <script>
+        var ifuser = window.localStorage.getItem('ifuser')
+        if (ifuser !== null) {
+            ifuser = JSON.parse(ifuser)
+            const options = {
+                method: 'POST',
+                headers: {
+                Authorization: `${ifuser.token}`,
+                'Content-Type': 'application/json'
+                },
+                body: `{"id":${ifuser.id}}`
+            };
+            
+            fetch('http://localhost:3000/validarUser', options)
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                    if (!response.validar) {
+                        window.localStorage.removeItem('ifuser')
+                        window.location.href = "../login"
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
 </head>
 
 <body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes(), carregarMotoristas()">

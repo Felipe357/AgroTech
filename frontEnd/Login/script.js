@@ -22,7 +22,8 @@ function logar() {
       fetch('http://localhost:3000/loginUsuario', options)
         .then(response => response.json())
         .then(response => {
-            if (response !== undefined) {
+            if (response.nome !== undefined) {
+                localStorage.setItem('ifuser', JSON.stringify(response))
                 if (response.tipo !== "funcionario") {
                     window.location.href = "../areaGerencial/index.html"
                 } else {

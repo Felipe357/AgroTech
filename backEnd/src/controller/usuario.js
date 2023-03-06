@@ -9,7 +9,7 @@ const create = async (req, res) => {
     let funcionario = await prisma.Usuario.createMany({
         data: req.body
     })
-    res.status(200).json("Funcionario Cadastrado " + funcionario).end();
+    res.status(200).json(funcionario).end();
 }
 
 const validate = async (req, res) => {
@@ -20,10 +20,11 @@ const validate = async (req, res) => {
         },
         select: {
             nome: true,
-            tipo: true
+            tipo: true,
+            id: true
         }
     })
-    jwt.sign(funcionario[0], process.env.KEY, { expiresIn: '8m' }, function (err, token) {
+    jwt.sign(funcionario[0], process.env.KEY, { expiresIn: '1m' }, function (err, token) {
         if (err === null) {
             funcionario[0]["token"] = token
             res.status(200).json(funcionario[0]).end()

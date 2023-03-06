@@ -147,7 +147,7 @@ function carregarManutencao() {
 
                 if (m.veiculo.tipo === "visita") {
                     manutencao.querySelector("img").src = "./imgs/visita.png"
-                } else if (op.veiculo.tipo === "carga") {
+                } else if (m.veiculo.tipo === "carga") {
                     manutencao.querySelector("img").src = "./imgs/carga.png"
                 } else {
                     manutencao.querySelector("img").src = "./imgs/venda.png"
