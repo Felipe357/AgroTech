@@ -112,3 +112,8 @@ body {
 .inps>button:hover::before {
     left: -10px;
 }
+
+.model {
+    display: none;
+    visibility: hidden;
+}

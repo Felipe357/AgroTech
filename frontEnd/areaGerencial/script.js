@@ -1,20 +1,98 @@
 var add = "veiculoDisponivel"
 
+function gerarGraficoVeiculo(visita, venda, carga) {
+    const data = {
+        labels: ["Visita", "Venda", "Carga"],
+        datasets: [
+            {
+                label: "Veiculos disponível",
+                data: [visita, venda, carga],
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    // Opções do gráfico
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Criação do gráfico de barras
+    const myChart = new Chart(document.querySelector("#graficoVeiculo"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
+}
+
+function gerarGraficoVeiculo2(visita, venda, carga) {
+    const data = {
+        labels: ["Visita", "Venda", "Carga"],
+        datasets: [
+            {
+                label: "Veiculos em uso",
+                data: [visita, venda, carga],
+                backgroundColor: "rgba(255, 0, 0, 0.2)",
+                borderColor: "rgba(255, 0, 0, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    // Opções do gráfico
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    // Criação do gráfico de barras
+    const myChart = new Chart(document.querySelector("#graficoVeiculo2"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
+}
+
 function formatarCPF(e) {
-  let cpf = e.querySelector("#cpf").value;
-  cpf = cpf.replace(/\D/g, ''); // remove todos os caracteres não numéricos
-  cpf = cpf.replace(/^(\d{3})(\d)/g, '$1.$2'); // coloca um ponto após os primeiros 3 dígitos
-  cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3'); // coloca um ponto após os próximos 3 dígitos
-  cpf = cpf.replace(/\.(\d{3})(\d)/g, '.$1-$2'); // coloca um traço após os últimos 2 dígitos
-  e.querySelector("#cpf").value = cpf;
+    let cpf = e.querySelector("#cpf").value;
+    cpf = cpf.replace(/\D/g, ''); // remove todos os caracteres não numéricos
+    cpf = cpf.replace(/^(\d{3})(\d)/g, '$1.$2'); // coloca um ponto após os primeiros 3 dígitos
+    cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3'); // coloca um ponto após os próximos 3 dígitos
+    cpf = cpf.replace(/\.(\d{3})(\d)/g, '.$1-$2'); // coloca um traço após os últimos 2 dígitos
+    e.querySelector("#cpf").value = cpf;
 }
 
 function formatarPlaca(e) {
-  let placa = e.querySelector("#placa").value;
-  placa = placa.replace(/\W/g, ''); // remove todos os caracteres não alfanuméricos
-  placa = placa.replace(/(\w{3})(\w)/, '$1-$2'); // adiciona traço após os primeiros 3 caracteres
-  e.querySelector("#placa").value = placa.toUpperCase(); // transforma tudo em maiúsculo e atualiza o valor do input
+    let placa = e.querySelector("#placa").value;
+    placa = placa.replace(/\W/g, ''); // remove todos os caracteres não alfanuméricos
+    placa = placa.replace(/(\w{3})(\w)/, '$1-$2'); // adiciona traço após os primeiros 3 caracteres
+    e.querySelector("#placa").value = placa.toUpperCase(); // transforma tudo em maiúsculo e atualiza o valor do input
 };
+
+function formatarCNH(e) {
+    // Obter o valor atual do input
+    let value = e.querySelector("#cnh").value;
+
+    // Remover todos os caracteres não numéricos
+    value = value.replace(/\D/g, '');
+
+    // Aplicar a máscara
+    if (value.length > 0) {
+        value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' + value.slice(9, 11);
+    }
+
+    // Definir o valor do input para a string formatada
+    e.querySelector("#cnh").value = value;
+}
 
 
 function alterRe(e) {
@@ -44,6 +122,15 @@ function alterRe(e) {
 }
 
 function carregarVeiculos() {
+
+    var visita = 0
+    var venda = 0
+    var carga = 0
+
+    var visitaF = 0
+    var vendaF = 0
+    var cargaF = 0
+
     const options = { method: 'GET' };
 
     fetch('http://localhost:3000/readVeiculo', options)
@@ -75,8 +162,28 @@ function carregarVeiculos() {
                     veiculo.querySelector("img").src = "./imgs/venda.png"
                 }
 
+                if (c.disponivel !== false) {
+                    if (c.tipo === "visita") {
+                        visita++
+                    } else if (c.tipo === "carga") {
+                        carga++
+                    } else {
+                        venda++
+                    }
+                } else {
+                    if (c.tipo === "visita") {
+                        visitaF++
+                    } else if (c.tipo === "carga") {
+                        cargaF++
+                    } else {
+                        vendaF++
+                    }
+                }
+
                 document.querySelector(".veiculos").appendChild(veiculo)
             })
+            gerarGraficoVeiculo(visita, venda, carga)
+            gerarGraficoVeiculo2(visitaF, vendaF, cargaF)
         })
 }
 
@@ -231,11 +338,15 @@ function alterResult(e) {
     if (e.id === "motorista-btn") {
         document.querySelector(".disponibilidade").querySelector(".results2").classList.remove("model")
         document.querySelector(".disponibilidade").querySelector(".results").classList.add("model")
+        document.querySelector("#graficoDis").classList.add("model")
+        document.querySelector("#graficoDis2").classList.remove("model")
         add = "motoristaDisponivel"
     } else {
         document.querySelector(".disponibilidade").querySelector(".results2").classList.add("model")
         document.querySelector(".disponibilidade").querySelector(".results").classList.remove("model")
         add = "veiculoDisponivel"
+        document.querySelector("#graficoDis2").classList.add("model")
+        document.querySelector("#graficoDis").classList.remove("model")
     }
     console.log(document.querySelector(".add").id)
     console.log(document.querySelector(".add"))
@@ -526,7 +637,31 @@ function atualizarDataAlocacao() {
         .then(response => response.json())
         .then(response => {
             if (response !== undefined) {
-                window.location.reload()
+                const options2 = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: '{"disponivel":true}'
+                };
+
+                fetch('http://localhost:3000/updateVeiculo/' + response.veiculo_id, options2)
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.id !== undefined) {
+                            const options3 = {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: '{"disponivel":true}'
+                            };
+
+                            fetch('http://localhost:3000/updateMotorista/' + response.motorista_id, options3)
+                                .then(response => response.json())
+                                .then(response => {
+                                    if (response.id !== undefined) {
+                                        window.location.reload()
+                                    }
+                                })
+                        }
+                    })
             }
         })
 }
@@ -558,57 +693,68 @@ function cadastrarAlocacao() {
                     cadastrar.querySelector(".tipo2").classList.remove("model")
                     cadastrar.querySelector(".tipo2").innerHTML = "Motorista já está operação!"
                 } else {
-                    const options2 = {
-                        method: 'POST',
+                    const options3 = {
+                        method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(veiculo)
+                        body: '{"disponivel":false}'
                     };
 
-                    fetch('http://localhost:3000/readAllVeiculo', options2)
+                    fetch('http://localhost:3000/updateMotorista/' + motorista[0].id, options3)
                         .then(response => response.json())
-                        .then(veiculo => {
-                            console.log(veiculo);
-                            if (veiculo.id !== undefined) {
-                                console.log("veiculo ok");
-
-                                if (veiculo.disponivel === false) {
-                                    cadastrar.querySelector(".tipo3").classList.remove("model")
-                                    cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
-                                } else {
-                                    var alocacao = {
-                                        "motorista_id": parseInt(motorista[0].id),
-                                        "veiculo_id": parseInt(veiculo.id),
-                                        "descricao": descricao
-                                    }
-
-                                    console.log(alocacao);
-
-                                    const options3 = {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify(alocacao)
-                                    };
-
-                                    fetch('http://localhost:3000/cadOperacao', options3)
-                                        .then(response => response.json())
-                                        .then(response => {
-                                            const options4 = {
-                                                method: 'PUT',
-                                                headers: { 'Content-Type': 'application/json' },
-                                                body: `{"disponivel":${false}}`
-                                            };
-                
-                                            fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options4)
-                                                .then(response => response.json())
-                                                .then(response => {
-                                                    window.location.reload()
-                                                })
-                                        })
-                                }
-                            } else {
-                                cadastrar.querySelector("#AlertTipo").classList.toggle("model")
-                            }
+                        .then(response => {
+                            console.log(response)
                         })
+                    // const options2 = {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify(veiculo)
+                    // };
+
+                    // fetch('http://localhost:3000/readAllVeiculo', options2)
+                    //     .then(response => response.json())
+                    //     .then(veiculo => {
+                    //         console.log(veiculo)
+                    //         if (veiculo.id !== undefined) {
+                    //             console.log("veiculo ok");
+
+                    //             if (veiculo.disponivel === false) {
+                    //                 cadastrar.querySelector(".tipo3").classList.remove("model")
+                    //                 cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
+                    //             } else {
+                    //                 var alocacao = {
+                    //                     "motorista_id": parseInt(motorista[0].id),
+                    //                     "veiculo_id": parseInt(veiculo.id),
+                    //                     "descricao": descricao
+                    //                 }
+
+                    //                 console.log(alocacao);
+
+                    //                 const options3 = {
+                    //                     method: 'POST',
+                    //                     headers: { 'Content-Type': 'application/json' },
+                    //                     body: JSON.stringify(alocacao)
+                    //                 };
+
+                    //                 fetch('http://localhost:3000/cadOperacao', options3)
+                    //                     .then(response => response.json())
+                    //                     .then(response => {
+                    //                         const options4 = {
+                    //                             method: 'PUT',
+                    //                             headers: { 'Content-Type': 'application/json' },
+                    //                             body: `{"disponivel":${false}}`
+                    //                         };
+
+                    //                         fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options4)
+                    //                             .then(response => response.json())
+                    //                             .then(response => {
+                    //                                 window.location.reload()
+                    //                             })
+                    //                     })
+                    //             }
+                    //         } else {
+                    //             cadastrar.querySelector("#AlertTipo").classList.toggle("model")
+                    //         }
+                    //     })
                 }
             } else {
                 cadastrar.querySelector("#AlertTipo").classList.toggle("model")
@@ -745,8 +891,32 @@ function atualizarDataManutencao() {
     fetch('http://localhost:3000/updateManutencao/' + idManutencao, options)
         .then(response => response.json())
         .then(response => {
-            if (response !== undefined) {
-                window.location.reload()
+            if (response.id !== undefined) {
+                const options2 = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: '{"disponivel":true}'
+                };
+
+                fetch('http://localhost:3000/updateVeiculo/' + response.veiculo_id, options2)
+                    .then(response => response.json())
+                    .then(response2 => {
+                        if (response2.id !== undefined) {
+                            const options3 = {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: '{"disponivel":true}'
+                            };
+
+                            fetch('http://localhost:3000/updateMotorista/' + response.motorista_id, options3)
+                                .then(response => response.json())
+                                .then(response => {
+                                    if (response.id !== undefined) {
+                                        window.location.reload()
+                                    }
+                                })
+                        }
+                    })
             }
         })
 }

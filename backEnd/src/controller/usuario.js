@@ -24,7 +24,7 @@ const validate = async (req, res) => {
             id: true
         }
     })
-    jwt.sign(funcionario[0], process.env.KEY, { expiresIn: '1m' }, function (err, token) {
+    jwt.sign(funcionario[0], process.env.KEY, { expiresIn: '10m' }, function (err, token) {
         if (err === null) {
             funcionario[0]["token"] = token
             res.status(200).json(funcionario[0]).end()

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+    <title>Gerencial</title>
     <script>
         var ifuser = window.localStorage.getItem('ifuser')
         if (ifuser !== null) {
@@ -30,6 +30,8 @@
                     }
                 })
                 .catch(err => console.error(err));
+        } else{
+            window.location.href = "../login"
         }
     </script>
 </head>
@@ -76,7 +78,15 @@
                     </div>
                 </div>
                 <div class="contens disponibilidade">
-                    <canvas id="graficoDis" class="grafico"></canvas>
+                    <div id="graficoDis" class="grafico">
+                        <canvas id="graficoVeiculo"></canvas>
+                        <canvas id="graficoVeiculo2"></canvas>
+                    </div>
+                    <div id="graficoDis2" class="grafico model">
+                        <canvas id="graficoVeiculo"></canvas>
+                        <canvas id="graficoVeiculo2"></canvas>
+                    </div>
+                    <div id="graficoDis" class="grafico2 model"></div>
                     <div class="results ">
                         <div class="veiculos">
                             <div class="veiculo model" onclick="showVeiculo(this)">
@@ -254,7 +264,7 @@
         <div class="modal-motorista">
             <div class="info-cadastrar-motorista">
                 <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14" onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
-                <span>CNH: <input type="text" id="cnh" placeholder="CNH"></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH" onkeyup="formatarCNH(this.parentNode.parentNode)"></span>
                 <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
             </div>
             <button id="close-modal3" onclick="showModal(this)"><span>X</span></button>
@@ -266,7 +276,7 @@
         <div class="modal-motorista">
             <div class="info-motorista">
                 <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14" onkeyup="formatarCPF(this.parentNode.parentNode)"></span>
-                <span>CNH: <input type="text" id="cnh" placeholder="CNH"></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH" onkeyup="formatarCNH(this.parentNode.parentNode)"></span>
                 <span>Nome: <input type="text" id="nome" placeholder="Nome"></span>
             </div>
             <button id="close-modal4" onclick="showModal(this)"><span>X</span></button>
@@ -338,7 +348,7 @@
     </div>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./script.js"></script>
 
 </html>
