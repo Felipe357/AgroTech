@@ -36,7 +36,7 @@ const readVe = async (req,res) => {
 }
 
 const readVeiculo = async (req,res) => {
-    const veiculo = await prisma.Veiculo.findUnique({
+    const veiculo = await prisma.Veiculo.findMany({
         "where": req.body
     })
 

@@ -234,6 +234,8 @@ var arrayMotoristaAlocacao = []
 var arrayMotoristaNomeAlocacao = []
 var arrayVeiculoAlocacao = []
 var arrayVeiculoNomeAlocacao = []
+var arrayContMotorista = []
+var arrayContVeiculo = []
 
 function carregarVeiculos() {
 
@@ -319,6 +321,9 @@ function carregarAlocacoes() {
                 alocacao.classList.remove("model")
 
                 alocacao.id = "O" + op.id
+
+                arrayContMotorista.push(op.motorista.nome)
+                arrayContVeiculo.push(op.veiculo.placa)
 
                 alocacao.querySelector("#motorista").innerHTML = op.motorista.nome
                 alocacao.querySelector("#veiculo").innerHTML = op.veiculo.placa
@@ -461,7 +466,6 @@ function carregarMotoristas() {
                     uso++
                 } else {
                     dis++
-                    console.log(dis);
                     motorista.classList.add("disponivel")
                     motorista.querySelector("#disponivel").style.color = "#2dc200"
                     motorista.querySelector("#disponivel").innerHTML = "Disponivel"
@@ -1043,18 +1047,20 @@ function atualizarDataManutencao() {
 setTimeout(() => {
     dashboardMotorista()
     dashboardVeiculo()
+    mostCommonName()
+    dashboardManutencao()
 }, 1000)
 
 function dashboardMotorista() {
     var ctx = document.getElementById('motoristaU').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'doughnut',
-        
+
         data: {
             labels: arrayMotoristaNomeAlocacao,
             datasets: [{
-                
-                data:arrayMotoristaAlocacao,
+
+                data: arrayMotoristaAlocacao,
                 borderWidth: 1,
                 spacing: 5,
                 hoverOffset: 5
@@ -1063,7 +1069,7 @@ function dashboardMotorista() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins : {
+            plugins: {
                 legend: {
                     display: false
                 }
@@ -1076,12 +1082,12 @@ function dashboardVeiculo() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'doughnut',
-        
+
         data: {
             labels: arrayVeiculoNomeAlocacao,
             datasets: [{
-                
-                data:arrayVeiculoAlocacao,
+
+                data: arrayVeiculoAlocacao,
                 borderWidth: 1,
                 spacing: 5,
                 hoverOffset: 5
@@ -1090,7 +1096,7 @@ function dashboardVeiculo() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins : {
+            plugins: {
                 legend: {
                     display: false
                 }
@@ -1099,41 +1105,106 @@ function dashboardVeiculo() {
     });
 }
 
-function dashboardMotorista2() {
-    const data = {
-        labels: arrayMotoristaNomeAlocacao,
-        datasets: [
-            {
-                label: "Vendas",
-                data: [],
-                backgroundColor: "rgba(54, 162, 235, 0.2)",
-                borderColor: "rgba(54, 162, 235, 1)",
-                borderWidth: 1
-            },
-            {
-                label: "Visitas",
-                data: [],
-                backgroundColor: "rgba(235, 87, 87, 0.2)",
-                borderColor: "rgba(235, 87, 87, 1)",
-                borderWidth: 1
-            },
-            {
-                label: "Cargas",
-                data: [],
-                backgroundColor: "RGBA(255, 235, 59, 0.2)",
-                borderColor: "RGBA(255, 235, 59, 1)",
-                borderWidth: 1
+function dashboardMotorista() {
+    var ctx = document.getElementById('motoristaU').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+
+        data: {
+            labels: arrayMotoristaNomeAlocacao,
+            datasets: [{
+
+                data: arrayMotoristaAlocacao,
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
             }
+        }
+    });
+}
+
+function mostCommonName() {
+    var names = arrayContMotorista
+    let counts = {};
+    for (let i = 0; i < names.length; i++) {
+        let name = names[i];
+        if (name in counts) {
+            counts[name] += 1;
+        } else {
+            counts[name] = 1;
+        }
+    }
+    let mostCommonName = null;
+    let highestCount = 0;
+    for (let name in counts) {
+        let count = counts[name];
+        if (count > highestCount) {
+            mostCommonName = name;
+            highestCount = count;
+        }
+    }
+    document.querySelector("#contMt").innerHTML = mostCommonName
+
+    var names2 = arrayContVeiculo
+    let counts2 = {};
+    for (let i = 0; i < names2.length; i++) {
+        let name2 = names2[i];
+        if (name2 in counts2) {
+            counts2[name2] += 1;
+        } else {
+            counts2[name2] = 1;
+        }
+    }
+    let mostCommonName2 = null;
+    let highestCount2 = 0;
+    for (let name2 in counts2) {
+        let count2 = counts2[name2];
+        if (count2 > highestCount2) {
+            mostCommonName2 = name2;
+            highestCount2 = count2;
+        }
+    }
+    document.querySelector("#contVe").innerHTML = mostCommonName2
+}
+
+function dashboardManutencao() {
+    let data = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+        datasets: [
+          {
+            label: 'Vendas',
+            data: [12, 19, 3, 5, 2, 3],
+            borderColor: 'rgb(255, 99, 132)',
+            fill: false
+          }
         ]
-    };
+      };
 
-    const options = {
-        
-    };
+      // Opções do gráfico
+      let options = {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      };
 
-    const myChart = new Chart(document.querySelector("#motoristaA"), {
-        type: "bar",
+      // Criação do gráfico
+      let ctx = document.getElementById('ma5').getContext('2d');
+      let myChart = new Chart(ctx, {
+        type: 'line',
         data: data,
         options: options
-    });
+      });
 }
