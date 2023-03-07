@@ -29,6 +29,11 @@ function gerarGraficoVeiculo(visita, venda, carga) {
         data: data,
         options: options
     });
+    const myChart2 = new Chart(document.querySelector("#veiculoA"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
 }
 
 function gerarGraficoVeiculo2(visita, venda, carga) {
@@ -69,8 +74,8 @@ function gerarGraficoMotorista(disponivel, uso) {
             {
                 label: "Motoristas disponível",
                 data: [disponivel, uso],
-                backgroundColor: "rgba(000, 255, 000, 0.2)",
-                borderColor: "rgba(000, 255, 000, 1)",
+                backgroundColor: ["rgba(000, 255, 000, 0.2)", "rgba(255, 000, 000, 0.2)"],
+                borderColor: ["rgba(000, 255, 000, 1)", "rgba(255, 000, 000, 1)"],
                 borderWidth: 1
             }
         ]
@@ -87,6 +92,11 @@ function gerarGraficoMotorista(disponivel, uso) {
 
     // Criação do gráfico de barras
     const myChart = new Chart(document.querySelector("#graficoMotorista"), {
+        type: "bar",
+        data: data,
+        options: options
+    });
+    const myChart2 = new Chart(document.querySelector("#motoristaA"), {
         type: "bar",
         data: data,
         options: options
@@ -222,6 +232,8 @@ function alterarDashboard(e) {
 
 var arrayMotoristaAlocacao = []
 var arrayMotoristaNomeAlocacao = []
+var arrayVeiculoAlocacao = []
+var arrayVeiculoNomeAlocacao = []
 
 function carregarVeiculos() {
 
@@ -242,6 +254,11 @@ function carregarVeiculos() {
                 var veiculo = document.querySelector(".veiculo").cloneNode(true)
                 veiculo.classList.remove("model")
                 veiculo.id = "V" + c.id
+
+                console.log(c)
+
+                arrayVeiculoAlocacao.push(c.operacoa.length)
+                arrayVeiculoNomeAlocacao.push(c.placa)
 
                 veiculo.querySelector("#tipo").innerHTML = c.tipo
                 veiculo.querySelector("#placa").innerHTML = c.placa
@@ -1025,7 +1042,7 @@ function atualizarDataManutencao() {
 
 setTimeout(() => {
     dashboardMotorista()
-    dashboardMotorista2()
+    dashboardVeiculo()
 }, 1000)
 
 function dashboardMotorista() {
@@ -1038,16 +1055,33 @@ function dashboardMotorista() {
             datasets: [{
                 
                 data:arrayMotoristaAlocacao,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins : {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function dashboardVeiculo() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        
+        data: {
+            labels: arrayVeiculoNomeAlocacao,
+            datasets: [{
+                
+                data:arrayVeiculoAlocacao,
                 borderWidth: 1,
                 spacing: 5,
                 hoverOffset: 5

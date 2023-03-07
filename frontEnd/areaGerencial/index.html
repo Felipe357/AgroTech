@@ -210,10 +210,6 @@
                             <img src="./imgs/dashboard/carteira-de-motorista.png" alt="Motoristas">
                             <span>Motoristas</span>
                         </div>
-                        <div class="img dh2" onclick="alterarDashboard(this)">
-                            <img src="./imgs/dashboard/frota.png" alt="Motoristas">
-                            <span>Frota</span>
-                        </div>
                         <div class="img dh3" onclick="alterarDashboard(this)">
                             <img src="./imgs/dashboard/manutencao.png" alt="Motoristas">
                             <span>Manutenção</span>
@@ -228,34 +224,31 @@
                     <div class="graficos">
                         <div class="dh1 dash dashboard-motorista">
                             <div class="header-dashboard">
-                                <span>Motoristas</span>
+                                <span>Disponibilidade</span>
                             </div>
                             <div class="main-motorista">
 
                                 <div class="div1">
                                     <canvas id="motoristaA"></canvas>
+                                    <canvas id="veiculoA"></canvas>
                                 </div>
                                 <div class="div2">
                                     <canvas id="motoristaU"></canvas>
-                                    <span id="titulo">Motoristas mais suados</span>
+                                    <span id="titulo">Motoristas com mais saídas</span>
                                 </div>
                                 <div class="div3">
                                     <canvas id="motorista"></canvas>
                                 </div>
                                 <div class="div4">
+                                    <span id="titulo">Veiculos mais usados</span>
                                     <canvas id="myChart"></canvas>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="dh2 dash dashboard-manutencao model">
+                        <div class="dh3 dash dashboard-manutencao model">
                             <div class="header-dashboard">
                                 <span>Manutenção</span>
-                            </div>
-                        </div>
-                        <div class="dh3 dash dashboard-frota model">
-                            <div class="header-dashboard">
-                                <span>Frota</span>
                             </div>
                         </div>
                         <div class="dh4 dash dashboard-alocacao model">
