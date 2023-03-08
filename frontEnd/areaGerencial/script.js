@@ -14,19 +14,15 @@ function gerarGraficoVeiculo(visita, venda, carga) {
         ]
     };
 
-    // Opções do gráfico
-    const options = {};
-
-    // Criação do gráfico de barras
     const myChart = new Chart(document.querySelector("#graficoVeiculo"), {
         type: "bar",
         data: data,
-        options: options
+        options: {}
     });
     const myChart2 = new Chart(document.querySelector("#veiculoA"), {
         type: "bar",
         data: data,
-        options: options
+        options: {}
     });
 }
 
@@ -230,9 +226,12 @@ var arrayVeiculoAlocacao = []
 var arrayVeiculoNomeAlocacao = []
 var arrayContMotorista = []
 var arrayContVeiculo = []
-var arrayMesV = [0,0,0,0,0,0,0,0,0,0,0,0]
-var arrayMesVe = [0,0,0,0,0,0,0,0,0,0,0,0]
-var arrayMesC = [0,0,0,0,0,0,0,0,0,0,0,0]
+var arrayMesV = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var arrayMesVe = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var arrayMesC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var arrayManutencao = []
+var arrayNomeManutencao = []
+var qntdManuMes = 0
 
 function carregarVeiculos() {
 
@@ -257,6 +256,9 @@ function carregarVeiculos() {
                 arrayVeiculoAlocacao.push(c.operacoa.length)
                 arrayVeiculoNomeAlocacao.push(c.placa)
 
+                arrayManutencao.push(c.manutencao.length)
+                arrayNomeManutencao.push(c.placa)
+
                 veiculo.querySelector("#tipo").innerHTML = c.tipo
                 veiculo.querySelector("#placa").innerHTML = c.placa
                 veiculo.querySelector("#modelo").innerHTML = c.modelo
@@ -277,6 +279,8 @@ function carregarVeiculos() {
                 } else {
                     veiculo.querySelector("img").src = "./imgs/venda.png"
                 }
+
+                
 
                 if (c.disponivel !== false) {
                     if (c.tipo === "visita") {
@@ -380,6 +384,14 @@ function carregarManutencao() {
 
                 var dt = new Date(m.data_inicio).getMonth()
 
+                const nomeMes = new Date().toLocaleString('pt-BR', { month: 'long' });
+                const nomeMesVe = new Date(m.data_inicio).toLocaleDateString('pt-br', { month: 'long' })
+
+                if (nomeMes == nomeMesVe) {
+                    qntdManuMes++
+                    console.log("opa");
+                }
+
                 if (m.veiculo.tipo === "visita") {
                     manutencao.querySelector("img").src = "./imgs/visita.png"
                     arrayMesV[dt]++
@@ -393,7 +405,7 @@ function carregarManutencao() {
                 document.querySelector(".manutencoes").appendChild(manutencao)
             })
             gerarGraficoManutencao(ma, ma2)
-            
+            dashboardManutencao2(ma)
         })
 }
 
@@ -1043,10 +1055,13 @@ function atualizarDataManutencao() {
 }
 
 setTimeout(() => {
+    console.log(qntdManuMes);
     dashboardMotorista()
     dashboardVeiculo()
     mostCommonName()
     dashboardManutencao()
+    encontrarMaiorValor()
+    dashboardManutencao3()
 }, 1000)
 
 function dashboardMotorista() {
@@ -1178,47 +1193,113 @@ function dashboardManutencao() {
     let data = {
         labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
         datasets: [
-          {
-            label: 'Vendas',
-            data: arrayMesVe,
-            backgroundColor: "rgb(99, 132, 255, 0.0)",
-            borderColor: 'rgb(255, 99, 132)',
-            fill: false
-          },
-          {
-            label: 'Visitas',
-            data: arrayMesV,
-            backgroundColor: "rgb(99, 132, 255, 0.0)",
-            borderColor: 'rgb(255, 255, 0)',
-            fill: false
-          },
-          {
-            label: 'Carga',
-            data: arrayMesC,
-            backgroundColor: "rgb(99, 132, 255, 0.0)",
-            borderColor: 'rgb(99, 132, 255)',
-            fill: false
-          }
-        ]
-      };
-
-      // Opções do gráfico
-      let options = {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
+            {
+                label: 'Vendas',
+                data: arrayMesVe,
+                backgroundColor: "rgb(99, 132, 255, 0.0)",
+                borderColor: 'rgb(255, 99, 132)',
+                fill: false
+            },
+            {
+                label: 'Visitas',
+                data: arrayMesV,
+                backgroundColor: "rgb(99, 132, 255, 0.0)",
+                borderColor: 'rgb(255, 255, 0)',
+                fill: false
+            },
+            {
+                label: 'Carga',
+                data: arrayMesC,
+                backgroundColor: "rgb(99, 132, 255, 0.0)",
+                borderColor: 'rgb(99, 132, 255)',
+                fill: false
             }
-          }]
-        },
-        aspecRatio: 1/10
-      };
+        ]
+    };
 
-      // Criação do gráfico
-      let ctx = document.getElementById('ma5').getContext('2d');
-      let myChart = new Chart(ctx, {
+    // Opções do gráfico
+    let options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        aspecRatio: 1 / 10
+    };
+
+    // Criação do gráfico
+    let ctx = document.getElementById('ma5').getContext('2d');
+    let myChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: options
-      });
+    });
+}
+
+function dashboardManutencao2(uso) {
+    const myChart = new Chart(document.getElementById("ma1"), {
+        type: "bar",
+        data: {
+            datasets: [
+                {
+                    label: "Manutenção",
+                    data: [uso],
+                    backgroundColor: ["rgba(235, 250, 32, 0.2)"],
+                    borderColor: ["rgba(235, 250, 32, 1)"],
+                    borderWidth: 1,
+                    barPercentage: 10,
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function encontrarMaiorValor() {
+    let maiorValor = Math.max(...arrayManutencao);
+    let menorValor = Math.min(...arrayManutencao)
+
+    let posicao = arrayManutencao.indexOf(maiorValor);
+    let posicao2 = arrayManutencao.indexOf(menorValor);
+
+    document.querySelector("#contManu").innerHTML = arrayNomeManutencao[posicao]
+    document.querySelector("#contManu2").innerHTML = arrayNomeManutencao[posicao2]
+}
+
+function dashboardManutencao3() {
+    const data = new Date();
+    const nomeMes = data.toLocaleString('pt-BR', { month: 'long' });
+
+    document.querySelector("#nomeMes").innerHTML = nomeMes
+
+    var ctx = document.querySelector('#dash3').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [nomeMes],
+            datasets: [{
+                data: [qntdManuMes],
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 }
