@@ -232,6 +232,7 @@ var arrayMesC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var arrayManutencao = []
 var arrayNomeManutencao = []
 var qntdManuMes = 0
+var emManu = [0, 0, 0]
 
 function carregarVeiculos() {
 
@@ -280,7 +281,7 @@ function carregarVeiculos() {
                     veiculo.querySelector("img").src = "./imgs/venda.png"
                 }
 
-                
+
 
                 if (c.disponivel !== false) {
                     if (c.tipo === "visita") {
@@ -380,6 +381,15 @@ function carregarManutencao() {
                     manutencao.classList.add("indisponivel");
                     ma++
                     ([...manutencao.querySelectorAll('span')]).at(-1).style.color = "#A50000"
+
+                    if (m.veiculo.tipo === "visita") {
+                        emManu[0]++
+                    } else if (m.veiculo === "venda") {
+                        emManu[1]++
+                    } else {
+                        emManu[2]++
+                    }
+
                 }
 
                 var dt = new Date(m.data_inicio).getMonth()
@@ -389,7 +399,6 @@ function carregarManutencao() {
 
                 if (nomeMes == nomeMesVe) {
                     qntdManuMes++
-                    console.log("opa");
                 }
 
                 if (m.veiculo.tipo === "visita") {
@@ -405,7 +414,7 @@ function carregarManutencao() {
                 document.querySelector(".manutencoes").appendChild(manutencao)
             })
             gerarGraficoManutencao(ma, ma2)
-            dashboardManutencao2(ma)
+            dashboardManutencao2(emManu)
         })
 }
 
@@ -1055,7 +1064,6 @@ function atualizarDataManutencao() {
 }
 
 setTimeout(() => {
-    console.log(qntdManuMes);
     dashboardMotorista()
     dashboardVeiculo()
     mostCommonName()
@@ -1239,15 +1247,45 @@ function dashboardManutencao() {
 }
 
 function dashboardManutencao2(uso) {
+    console.log([uso[0], uso[1], uso[2]])
     const myChart = new Chart(document.getElementById("ma1"), {
         type: "bar",
         data: {
+            labels: ["Visita", "Venda", "Carga"],
             datasets: [
                 {
-                    label: "Manutenção",
-                    data: [uso],
-                    backgroundColor: ["rgba(235, 250, 32, 0.2)"],
-                    borderColor: ["rgba(235, 250, 32, 1)"],
+                    label: "Visita",
+                    data: [uso[0], 0, 0],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                      ],
+                      borderColor: [
+                        'rgb(255, 99, 132)',
+                      ],
+                    borderWidth: 1,
+                    barPercentage: 10,
+                },
+                {
+                    label: "Venda",
+                    data: [0, uso[1], 0],
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 0.2)',
+                      ],
+                      borderColor: [
+                        'rgb(255, 159, 64)',
+                      ],
+                    borderWidth: 1,
+                    barPercentage: 10,
+                },
+                {
+                    label: "Carga",
+                    data: [0, 0, uso[2]],
+                    backgroundColor: [
+                        'rgba(255, 205, 86, 0.2)'
+                      ],
+                      borderColor: [
+                        'rgb(255, 205, 86)'
+                      ],
                     borderWidth: 1,
                     barPercentage: 10,
                 }
@@ -1279,6 +1317,7 @@ function dashboardManutencao3() {
     const nomeMes = data.toLocaleString('pt-BR', { month: 'long' });
 
     document.querySelector("#nomeMes").innerHTML = nomeMes
+    document.querySelector("#qntdMesAtual").innerHTML = qntdManuMes
 
     var ctx = document.querySelector('#dash3').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -1287,6 +1326,7 @@ function dashboardManutencao3() {
             labels: [nomeMes],
             datasets: [{
                 data: [qntdManuMes],
+                backgroundColor: "rgba(000,000,255, 0.2)",
                 borderWidth: 1,
                 spacing: 5,
                 hoverOffset: 5
@@ -1294,7 +1334,6 @@ function dashboardManutencao3() {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: false
