@@ -677,7 +677,7 @@ body {
     width: 80% !important;
 }
 
-.main-manutencao {
+.main-manutencao, .main-alocacao {
     height: 100%;
     width: 100%;
     display: grid;
@@ -687,14 +687,14 @@ body {
     grid-row-gap: 0px;
 }
 
-.main-manutencao>div {
+.main-manutencao>div, .main-alocacao>div {
     padding: 20px;
     -webkit-box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
     -moz-box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
     box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
 }
 
-.ma1 {
+.ma1, .al1 {
     grid-area: 1 / 1 / 2 / 2;
     display: flex;
     align-items: center;
@@ -702,7 +702,7 @@ body {
     position: relative;
 }
 
-.ma2 {
+.ma2, .al2 {
     grid-area: 1 / 2 / 2 / 3;
     display: flex;
     align-items: center;
@@ -711,7 +711,7 @@ body {
     padding: 30px!important;
 }
 
-.ma3 {
+.ma3, .al3 {
     grid-area: 1 / 3 / 2 / 4;
     display: flex;
     flex-direction: column;
@@ -719,26 +719,40 @@ body {
     gap: 20px;
 }
 
-.ma4 {
+.ma4, .al4 {
     grid-area: 2 / 1 / 3 / 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
 
-.ma5 {
+.ma5, .al5 {
     grid-area: 2 / 2 / 3 / 4;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.ma1>span {
+.ma4>canvas, .al4>canvas {
+    height: 220px!important;
+    width: 220px!important;
+}
+
+.ma1>span, .al1>span {
     position: absolute;
-    top: 10px;
+    top: 20px;
     font-size: 16pt;
     letter-spacing: 1.5px;
     font-weight: 700;
 }
 
-.contManu, .contManu2 {
+.al1>canvas {
+    height: 200px!important;
+    width: 200px!important;
+}
+
+.contManu, .contManu2, .contAl, .contAl2 {
     height: 50%;
     font-size: 16pt;
     letter-spacing: 1.5px;
@@ -748,15 +762,15 @@ body {
     justify-content: flex-start;
 }
 
-.contManu2{
+.contManu2, .contAl2{
     border: none;
 }
 
-.contManu>span>span, .contManu2>span>span {
+.contManu>span>span, .contManu2>span>span, .contAl>span>span, .contAl2>span>span {
     font-weight: 700;
 }
 
-.ma5>span {
+.ma5>span, .al5>span {
     font-size: 16pt;
     font-weight: 700;
     letter-spacing: 2.5px;
@@ -773,14 +787,14 @@ body {
     position: relative;
 }
 
-#qntdMesAtual {
+#qntdMesAtual, #qntdMesAtual2 {
     font-size: 27pt;
     font-weight: 700;
     position: absolute;
     color: #bdbdfd;
 }
 
-.ma3>span {
+.ma3>span, .ma4>span, .al3>span, .al4>span {
     font-size: 12pt;
     letter-spacing: 1.5px;
     font-weight: 700;

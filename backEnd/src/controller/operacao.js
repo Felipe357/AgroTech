@@ -6,7 +6,7 @@ const create = async (req, res) => {
     const operacao = await prisma.Operacao.createMany({
         data: req.body
     })
-    res.status(200).json("operacao Cadastrado " + operacao).end();
+    res.status(200).json(operacao).end();
 }
 
 const read = async (req, res) => {

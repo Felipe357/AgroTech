@@ -233,6 +233,15 @@ var arrayManutencao = []
 var arrayNomeManutencao = []
 var qntdManuMes = 0
 var emManu = [0, 0, 0]
+var custoVisita = 0
+var custoVenda = 0
+var custoCarga = 0
+var arrayMesVOp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var arrayMesVeOp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var arrayMesCOp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var qndtOpMes = 0
+var arrayOp = []
+var arrayNomeOp = []
 
 function carregarVeiculos() {
 
@@ -259,6 +268,9 @@ function carregarVeiculos() {
 
                 arrayManutencao.push(c.manutencao.length)
                 arrayNomeManutencao.push(c.placa)
+
+                arrayOp.push(c.operacoa.length)
+                arrayNomeOp.push(c.placa)
 
                 veiculo.querySelector("#tipo").innerHTML = c.tipo
                 veiculo.querySelector("#placa").innerHTML = c.placa
@@ -316,6 +328,7 @@ function carregarAlocacoes() {
     fetch('http://localhost:3000/readOperacao', options)
         .then(response => response.json())
         .then(operacao => {
+            var emAl = [0, 0, 0]
             operacao.forEach((op) => {
                 var alocacao = document.querySelector(".alocacao").cloneNode(true)
                 alocacao.classList.remove("model")
@@ -338,19 +351,40 @@ function carregarAlocacoes() {
                     alocacao.querySelector("#retorno").innerHTML = "Em uso"
                     alocacao.classList.add("indisponivel")
                     al++
+                    if (op.veiculo.tipo === "visita") {
+                        emAl[0]++
+                    } else if (op.veiculo === "venda") {
+                        emAl[1]++
+                    } else {
+                        emAl[2]++
+                    }
+
+                }
+
+                var dt = new Date(op.data_saida).getMonth()
+
+                const nomeMes = new Date().toLocaleString('pt-BR', { month: 'long' });
+                const nomeMesVe = new Date(op.data_saida).toLocaleDateString('pt-br', { month: 'long' })
+
+                if (nomeMes == nomeMesVe) {
+                    qndtOpMes++
                 }
 
                 if (op.veiculo.tipo === "visita") {
                     alocacao.querySelector("img").src = "./imgs/visita.png"
+                    arrayMesVOp[dt]++
                 } else if (op.veiculo.tipo === "carga") {
                     alocacao.querySelector("img").src = "./imgs/carga.png"
+                    arrayMesCOp[dt]++
                 } else {
                     alocacao.querySelector("img").src = "./imgs/venda.png"
+                    arrayMesVeOp[dt]++
                 }
 
                 document.querySelector(".alocacoes").appendChild(alocacao)
             })
             gerarGraficoOperacao(al, al2)
+            dashboardAlocacao2(emAl)
         })
 }
 
@@ -404,12 +438,15 @@ function carregarManutencao() {
                 if (m.veiculo.tipo === "visita") {
                     manutencao.querySelector("img").src = "./imgs/visita.png"
                     arrayMesV[dt]++
+                    custoVisita = parseFloat(custoVisita) + parseFloat(m.valor)
                 } else if (m.veiculo.tipo === "carga") {
                     manutencao.querySelector("img").src = "./imgs/carga.png"
                     arrayMesC[dt]++
+                    custoCarga = parseFloat(custoCarga) + parseFloat(m.valor)
                 } else {
                     manutencao.querySelector("img").src = "./imgs/venda.png"
                     arrayMesVe[dt]++
+                    custoVenda = parseFloat(custoVenda) + parseFloat(m.valor)
                 }
                 document.querySelector(".manutencoes").appendChild(manutencao)
             })
@@ -841,71 +878,73 @@ function cadastrarAlocacao() {
         .then(response => response.json())
         .then(motorista => {
             if (motorista[0].id !== undefined) {
+                console.log("teste1");
                 if (motorista.disponivel === false) {
                     cadastrar.querySelector(".tipo2").classList.remove("model")
                     cadastrar.querySelector(".tipo2").innerHTML = "Motorista já está operação!"
                 } else {
-                    const options3 = {
-                        method: 'PUT',
+
+                    const options2 = {
+                        method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: '{"disponivel":false}'
+                        body: JSON.stringify(veiculo)
                     };
 
-                    fetch('http://localhost:3000/updateMotorista/' + motorista[0].id, options3)
+                    fetch('http://localhost:3000/readAllVeiculo', options2)
                         .then(response => response.json())
-                        .then(response => {
-                            if (response.id !== undefined) {
-                                const options2 = {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(veiculo)
-                                };
+                        .then(veiculo => {
+                            console.log(veiculo[0].id);
+                            if (veiculo[0].id !== undefined) {
+                                console.log("veiculo ok");
 
-                                fetch('http://localhost:3000/readAllVeiculo', options2)
-                                    .then(response => response.json())
-                                    .then(veiculo => {
-                                        console.log(veiculo)
-                                        if (veiculo.id !== undefined) {
-                                            console.log("veiculo ok");
+                                if (veiculo[0].disponivel === false) {
+                                    cadastrar.querySelector(".tipo3").classList.remove("model")
+                                    cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
+                                } else {
+                                    var alocacao = {
+                                        "motorista_id": parseInt(motorista[0].id),
+                                        "veiculo_id": parseInt(veiculo[0].id),
+                                        "descricao": descricao
+                                    }
 
-                                            if (veiculo.disponivel === false) {
-                                                cadastrar.querySelector(".tipo3").classList.remove("model")
-                                                cadastrar.querySelector(".tipo3").innerHTML = "Veiculo já está operação!"
-                                            } else {
-                                                var alocacao = {
-                                                    "motorista_id": parseInt(motorista[0].id),
-                                                    "veiculo_id": parseInt(veiculo.id),
-                                                    "descricao": descricao
-                                                }
+                                    const options3 = {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(alocacao)
+                                    };
 
-                                                console.log(alocacao);
-
+                                    fetch('http://localhost:3000/cadOperacao', options3)
+                                        .then(response => response.json())
+                                        .then(response => {
+                                            console.log(response);
+                                            if (response !== undefined) {
                                                 const options3 = {
-                                                    method: 'POST',
+                                                    method: 'PUT',
                                                     headers: { 'Content-Type': 'application/json' },
-                                                    body: JSON.stringify(alocacao)
+                                                    body: '{"disponivel":false}'
                                                 };
 
-                                                fetch('http://localhost:3000/cadOperacao', options3)
+                                                fetch('http://localhost:3000/updateMotorista/' + motorista[0].id, options3)
+                                                    .then(response => response.json())
+                                                    .then(response => { console.log(response); })
+                                                const options4 = {
+                                                    method: 'PUT',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: `{"disponivel":${false}}`
+                                                };
+
+                                                fetch('http://localhost:3000/updateVeiculo/' + veiculo[0].id, options4)
                                                     .then(response => response.json())
                                                     .then(response => {
-                                                        const options4 = {
-                                                            method: 'PUT',
-                                                            headers: { 'Content-Type': 'application/json' },
-                                                            body: `{"disponivel":${false}}`
-                                                        };
-
-                                                        fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options4)
-                                                            .then(response => response.json())
-                                                            .then(response => {
-                                                                window.location.reload()
-                                                            })
+                                                        window.location.reload()
                                                     })
+                                            } else {
+                                                console.log("OPa lele");
                                             }
-                                        } else {
-                                            cadastrar.querySelector("#AlertTipo").classList.toggle("model")
-                                        }
-                                    })
+                                        })
+                                }
+                            } else {
+                                cadastrar.querySelector("#AlertTipo").classList.toggle("model")
                             }
                         })
                 }
@@ -977,7 +1016,7 @@ function cadastrarManutencao() {
     const options2 = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(veiculo)
+        body: [JSON.stringify(veiculo)]
     };
 
     fetch('http://localhost:3000/readAllVeiculo', options2)
@@ -993,7 +1032,7 @@ function cadastrarManutencao() {
                 } else {
                     var alocacao = {
                         "valor": parseFloat(valor),
-                        "veiculo_id": parseInt(veiculo.id),
+                        "veiculo_id": parseInt(veiculo[0].id),
                         "descricao": descricao
                     }
 
@@ -1012,7 +1051,7 @@ function cadastrarManutencao() {
                                 body: `{"disponivel":${false}}`
                             };
 
-                            fetch('http://localhost:3000/updateVeiculo/' + veiculo.id, options)
+                            fetch('http://localhost:3000/updateVeiculo/' + veiculo[0].id, options)
                                 .then(response => response.json())
                                 .then(response => {
                                     window.location.reload()
@@ -1070,7 +1109,10 @@ setTimeout(() => {
     dashboardManutencao()
     encontrarMaiorValor()
     dashboardManutencao3()
-}, 1000)
+    dashboardManutencao4()
+    dashboardAlocacao()
+    dashboardAlocacao3()
+}, 1500)
 
 function dashboardMotorista() {
     var ctx = document.getElementById('motoristaU').getContext('2d');
@@ -1258,10 +1300,10 @@ function dashboardManutencao2(uso) {
                     data: [uso[0], 0, 0],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
-                      ],
-                      borderColor: [
+                    ],
+                    borderColor: [
                         'rgb(255, 99, 132)',
-                      ],
+                    ],
                     borderWidth: 1,
                     barPercentage: 10,
                 },
@@ -1270,10 +1312,10 @@ function dashboardManutencao2(uso) {
                     data: [0, uso[1], 0],
                     backgroundColor: [
                         'rgba(255, 159, 64, 0.2)',
-                      ],
-                      borderColor: [
+                    ],
+                    borderColor: [
                         'rgb(255, 159, 64)',
-                      ],
+                    ],
                     borderWidth: 1,
                     barPercentage: 10,
                 },
@@ -1282,10 +1324,10 @@ function dashboardManutencao2(uso) {
                     data: [0, 0, uso[2]],
                     backgroundColor: [
                         'rgba(255, 205, 86, 0.2)'
-                      ],
-                      borderColor: [
+                    ],
+                    borderColor: [
                         'rgb(255, 205, 86)'
-                      ],
+                    ],
                     borderWidth: 1,
                     barPercentage: 10,
                 }
@@ -1310,6 +1352,15 @@ function encontrarMaiorValor() {
 
     document.querySelector("#contManu").innerHTML = arrayNomeManutencao[posicao]
     document.querySelector("#contManu2").innerHTML = arrayNomeManutencao[posicao2]
+
+    let maiorValor2 = Math.max(...arrayOp);
+    let menorValor2 = Math.min(...arrayOp)
+
+    let posicao3 = arrayOp.indexOf(maiorValor2);
+    let posicao4 = arrayOp.indexOf(menorValor2);
+
+    document.querySelector("#contAl").innerHTML = arrayNomeOp[posicao3]
+    document.querySelector("#contAl2").innerHTML = arrayNomeOp[posicao4]
 }
 
 function dashboardManutencao3() {
@@ -1327,6 +1378,132 @@ function dashboardManutencao3() {
             datasets: [{
                 data: [qntdManuMes],
                 backgroundColor: "rgba(000,000,255, 0.2)",
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function dashboardManutencao4() {
+    var ctx = document.getElementById('custoManutencao').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+
+        data: {
+            labels: ["Visita", "Carga", "Venda"],
+            datasets: [{
+
+                data: [custoVisita, custoCarga, custoVenda],
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+        }
+    });
+}
+
+function dashboardAlocacao() {
+    let data = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+        datasets: [
+            {
+                label: 'Vendas',
+                data: arrayMesVeOp,
+                backgroundColor: "rgb(99, 132, 255, 0.0)",
+                borderColor: 'rgb(255, 99, 132)',
+                fill: false
+            },
+            {
+                label: 'Visitas',
+                data: arrayMesVOp,
+                backgroundColor: "rgb(99, 132, 255, 0.0)",
+                borderColor: 'rgb(255, 255, 0)',
+                fill: false
+            },
+            {
+                label: 'Carga',
+                data: arrayMesCOp,
+                backgroundColor: "rgb(99, 132, 255, 0.0)",
+                borderColor: 'rgb(99, 132, 255)',
+                fill: false
+            }
+        ]
+    };
+
+    // Opções do gráfico
+    let options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        aspecRatio: 1 / 10
+    };
+
+    // Criação do gráfico
+    let ctx = document.getElementById('al5').getContext('2d');
+    let myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+}
+
+function dashboardAlocacao3() {
+    const data = new Date();
+    const nomeMes = data.toLocaleString('pt-BR', { month: 'long' });
+
+    document.querySelector("#nomeMes2").innerHTML = nomeMes
+    document.querySelector("#qntdMesAtual2").innerHTML = qndtOpMes
+
+    var ctx = document.querySelector('#dashOp').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [nomeMes],
+            datasets: [{
+                data: [qndtOpMes],
+                backgroundColor: "rgba(000,000,255, 0.2)",
+                borderWidth: 1,
+                spacing: 5,
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function dashboardAlocacao2(uso) {
+    console.log(uso);
+    var ctx = document.querySelector('#al1').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["Visita", "Venda", "Carga"],
+            datasets: [{
+                data: uso,
                 borderWidth: 1,
                 spacing: 5,
                 hoverOffset: 5
