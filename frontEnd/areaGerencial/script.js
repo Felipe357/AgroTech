@@ -353,7 +353,7 @@ function carregarAlocacoes() {
                     al++
                     if (op.veiculo.tipo === "visita") {
                         emAl[0]++
-                    } else if (op.veiculo === "venda") {
+                    } else if (op.veiculo.tipo === "venda") {
                         emAl[1]++
                     } else {
                         emAl[2]++
