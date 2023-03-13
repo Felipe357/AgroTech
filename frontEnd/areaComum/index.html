@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+    <title>Gerencial</title>
     <script>
         var ifuser = window.localStorage.getItem('ifuser')
         if (ifuser !== null) {
@@ -14,12 +14,12 @@
             const options = {
                 method: 'POST',
                 headers: {
-                Authorization: `${ifuser.token}`,
-                'Content-Type': 'application/json'
+                    Authorization: `${ifuser.token}`,
+                    'Content-Type': 'application/json'
                 },
                 body: `{"id":${ifuser.id}}`
             };
-            
+
             fetch('http://localhost:3000/validarUser', options)
                 .then(response => response.json())
                 .then(response => {
@@ -30,15 +30,17 @@
                     }
                 })
                 .catch(err => console.error(err));
+        } else {
+            window.location.href = "../login"
         }
     </script>
 </head>
 
-<body onload="carregarOp(), carregarVe(), carregarMa(), carregarMaGeral()">
+<body onload="carregarVeiculos(), carregarManutencao(), carregarAlocacoes(), carregarMotoristas()">
 
     <div class="info">
         <div class="relatorios">
-            <span>Relatórios</span>
+            <span>Gráficos</span>
             <div class="re-img efect" id="r1" onclick="alterRe(this)">
                 <img src="./imgs/disponibilidade.png" alt="disponibilidade">
                 <span>Disponibilidade</span>
@@ -47,87 +49,110 @@
                 <img src="./imgs/alocacao.png" alt="alocação">
                 <span>Operação</span>
             </div>
-            <div class="re-img" id="r3" onclick="alterRe(this)">
-                <img src="./imgs/geral.png" alt="manutenção geral">
-                <span>Manutenção Geral</span>
-            </div>
             <div class="re-img" id="r4" onclick="alterRe(this)">
                 <img src="./imgs/manutencao.png" alt="Manutenção">
                 <span>Manutenção</span>
             </div>
+            <div class="re-img" id="r5" onclick="alterRe(this)">
+                <img src="./imgs/dashboard.png" alt="Manutenção">
+                <span>Dashboard</span>
+            </div>
         </div>
         <div class="informacoes">
-            <div class="content ">
+            <div class="content page">
                 <div class="header">
                     <span>Disponibilidade</span>
                     <div class="check">
-                        <div class="radio" id="radioDi" onclick="checkDisponibilidade(this)"></div>
-                        <span>Em uso</span>
+                        <div class="img" id="motorista-btn" onclick="alterResult(this)">
+                            <img src="./imgs/dashboard/carteira-de-motorista.png" alt="Motoristas">
+                            <span>Motoristas</span>
+                        </div>
+                        <div class="img" id="frota-btn" onclick="alterResult(this)">
+                            <img src="./imgs/dashboard/frota.png" alt="Motoristas">
+                            <span>Frota</span>
+                        </div>
                     </div>
                 </div>
                 <div class="contens disponibilidade">
-                    <div class="carro model2" >
-                        <div class="carro-info">
-                            <span>Tipo: <span id="tipo">Visita</span></span>
-                            <span>Placa: <span id="placa">123-abc</span></span>
-                            <span>Modelo: <span id="modelo">renio</span></span>
-                            <span>Marca: <span id="marca">sambelo</span></span>
+                    <div id="graficoDis" class="grafico">
+                        <canvas id="graficoVeiculo" class="gWidth"></canvas>
+                        <canvas id="graficoVeiculo2" class="gWidth"></canvas>
+                    </div>
+                    <div id="graficoDis2" class="grafico model">
+                        <canvas id="graficoMotorista"></canvas>
+                    </div>
+                    <div id="graficoDis" class="grafico2 model"></div>
+                    <div class="results ">
+                        <div class="veiculos">
+                            <div class="veiculo model" onclick="showVeiculo(this)">
+                                <div>
+                                    <div>
+                                        <span>Tipo: <span id="tipo">Visita</span></span>
+                                        <span>Placa: <span id="placa">123-abc</span></span>
+                                        <span>Modelo: <span id="modelo">renio</span></span>
+                                        <span>Marca: <span id="marca">sambelo</span></span>
+                                    </div>
+                                    <div class="veiculo-img">
+                                        <img src="./imgs/carga.png" alt="">
+                                    </div>
+                                </div>
+                                <span id="disponivel">Em uso</span>
+                            </div>
                         </div>
-                        <img src="./imgs/visita.png" alt="visita">
+                    </div>
+                    <div class="results2 model">
+                        <div class="motoristas">
+                            <div class="motorista model" onclick="showMotorista(this)">
+                                <div>
+                                    <div>
+                                        <span>CPF: <span id="cpf"></span></span>
+                                        <span>CNH: <span id="cnh"></span></span>
+                                        <span>Nome: <span id="nome"></span></span>
+                                    </div>
+                                    <div class="motorista-img">
+                                        <img src="./imgs/user.png" alt="">
+                                    </div>
+                                </div>
+                                <span id="disponivel">Em uso</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="content2 model">
+            <div class="content2 page model">
                 <div class="header">
                     <span>Manutenção</span>
-                    <div class="check">
-                        <div class="radio" id="radioM" onclick="checkManutencao(this)"></div>
-                        <span>Em manutenção</span>
-                    </div>
                 </div>
-                <div class="contens manutencao">
-                    <div class="carro model2">
-                        <div class="carro-info">
-                            <span>Placa: <span id="placa2">123 abc</span></span>
-                            <span>Início: <span id="inicio">14/02/2023</span></span>
-                            <span>Fim: <span id="fim">Não Retornou</span></span>
+                <div class="contens">
+                    <div id="grafico-manutencao" class="grafico-manutencao">
+                        <canvas id="graficoManutencao" class="gWidth"></canvas>
+                    </div>
+                    <div class="results">
+                        <div class="manutencoes">
+                            <div class="manutencao model" onclick="showManutencao(this)">
+                                <div>
+                                    <div>
+                                        <span>Placa: <span id="placa"></span></span>
+                                        <span>Início: <span id="data-inicio"></span></span>
+                                        <span>Fim: <span id="data-fim"></span></span>
+                                        <span>Valor: <span id="valor"></span></span>
+                                    </div>
+                                    <div class="veiculo-img">
+                                        <img src="./imgs/carga.png" alt="">
+                                    </div>
+                                </div>
+                                <span>ver descrição</span>
+                            </div>
+
                         </div>
-                        <img src="./imgs/carga.png" alt="carga">
                     </div>
                 </div>
             </div>
 
-            <div class="content3 model">
+            <div class="content3 page model">
                 <div class="header">
                     <span>Manutenção Geral</span>
-                    <div class="or">
-                        <div class="checkTipo">
-                            <div class="div">
-                                <div class="radio2 r1" data="visita" onclick="checkManutencaoGeral(this)"></div>
-                                <span>Visita</span>
-                            </div>
-                            <div class="div">
-                                <div class="radio2 r2" data="carga" onclick="checkManutencaoGeral(this)"></div>
-                                <span>Carga</span>
-                            </div>
-                            <div class="div">
-                                <div class="radio2 r3" data="venda" onclick="checkManutencaoGeral(this)"></div>
-                                <span>Venda</span>
-                            </div>
-                        </div>
-                        <div class="checkEm">
-                            <div class="div">
-                                <div class="radio2 r4" data="ma" onclick="checkManutencaoGeral2(this)"></div>
-                                <span>Em manutenção</span>
-                            </div>
-                            <div class="div">
-                                <div class="radio2 r5" data="di" onclick="checkManutencaoGeral2(this)"></div>
-                                <span>Disponível</span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="contens manutencaoGeral">
                     <div class="carro model2" data="carga" dis="ma" onclick="showModalMaGeral(this)">
@@ -143,24 +168,161 @@
                 </div>
             </div>
 
-            <div class="content4 model">
+            <div class="content4 page model">
                 <div class="header">
                     <span>Operação</span>
-                    <div class="check">
-                        <div class="radio" id="radioOp" onclick="checkOp(this)"></div>
-                        <span>Em operação</span>
-                    </div>
+
                 </div>
-                <div class="contens alocacao">
-                    <div class="carro model2" onclick="showModalOp(this)">
-                        <div class="carro-info">
-                            <span>Motorista: <span id="motorista">Felipe</span></span>
-                            <span>Veículo: <span id="veiculo">123-abc</span></span>
-                            <span>Saída: <span id="saida">12/02/2023</span></span>
-                            <span>Retorno: <span id="retorno">14/02/2023</span></span>
-                            <span>Descrição: <span id="descricao2">mais</span></span>
+                <div class="contens">
+                    <div id="grafico-alocacao" class="grafico-alocacao">
+                        <canvas id="graficoOperacao" class="gWidth"></canvas>
+                    </div>
+                    <div class="results">
+                        <div class="alocacoes">
+                            <div class="alocacao model" onclick="showOperacao(this)">
+                                <div>
+                                    <div>
+                                        <span>Motorista: <span id="motorista">Felipe</span></span>
+                                        <span>Veículo: <span id="veiculo">123-abc</span></span>
+                                        <span>Saída: <span id="saida">12/02/2023</span></span>
+                                        <span>Retorno: <span id="retorno">14/02/2023</span></span>
+                                    </div>
+                                    <div class="veiculo-img">
+                                        <img src="./imgs/carga.png" alt="">
+                                    </div>
+                                </div>
+                                <span>ver descrição</span>
+                            </div>
                         </div>
-                        <img src="./imgs/carga.png" alt="carga">
+                    </div>
+                </div>
+            </div>
+
+            <div class="content5 page model">
+                <div class="header">
+                    <span>Dashboard</span>
+                    <div class="check">
+                        <div class="img dh1" onclick="alterarDashboard(this)">
+                            <img src="./imgs/dashboard/carteira-de-motorista.png" alt="Motoristas">
+                            <span>Motoristas</span>
+                        </div>
+                        <div class="img dh3" onclick="alterarDashboard(this)">
+                            <img src="./imgs/dashboard/manutencao.png" alt="Motoristas">
+                            <span>Manutenção</span>
+                        </div>
+                        <div class="img dh4" onclick="alterarDashboard(this)">
+                            <img src="./imgs/dashboard/pin-de-localizacao.png" alt="Motoristas">
+                            <span>Alocação</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contens dashboard">
+                    <div class="graficos">
+                        <div class="dh1 dash dashboard-motorista">
+                            <div class="header-dashboard">
+                                <span>Disponibilidade</span>
+                            </div>
+                            <div class="main-motorista">
+
+                                <div class="div1">
+                                    <canvas id="motoristaA"></canvas>
+                                    <canvas id="veiculoA"></canvas>
+                                </div>
+                                <div class="div2">
+                                    <canvas id="motoristaU"></canvas>
+                                    <span id="titulo">Motoristas com mais operações</span>
+                                </div>
+                                <div class="div3">
+                                    <div class="mt">
+                                        <span><span id="contMt"></span> é o motorista que mais sai em operação.</span>
+                                    </div>
+                                    <div class="countVe">
+                                        <span>Veiculo com a placa<br /> <span id="contVe"></span> é o mais utilizados em
+                                            operações.</span>
+                                    </div>
+                                </div>
+                                <div class="div4">
+                                    <span id="titulo">Veiculos mais usados</span>
+                                    <canvas id="myChart"></canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="dh3 dash dashboard-manutencao model">
+                            <div class="header-dashboard">
+                                <span>Manutenção</span>
+                            </div>
+                            <div class="main-manutencao">
+                                <div class="ma1">
+                                    <span>Veiculos em manutenção</span>
+                                    <canvas id="ma1"></canvas>
+                                </div>
+                                <div class="ma2">
+                                    <div class="contManu">
+                                        <span>Veiculo com a placa<br /> <span id="contManu"></span> tem a
+                                            <span>maior</span> taxa de manutenção.</span>
+                                    </div>
+                                    <div class="contManu2">
+                                        <span>Veiculo com a placa<br /> <span id="contManu2"></span> tem a
+                                            <span>menor</span> taxa de manutenção.</span>
+                                    </div>
+                                </div>
+                                <div class="ma3">
+                                    <span>Total manuteção do mes de <span id="nomeMes"></span></span>
+                                    <div class="canvas-container">
+                                        <canvas id="dash3"></canvas>
+                                        <span id="qntdMesAtual"></span>
+                                    </div>
+                                </div>
+                                <div class="ma4">
+                                    <span>Custo Total de manutenção</span>
+                                    <canvas id="custoManutencao"></canvas>
+                                </div>
+                                <div class="ma5">
+                                    <span>Manutenções ao <br />longo do ano</span>
+                                    <canvas id="ma5"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dh4 dash dashboard-alocacao model">
+                            <div class="header-dashboard">
+                                <span>Alocação</span>
+                            </div>
+                            <div class="main-alocacao">
+                                <div class="al1">
+                                    <span>Veiculos em operação</span>
+                                    <div class="canvas-container">
+                                        <canvas id="al1"></canvas>
+                                        <span id="qntdVeiOp"></span>
+                                    </div>
+                                </div>
+                                <div class="al2">
+                                    <div class="contManu">
+                                        <span>Veiculo com a placa<br /> <span id="contAl"></span> tem a
+                                            <span>maior</span> taxa de operação.</span>
+                                    </div>
+                                    <div class="contManu2">
+                                        <span>Veiculo com a placa<br /> <span id="contAl2"></span> tem a
+                                            <span>menor</span> taxa de operação.</span>
+                                    </div>
+                                </div>
+                                <div class="al3">
+                                    <span>Total operação do mes de <span id="nomeMes2"></span></span>
+                                    <div class="canvas-container">
+                                        <canvas id="dashOp"></canvas>
+                                        <span id="qntdMesAtual2"></span>
+                                    </div>
+                                </div>
+                                <div class="al4">
+                                    <span></span>
+                                    <canvas id="custoManutencao"></canvas>
+                                </div>
+                                <div class="al5">
+                                    <span>Operações ao <br />longo do ano</span>
+                                    <canvas id="al5"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,48 +330,65 @@
         </div>
     </div>
 
-    <div class="modalOp model">
-        <div class="infoOp">
-            <button id="closeOp" onclick="closeModal(this)"><span>X</span></button>
-            <div class="motoristaOp">
-                <span>Motorista</span>
-                <div>
-                    <span>Nome: <span id="nomeOp"></span></span>
-                    <span>CPF: <span id="cpfOp"></span></span>
-                </div>
+    <div class="modal-disponivel model">
+        <div class="modal-veiculo">
+            <div class="info-veiculo">
+                <span id="AlertTipo" class="model">Digite: visita, carga ou venda!</span>
+                <span>Tipo: <input type="text" id="tipo" placeholder="Visita, Venda ou Carga" disabled></span>
+                <span>Placa: <input type="text" id="placa" placeholder="Placa"
+                        onkeyup="formatarPlaca(this.parentNode.parentNode)" maxlength="8" disabled></span>
+                <span>Modelo: <input type="text" id="modelo" placeholder="Modelo" disabled></span>
+                <span>Marca: <input type="text" id="marca" placeholder="Marca" disabled></span>
             </div>
-            <div class="veiculoOp">
-                <span>Veículo</span>
-                <div>
-                    <span>Placa: <span id="placaOp"></span></span>
-                    <span>Modelo: <span id="modeloOp"></span></span>
-                </div>
+            <button id="close-modal" onclick="showModal(this)"><span>X</span></button>
+        </div>
+    </div>
+
+    <div class="modal-atualizar-motorista model">
+        <div class="modal-motorista">
+            <div class="info-motorista">
+                <span>CPF: <input type="text" id="cpf" placeholder="CPF" maxlength="14"
+                        onkeyup="formatarCPF(this.parentNode.parentNode)" disabled></span>
+                <span>CNH: <input type="text" id="cnh" placeholder="CNH"
+                        onkeyup="formatarCNH(this.parentNode.parentNode)" disabled></span>
+                <span>Nome: <input type="text" id="nome" placeholder="Nome"disabled> </span>
             </div>
-            <div class="op">
-                <span>Operação</span>
-                <div>
-                    <div>
-                        <span>Saída: <span id="saidaOp"></span></span>
-                        <span>Retorno: <span id="retornoOp"></span></span>
-                    </div>
-                    <span>Descrição: <span id="descricaoOp"></span>.</span>
-                </div>
+            <button id="close-modal4" onclick="showModal(this)"><span>X</span></button>
+        </div>
+    </div>
+
+    <div class="modal-atualizar-alocacao model">
+        <div class="modal-alocacao">
+            <div class="info-alocacao">
+                <span>Motorista: <input type="text" id="nome" placeholder="Motorista" disabled></span>
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" disabled></span>
+                <span>Descrição: <Textarea placeholder="Descrição" id="descricao" disabled></Textarea></span>
+            </div>
+            <button id="close-modal5" onclick="showModal(this)"><span>X</span></button>
+            <div class="btn-atualizar">
+                <button id="atualizar-btn" class="bn26" onclick="atualizarAlocacao()">Atualizar<span></span></button>
             </div>
         </div>
     </div>
 
-    <div class="modalMa model">
-        <div class="infoMa">
-            <button id="closeMa" onclick="closeModal(this)"><span>X</span></button>
-            <div class="maGeral">
-                <span>Descrição</span>
-                <div>
-                    <span id="descricaoMaGeral"></span>.
-                </div>
+    <div class="modal-atualizar-manutencao model">
+        <div class="modal-manutencao">
+            <div class="info-manutencao">
+                <span>Veiculo (placa): <input type="text" id="placa" placeholder="Placa" disabled></span>
+                <span>Valor: <input type="text" id="valor" placeholder="Valor" disabled></span>
+                <span>Descrição: <Textarea placeholder="Descrição" id="descricao" disabled></Textarea></span>
+            </div>
+            <button id="close-modal7" onclick="showModal(this)"><span>X</span></button>
+            <div class="btn-atualizar">
+                <button id="atualizar-btn" class="bn26" onclick="atualizarManutencao()">Atualizar<span></span></button>
             </div>
         </div>
     </div>
+
+
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./script.js"></script>
+
 </html>

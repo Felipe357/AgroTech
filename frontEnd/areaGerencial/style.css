@@ -701,8 +701,8 @@ body {
     grid-area: 1 / 1 / 2 / 2;
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .ma2,
@@ -747,8 +747,7 @@ body {
     width: 220px !important;
 }
 
-.ma1>span,
-.al1>span {
+.ma1>span{
     position: absolute;
     top: 20px;
     font-size: 16pt;
@@ -756,7 +755,7 @@ body {
     font-weight: 700;
 }
 
-.al1>canvas {
+.canvas-container>canvas {
     height: 200px !important;
     width: 200px !important;
 }
@@ -805,17 +804,23 @@ body {
 }
 
 #qntdMesAtual,
-#qntdMesAtual2 {
+#qntdMesAtual2,
+#qntdVeiOp {
     font-size: 27pt;
     font-weight: 700;
     position: absolute;
     color: #bdbdfd;
 }
 
+#qntdVeiOp {
+    color: rgb(0, 0, 0);
+}
+
 .ma3>span,
 .ma4>span,
 .al3>span,
-.al4>span {
+.al4>span,
+.al1>span {
     font-size: 12pt;
     letter-spacing: 1.5px;
     font-weight: 700;

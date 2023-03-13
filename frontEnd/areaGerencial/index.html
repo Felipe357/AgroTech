@@ -49,10 +49,6 @@
                 <img src="./imgs/alocacao.png" alt="alocação">
                 <span>Operação</span>
             </div>
-            <div class="re-img" id="r3" onclick="alterRe(this)">
-                <img src="./imgs/geral.png" alt="manutenção geral">
-                <span>Manutenção Geral</span>
-            </div>
             <div class="re-img" id="r4" onclick="alterRe(this)">
                 <img src="./imgs/manutencao.png" alt="Manutenção">
                 <span>Manutenção</span>
@@ -295,7 +291,10 @@
                             <div class="main-alocacao">
                                 <div class="al1">
                                     <span>Veiculos em operação</span>
-                                    <canvas id="al1"></canvas>
+                                    <div class="canvas-container">
+                                        <canvas id="al1"></canvas>
+                                        <span id="qntdVeiOp"></span>
+                                    </div>
                                 </div>
                                 <div class="al2">
                                     <div class="contManu">

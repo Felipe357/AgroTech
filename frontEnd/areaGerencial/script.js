@@ -1496,7 +1496,9 @@ function dashboardAlocacao3() {
 }
 
 function dashboardAlocacao2(uso) {
-    console.log(uso);
+    
+    document.getElementById("qntdVeiOp").innerHTML = uso[0] + uso[1] + uso[2]
+
     var ctx = document.querySelector('#al1').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'doughnut',

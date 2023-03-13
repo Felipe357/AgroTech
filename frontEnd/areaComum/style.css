@@ -14,7 +14,8 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.model, .model2 {
+.model,
+.model2 {
     visibility: hidden;
     display: none !important;
 }
@@ -27,6 +28,7 @@ body {
     justify-content: space-between;
     align-items: center;
     border-radius: 40px;
+    transition: filter .5s ease-in;
 }
 
 .relatorios {
@@ -118,7 +120,8 @@ body {
 .content,
 .content2,
 .content3,
-.content4 {
+.content4,
+.content5 {
     height: 100%;
     width: 100%;
     display: flex;
@@ -173,49 +176,36 @@ body {
     letter-spacing: 2px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    width: 70%;
+}
+
+.img {
+    display: flex;
     justify-content: space-between;
-    width: 23%;
-}
-
-.radio {
-    background-color: #fff;
-    height: 30px;
+    align-items: center;
+    font-size: 10pt;
+    height: 100%;
     width: 30px;
-    border-radius: 100%;
-    border: 3px solid black;
+    margin: 10px;
     position: relative;
+    overflow: hidden;
+    transition: .3s linear;
     cursor: pointer;
 }
 
-.radio::before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    background-color: #ffffff00;
-    border-radius: 100%;
-    border: 2px solid #fff;
+
+.img:hover {
+    width: 150px;
 }
 
-.radio2 {
-    background-color: #fff;
-    height: 15px;
-    width: 15px;
-    border-radius: 100%;
-    border: 2px solid black;
-    position: relative;
-    cursor: pointer;
+.img:hover>span {
+    right: 0;
 }
 
-.radio2::before {
-    position: absolute;
-    top: 0;
-    content: "";
-    height: 7px;
-    width: 7px;
-    background-color: #ffffff00;
-    border-radius: 100%;
-    border: 2px solid #fff;
+.img>img {
+    width: 30px;
+    object-fit: contain;
 }
 
 .contens {
@@ -223,177 +213,616 @@ body {
     width: 100%;
     margin-top: 2%;
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.ind {
-    border: 3px solid #ff844b;
-}
-
-.carro {
-    height: 150px;
-    width: 280px;
-    background-color: #c3d9e4;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 10px;
-    position: relative;
-    transition: .2s linear;
 }
 
-.carro:hover {
-    /* height: 160px;
-    width: 290px; */
-    transform: scale(1.05);
+.gWidth {
+    max-width: 90%;
 }
 
-.carro::before {
-    content: "";
-    position: absolute;
-    height: 90%;
-    width: 1%;
+.grafico,
+.grafico-manutencao,
+.grafico-alocacao {
+    height: 38%;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     border-radius: 10px;
-    background-color: #000;
-    right: 100px;
+    display: flex;
+    justify-content: space-around;
 }
 
-.carro>img {
+.grafico {
+    background-image: linear-gradient(to bottom, #f1f6fa00, #0395d886);
+}
+
+.grafico-manutencao {
+    background-image: linear-gradient(to bottom, #f1f6fa00, #006a9b98);
+}
+
+.grafico-alocacao {
+    background-image: linear-gradient(to bottom, #f1f6fa00, #0287c4b9);
+}
+
+.results,
+.results2 {
+    height: 62%;
+    width: 100%;
+    padding: 15px;
+}
+
+.veiculos,
+.manutencoes,
+.alocacoes,
+.motoristas {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 10px;
+}
+
+.veiculo,
+.manutencao,
+.alocacao,
+.motorista {
+    height: 150px;
+    width: 340px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px 10px 10px;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 8px 8px 20px 0px rgb(126, 126, 126);
+    cursor: pointer;
+}
+
+.veiculo>div,
+.alocacao>div,
+.manutencao>div,
+.motorista>div {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.veiculo>div>div,
+.alocacao>div>div,
+.manutencao>div>div,
+.motorista>div>div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.veiculo-img,
+.motorista-img {
     width: 30%;
+}
+
+.veiculo-img>img,
+.motorista-img>img {
+    width: 100%;
     object-fit: contain;
 }
 
-.carro-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-direction: column;
-    height: 100%;
-    font-size: 11pt;
-    font-weight: 800;
-    font-family: 'Lato', sans-serif;
+.manutencao>span:last-child,
+.alocacao>span:last-child {
+    color: rgb(3, 72, 175);
+    font-size: 12pt;
+    font-weight: 700;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
 
-#tipo,
-#placa,
-#modelo,
-#marca,
-#placa2,
-#inicio,
-#fim,
-#valor,
-#descricao,
-#descricao2,
-#retorno,
-#saida,
-#veiculo,
-#motorista {
-    font-size: 10pt;
-    font-weight: lighter;
-    color: #252525;
+#disponivel {
+    color: rgb(165, 0, 0);
+    font-size: 12pt;
+    font-weight: 700;
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
 }
 
-.modalOp, .modalMa {
+.disponivel {
+    /* background-image: linear-gradient(to left bottom, #cce0fd, #b4d1fd, #9dc3fd, #86b4fc, #6da5fb); */
+    background-color: #cdf3ff;
+}
+
+.indisponivel {
+    /* background-image: linear-gradient(to left bottom, #fdcccc, #ffb5b5, #ff9e9d, #fe8685, #fb6d6d); */
+    background-color: #ffd3d3;
+}
+
+::-webkit-scrollbar {
+    width: 5px
+}
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #db7500;
+    border-radius: 10px
+}
+
+.bluer {
+    filter: blur(5px);
+}
+
+.modal-atualizar-manutencao,
+.modal-cadastrar-manutencao,
+.modal-atualizar-alocacao,
+.modal-disponivel,
+.modal-cadastrar-veiculo,
+.modal-cadastrar-motorista,
+.modal-atualizar-motorista,
+.modal-cadastrar-alocacao {
     position: absolute;
     height: 100vh;
     width: 100vw;
-    background-color: #3f9cca71;
-    display: grid;
-    place-items: center;
-    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.infoOp, .infoMa {
-    background-color: #fff;
-    height: 60%;
-    width: 45%;
-    border-radius: 20px;
-    padding: 30px;
+.modal-manutencao,
+.modal-alocacao,
+.modal-veiculo,
+.modal-motorista {
+    height: 350px;
+    width: 500px;
+    background-color: #bcd7ee;
+    border-radius: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: relative;
 }
 
-.infoMa{
-    height: 40%;
-}
-
-#nomeOp, #cpfOp, #placaOp, #modeloOp, #saidaOp, #retornoOp, #descricaoOp {
-    font-size: 15pt;
-    font-weight: 500;
-
-}
-
-.motoristaOp, .veiculoOp, .op {
-    border-bottom: 3px solid black;
-    height: 25%;
-    width: 80%;
+.info-manutencao,
+.info-cadastrar-manutencao,
+.info-cadastrar-alocacao,
+.info-alocacao,
+.info-veiculo,
+.info-cadastrar-veiculo,
+.info-cadastrar-motorista,
+.info-motorista {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 10px 0px 20px 0px;
-    font-size: 25pt;
-    letter-spacing: 4px;
-    font-weight: 700;
-    color: rgb(34, 34, 34);
-}
-
-.maGeral {
-    height: 90%;
+    padding: 10px 0px 0px 40px;
+    align-items: flex-start;
     width: 100%;
-    font-size: 30pt;
-    font-weight: 700;
-    letter-spacing: 4px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 60px;
-}
-
-.maGeral>div {
+    height: 60%;
+    justify-content: space-between;
     font-size: 15pt;
-    font-weight: 600;
-}
-
-.motoristaOp>div, .veiculoOp>div, .op>div {
-    font-size: 18pt;
-    font-weight: 600;
+    font-weight: bold;
     letter-spacing: 2px;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    padding-top: 30px;
 }
 
-.op {
-    border-bottom: none!important;
-    height: 35%;
+.info-cadastrar-alocacao,
+.info-alocacao,
+.info-manutencao,
+.info-cadastrar-manutencao {
+    font-size: 12pt !important;
 }
 
-.op>div {
-    padding-top: 10px;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+.info-manutencao>span,
+.info-cadastrar-manutencao>span,
+.info-cadastrar-alocacao>span,
+.info-alocacao>span,
+.info-veiculo>span,
+.info-cadastrar-veiculo>span,
+.info-cadastrar-motorista>span,
+.info-motorista>span {
+    position: relative;
+    width: 85%;
 }
 
-.infoOp>button:first-child, .infoMa>button:first-child {
-    position: absolute;
-    top: 20px;
-    right: 40px;
+.info-manutencao>span>input,
+.info-cadastrar-manutencao>span>input,
+.info-cadastrar-alocacao>span>input,
+.info-alocacao>span>input,
+.info-veiculo>span>input,
+.info-cadastrar-veiculo>span>input,
+.info-cadastrar-motorista>span>input,
+.info-motorista>span>input {
     background: none;
     border: none;
-    font-size: 20pt;
-    cursor: pointer;
-    color: #ff2525;
+    border-bottom: 2px solid #000000;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    height: 100%;
+    padding: 0px 0px 0px 10px;
+    outline: none;
 }
 
-.geral {
-    background-color: #ff844b!important;
+.info-cadastrar-manutencao>span>textarea,
+.info-manutencao>span>textarea,
+.info-alocacao>span>textarea,
+.info-cadastrar-alocacao>span>textarea {
+    background: none;
+    border: none;
+    border-bottom: 2px solid #000000;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 200%;
+    padding: 0px 0px 0px 10px;
+    outline: none;
+    resize: none;
+}
+
+.info-cadastrar-manutencao>span>input,
+.info-manutencao>span>input,
+.info-cadastrar-manutencao>span>textarea,
+.info-alocacao>span>input,
+.info-cadastrar-alocacao>span>input {
+    width: 50%;
+}
+
+#close-modal,
+#close-modal2,
+#close-modal3,
+#close-modal4,
+#close-modal5,
+#close-modal6,
+#close-modal7,
+#close-modal8 {
+    position: absolute;
+    right: 20px;
+    font-size: 15pt;
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+}
+
+#atualizar-btn,
+#atualizar-data-btn {
+    width: 140px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px;
+    height: 45px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#atualizar-btn:hover,
+#atualizar-data-btn:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#atualizar-btn:focus,
+#atualizar-data-btn:focus {
+    outline: none;
+}
+
+#atualizar-btn.bn26 {
+    background-image: linear-gradient(to right,
+            #25aae1,
+            #4481eb,
+            #04befe,
+            #3f86ed);
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+
+#AlertTipo {
+    position: absolute;
+    top: 10px;
+    right: -50px;
+    font-size: 10pt;
+    color: #f00;
+    font-weight: 500;
+    width: 85%;
+    overflow: hidden;
+}
+
+.add {
+    background-color: #04befe;
+    width: 0px;
+    position: relative;
+}
+
+.add>span {
+    font-size: 50pt;
+    color: rgb(255, 255, 255);
+    background-color: #25aae1;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: -110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: .3s ease-in;
+    cursor: pointer;
+}
+
+.add>span:hover {
+    transform: scale(1.1);
+}
+
+.graficos {
+    height: 100%;
+    width: 100%;
+}
+
+.dash {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    align-items: center;
+    overflow: auto;
+}
+
+.header-dashboard {
+    font-size: 25pt;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: #00a2b8;
+    margin-bottom: 20px;
+}
+
+.main-motorista {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.main-motorista>div {
+    position: relative;
+    padding: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
+    -moz-box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
+    box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
+}
+
+.div1 {
+    grid-area: 1 / 1 / 2 / 4;
+    display: flex;
+    justify-content: space-around !important;
+    align-items: center;
+}
+
+.div2 {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.div3 {
+    grid-area: 2 / 2 / 3 / 3;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+}
+
+.div4 {
+    grid-area: 2 / 3 / 3 / 4;
+}
+
+#titulo {
+    position: absolute;
+    font-size: 15pt;
+    top: 10px;
+    letter-spacing: 2px;
+}
+
+.mt {
+    font-size: 16pt;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid black;
+    height: 50%;
+    padding: 20px;
+}
+
+.countVe {
+    height: 50%;
+    padding: 20px;
+    font-size: 16pt;
+    letter-spacing: 1.5px;
+}
+
+.mt>span>span,
+.countVe>span>span {
+    font-weight: 700;
+}
+
+.div2>canvas,
+.div4>canvas,
+.div3>canvas {
+    height: 80% !important;
+    width: 80% !important;
+}
+
+.main-manutencao,
+.main-alocacao {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.main-manutencao>div,
+.main-alocacao>div {
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
+    -moz-box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
+    box-shadow: 0px 0px 30px -11px rgba(138, 138, 138, 0.49);
+}
+
+.ma1,
+.al1 {
+    grid-area: 1 / 1 / 2 / 2;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ma2,
+.al2 {
+    grid-area: 1 / 2 / 2 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 30px !important;
+}
+
+.ma3,
+.al3 {
+    grid-area: 1 / 3 / 2 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.ma4,
+.al4 {
+    grid-area: 2 / 1 / 3 / 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.ma5,
+.al5 {
+    grid-area: 2 / 2 / 3 / 4;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ma4>canvas,
+.al4>canvas {
+    height: 220px !important;
+    width: 220px !important;
+}
+
+.ma1>span{
+    position: absolute;
+    top: 20px;
+    font-size: 16pt;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+}
+
+.canvas-container>canvas {
+    height: 200px !important;
+    width: 200px !important;
+}
+
+.contManu,
+.contManu2,
+.contAl,
+.contAl2 {
+    height: 50%;
+    font-size: 16pt;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.contManu2,
+.contAl2 {
+    border: none;
+}
+
+.contManu>span>span,
+.contManu2>span>span,
+.contAl>span>span,
+.contAl2>span>span {
+    font-weight: 700;
+}
+
+.ma5>span,
+.al5>span {
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    border-bottom: 2px solid black;
+    height: 30%;
+}
+
+.canvas-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#qntdMesAtual,
+#qntdMesAtual2,
+#qntdVeiOp {
+    font-size: 27pt;
+    font-weight: 700;
+    position: absolute;
+    color: #bdbdfd;
+}
+
+#qntdVeiOp {
+    color: rgb(0, 0, 0);
+}
+
+.ma3>span,
+.ma4>span,
+.al3>span,
+.al4>span,
+.al1>span {
+    font-size: 12pt;
+    letter-spacing: 1.5px;
+    font-weight: 700;
 }
