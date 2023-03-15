@@ -27,24 +27,24 @@ export default function telaLogin({ navigation }) {
 
     const verificar = async () => {
 
-        var encrypted = await CryptoJS.AES.encrypt(senha, secretKey).toString();
+        var encrypted = await CryptoJS.AES.encrypt(senha, secretKey);
+        var decrypted = await CryptoJS.AES.decrypt(encrypted, secretKey).toString();
 
         const options = {
             method: 'POST',
-            body: JSON.stringify({
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify([{
                 "email": usuario,
-                "senha": encrypted
-            })
-          };
-
-          console.log(options)
+                "senha": decrypted
+            }])
+          }
           
           fetch('http://localhost:3000/loginUsuario', options)
             .then(response => response.json())
             .then(response => {
                 console.log(response);
                 if (response.tipo === "gerente") {
-                    navigation.navigate("Gerencial")
+                    navigation.navigate("TelaGerencial")
                 }
             })
     }
