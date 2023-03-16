@@ -3,19 +3,13 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 export default function ManutencaoModel({ placa, dataInicio, dataFim, valor, des, tipo }) {
 
-    var fim = dataFim
-
-    if (fim == null) {
-        fim = "Ainda não retornou"
-    }
-
     return (
         <View style={styles.container} >
             <View style={styles.content}>
                 <View style={styles.textContainer}>
                     <Text style={styles.info}>Placa: <Text style={styles.value}>{placa}</Text></Text>
                     <Text style={styles.info}>Início: <Text style={styles.value}>{dataInicio}</Text></Text>
-                    <Text style={styles.info}>Fim: <Text style={styles.value}>{fim}</Text></Text>
+                    <Text style={styles.info}>Fim: <Text style={styles.value}>{dataFim}</Text></Text>
                     <Text style={styles.info}>Valor: <Text style={styles.value}>{valor}</Text></Text>
                     <Text style={styles.info}>Descrição: <Text style={styles.value}>{des}</Text></Text>
                 </View>
