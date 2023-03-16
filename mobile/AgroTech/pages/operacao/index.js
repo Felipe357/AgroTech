@@ -1,5 +1,4 @@
-import { Image, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { TextInput } from 'react-native';
+import {  Text, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
 

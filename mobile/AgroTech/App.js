@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { MaterialCommunityIcons, AntDesign, Octicons, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
 import 'react-native-gesture-handler';
 
 import login from './pages/login'
@@ -15,13 +15,8 @@ const Tab = createMaterialBottomTabNavigator();
 
 function TelaGerencial() {
   return (
-    <Tab.Navigator
+    <Tab.Navigator screenOptions={{headerStyle: {backgroundColor: '#002647', borderBottomColor: '#002647'}, tabBarStyle:{backgroundColor: '#002647'}, tabBarActiveTintColor:'white', tabBarInactiveTintColor:'rgba(255,255,255,.5)', tabBarLabel:""}}
       initialRouteName="Feed"
-      activeColor="#1798ff"
-      labelStyle={{ color: "#fff" }}
-      barStyle={{
-        backgroundColor: '#f1f6fa'
-      }}
     >
       <Tab.Screen
         name="Feed"
@@ -51,15 +46,9 @@ function TelaGerencial() {
 export default function App() {
   return (
     <NavigationContainer independent={true}>
-      <Stack.Navigator
-        screenOptions={{
-          tabBarActiveBackgroundColor: '#00bfff', // defina aqui a cor desejada
-        }}>
-        {/* <Stack.Screen name="Login" component={login} options={{ headerShown: false }} /> */}
-        <Stack.Screen name="Gerencial" component={TelaGerencial} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="Comentarios" component={Comentarios} />
-      <Stack.Screen name="Cadastro" component={CadastraComment} />
-      <Stack.Screen name="Answer" component={CadastraAnswer} />  */}
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={login} options={{ headerShown: false }} />
+        <Stack.Screen options={{headerTitleStyle: {color: '#ffffff'}, headerShown: false}} name="Home" component={TelaGerencial}  />
       </Stack.Navigator>
     </NavigationContainer>
   );

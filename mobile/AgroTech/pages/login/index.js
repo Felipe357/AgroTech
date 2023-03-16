@@ -1,12 +1,11 @@
 
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { TextInput } from 'react-native-web';
+import { TextInput } from 'react-native';
 import { useState } from 'react';
 import CryptoJS from "react-native-crypto-js";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function telaLogin({ navigation }) {
+export default function TelaLogin({ navigation }) {
 
     var AES = require("react-native-crypto-js").AES;
 
@@ -16,14 +15,6 @@ export default function telaLogin({ navigation }) {
     const [info] = useState([])
     const [secretKey] = "123456789";
 
-    const storeData = async () => {
-        
-        try {
-            await AsyncStorage.setItem('Info', JSON.stringify(info))
-        } catch (e) {
-            // saving error
-        }
-    }
 
     const verificar = async () => {
 
@@ -44,9 +35,10 @@ export default function telaLogin({ navigation }) {
             .then(response => {
                 console.log(response);
                 if (response.tipo === "gerente") {
-                    navigation.navigate("TelaGerencial")
+                    navigation.navigate("Home")
                 }
             })
+            .catch(err => console.error(err))
     }
 
     return (

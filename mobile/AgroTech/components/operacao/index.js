@@ -14,7 +14,7 @@ export default function ManutencaoModel({ placa, nome, dataSaida, dataRetorno, d
                     <Text style={styles.info}>Descrição: <Text style={styles.value}>{des}</Text></Text>
                 </View>
                 <View style={styles.imageContainer}>
-                    <Image source={require('../../../../frontEnd/areaGerencial/imgs/' + tipo + '.png')} style={styles.image} />
+                    <Image source={require('../../assets/carga.png')} style={styles.image} />
                 </View>
             </View>
         </View>
