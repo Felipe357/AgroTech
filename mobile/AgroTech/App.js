@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import 'react-native-gesture-handler';
 
 import login from './pages/login'
@@ -24,7 +24,7 @@ function TelaGerencial() {
         options={{
           tabBarLabel: 'Manutenções',
           tabBarIcon: () => (
-            <Octicons name="feed-discussion" color={"#1798ff"} size={24} />
+            <MaterialCommunityIcons name="tools" color={"#000"} size={24} />
           ),
         }}
       />
@@ -34,7 +34,7 @@ function TelaGerencial() {
         options={{
           tabBarLabel: "Operações",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="plus" color={color} size={24} />
+            <FontAwesome5 name="hard-hat" size={24} color={color} />
           ),
         }}
       />
