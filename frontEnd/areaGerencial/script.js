@@ -290,7 +290,7 @@ function carregarVeiculos() {
                 } else if (c.tipo === "carga") {
                     veiculo.querySelector("img").src = "./imgs/carga.png"
                 } else {
-                    veiculo.querySelector("img").src = "./imgs/venda.png"
+                    veiculo.querySelector("img").src = "./imgs/vendas.png"
                 }
 
 
@@ -353,10 +353,10 @@ function carregarAlocacoes() {
                     al++
                     if (op.veiculo.tipo === "visita") {
                         emAl[0]++
-                    } else if (op.veiculo.tipo === "venda") {
-                        emAl[1]++
-                    } else {
+                    } else if (op.veiculo.tipo === "carga") {
                         emAl[2]++
+                    } else {
+                        emAl[1]++
                     }
 
                 }
@@ -377,7 +377,7 @@ function carregarAlocacoes() {
                     alocacao.querySelector("img").src = "./imgs/carga.png"
                     arrayMesCOp[dt]++
                 } else {
-                    alocacao.querySelector("img").src = "./imgs/venda.png"
+                    alocacao.querySelector("img").src = "./imgs/vendas.png"
                     arrayMesVeOp[dt]++
                 }
 
@@ -418,10 +418,10 @@ function carregarManutencao() {
 
                     if (m.veiculo.tipo === "visita") {
                         emManu[0]++
-                    } else if (m.veiculo === "venda") {
-                        emManu[1]++
-                    } else {
+                    } else if (m.veiculo === "carga") {
                         emManu[2]++
+                    } else {
+                        emManu[1]++
                     }
 
                 }
@@ -444,7 +444,7 @@ function carregarManutencao() {
                     arrayMesC[dt]++
                     custoCarga = parseFloat(custoCarga) + parseFloat(m.valor)
                 } else {
-                    manutencao.querySelector("img").src = "./imgs/venda.png"
+                    manutencao.querySelector("img").src = "./imgs/vendas.png"
                     arrayMesVe[dt]++
                     custoVenda = parseFloat(custoVenda) + parseFloat(m.valor)
                 }
@@ -473,7 +473,7 @@ function carregarMaGeral() {
                     carro.querySelector("img").src = "./imgs/carga.png"
                     carro.setAttribute("data", "carga")
                 } else {
-                    carro.querySelector("img").src = "./imgs/venda.png"
+                    carro.querySelector("img").src = "./imgs/vendas.png"
                     carro.setAttribute("data", "venda")
                 }
 
@@ -861,11 +861,9 @@ function cadastrarAlocacao() {
     var motorista = {
         "nome": cadastrar.querySelector("#nome").value
     }
-    console.log(motorista);
     var veiculo = {
         "placa": cadastrar.querySelector("#placa").value
     }
-    console.log(veiculo);
     var descricao = cadastrar.querySelector("#descricao").value
 
     const options = {
@@ -877,9 +875,9 @@ function cadastrarAlocacao() {
     fetch('http://localhost:3000/readAllMotorista', options)
         .then(response => response.json())
         .then(motorista => {
+            console.log(motorista[0].id)
             if (motorista[0].id !== undefined) {
-                console.log("teste1");
-                if (motorista.disponivel === false) {
+                if (motorista[0].disponivel === false) {
                     cadastrar.querySelector(".tipo2").classList.remove("model")
                     cadastrar.querySelector(".tipo2").innerHTML = "Motorista já está operação!"
                 } else {
